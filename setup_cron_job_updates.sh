@@ -1,5 +1,4 @@
 sudo apt update
-sudo apt full-upgrade -y
 sudo apt install cron cron-apt -y
 sudo systemctl enable cron
 sudo systemctl stop cron
