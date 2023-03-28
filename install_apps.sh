@@ -28,10 +28,8 @@ sudo apt-get -y install \
   smbclient \
   cifs-utils \
   exfat-fuse \
-  exfat-utils \
   cups \
   software-properties-common \
-  python \
   curl \
   unattended-upgrades \
   cron-apt \
@@ -41,7 +39,6 @@ sudo apt-get -y install \
   chromium-browser \
   git \
   curl \
-  snapd \
   libgconf-2-4 \
   libappindicator1 \
 
