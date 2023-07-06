@@ -68,14 +68,10 @@ sudo echo "//nas/public  /home/traver/naspublic  cifs  vers=2.0,username=admin,p
 sudo mount -a
 
 # ----------------------------------------------------------------------
-# | Copy OpenVPN configs           |
+# | Update sources, Second time to complete installs.                  |
 # ----------------------------------------------------------------------
 
-cp "smb://NAS/public/Raspberry Pi Setups and Files/mattvpn.ovpn" /home/traver/mattvpn.ovpn
-
-# ----------------------------------------------------------------------
-# | Install plugin for Netflix and video play on Pi                    |
-# ----------------------------------------------------------------------
-
-curl -fsSL https://pi.vpetkov.net -o ventz-media-pi
-sh ventz-media-pi
+sudo apt-get -y update
+sudo apt-get -y dist-upgrade
+sudo apt-get -y full-upgrade
+sudo apt-get -y autoremove
