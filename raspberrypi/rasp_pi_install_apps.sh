@@ -39,8 +39,7 @@ sudo apt-get -y install \
   chromium-browser \
   git \
   curl \
-  libgconf-2-4 \
-  libappindicator1 \
+  libgconf-2-4 
 
 # ----------------------------------------------------------------------
 # | Install Discord                  |
