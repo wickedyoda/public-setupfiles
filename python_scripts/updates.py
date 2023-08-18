@@ -3,6 +3,9 @@ import subprocess
 # Run 'sudo apt update'
 subprocess.run(['sudo', 'apt', 'update'])
 
+# Run 'sudo apt upgrade -y'
+subprocess.run(['sudo', 'apt', 'upgrade', '-y'])
+
 # Run 'sudo apt full-upgrade -y'
 subprocess.run(['sudo', 'apt', 'full-upgrade', '-y'])
 
