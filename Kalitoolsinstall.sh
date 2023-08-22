@@ -1,14 +1,9 @@
-apt-get install git
-git clone https://github.com/LionSec/katoolin.git && cp katoolin/katoolin.py /usr/bin/katoolin
-chmod +x  /usr/bin/katoolin
-# sudo katoolin
-
 sudo apt install -y nmap \
     wordlist \
     ettercap-common \
     ettercap-graphical \
     arp-scan \
-    wfuzz \ 
+    wfuzz \
     wireshark \
     airgeddon \
     aircrack-ng \
@@ -27,4 +22,10 @@ sudo apt install -y nmap \
     wifi-honey \
     gparted \
     gvm \
-    openvas
+    openvas \
+    git
+
+git clone https://github.com/LionSec/katoolin.git && cp katoolin/katoolin.py /usr/bin/katoolin
+chmod +x  /usr/bin/katoolin
+# sudo katoolin
+
