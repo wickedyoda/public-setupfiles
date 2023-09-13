@@ -36,7 +36,6 @@ sudo apt-get -y install \
   putty \
   gpart \
   deja-dup \
-  chromium-browser \
   git \
   curl \
   libgconf-2-4 \
