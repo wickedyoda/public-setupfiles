@@ -39,7 +39,7 @@ sudo apt-get -y install \
   git \
   curl \
   libgconf-2-4 \
-  libappindicator1 \
+  libappindicator1
 
 # ----------------------------------------------------------------------
 # | Install Discord                  |
