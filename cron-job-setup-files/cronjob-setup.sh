@@ -2,7 +2,7 @@
 sudo apt-get update
 
 # install needed packages
-sudo apt install cron cron-apt crontab-y
+sudo apt install python3 cron cron-apt crontab python3-crontab -y
 
 # enable system services
 sudo systemctl enable cron
