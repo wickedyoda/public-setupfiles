@@ -1,5 +1,6 @@
 import subprocess
 
+
 # Run 'sudo apt update'
 subprocess.run(['sudo', 'apt', 'update'])
 
