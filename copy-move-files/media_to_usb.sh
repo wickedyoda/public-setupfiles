@@ -1,3 +1,3 @@
 sudo mount -a
 
-rsync -r --progress --delete  /home/pi/nasmedia/Movies/ /media/pi/4tb/Movies
+rsync -r -E -u -z --progress --delete  /home/traver/nasmedia/Movies/ /media/traver/File_store/Movies
