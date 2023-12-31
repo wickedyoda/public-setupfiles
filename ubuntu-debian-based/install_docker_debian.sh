@@ -7,7 +7,7 @@ apt update
 apt upgrade -y
 
 #install certs app
-apt install ca-certificates curl gnupg
+apt install ca-certificates curl gnupg -y
 
 #import keyrings
 install -m 0755 -d /etc/apt/keyrings
