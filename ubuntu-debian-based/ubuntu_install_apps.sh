@@ -16,7 +16,7 @@ sudo apt-get -y full-upgrade
 # | Install apps                                                       |
 # ----------------------------------------------------------------------
 
-sudo apt-get -y install \
+sudo apt-get -y install
   wireshark\
   nmap \
   openvpn \

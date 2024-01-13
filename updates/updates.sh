@@ -1,7 +1,7 @@
 sudo apt update
-sudo apt-get upgrade -y
-sudo apt-get full-upgrade -y
-sudo apt-get dist-upgrade -y
-sudo apt-get autoremove -y
-sudo apt-get clean -y
-sudo apt-get purge -y
+sudo apt upgrade -y
+sudo apt full-upgrade -y
+sudo apt dist-upgrade -y
+sudo apt autoremove -y
+sudo apt clean -y
+sudo apt purge -y
