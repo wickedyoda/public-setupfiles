@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # initial install
-sudo apt-get update -y
+apt-get update -y
 
 # installing git
 sudo apt install git -y
