@@ -7,6 +7,7 @@ apt-get update -y
 sudo apt install git -y
 
 # mkdir for git repo
+sudo mkdir /home/traver
 sudo mkdir /home/traver/public-setupfiles
 cd /home/traver/public-setupfiles
 git init
@@ -22,3 +23,4 @@ sudo /home/traver/public-setupfiles/updates/updates.sh
 
 # Serer apps setup
 sudo apt-get -y install cockpit samba-common-bin openssh-server smbclient cifs-utils exfat-fuse curl unattended-upgrades cron-apt git curl
+
