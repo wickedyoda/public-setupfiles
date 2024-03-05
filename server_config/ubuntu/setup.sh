@@ -1,4 +1,4 @@
-/bash
+#!/bin/bash
 
 # initial install
 sudo apt-get update -y
