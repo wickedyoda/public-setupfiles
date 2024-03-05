@@ -1,4 +1,6 @@
-## initial install
+/bash
+
+# initial install
 sudo apt-get update -y
 
 #installing git
