@@ -3,6 +3,10 @@
 # initial install
 apt-get update -y
 
+#adding sudo 
+apt-get install sudo -y
+
+
 # installing git
 sudo apt install git -y
 
