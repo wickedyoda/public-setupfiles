@@ -1,12 +1,11 @@
 ## initial install
-sudo appt-get update -y
+sudo apt-get update -y
 
 #installing git
 sudo apt install git -y
 
 #mkdir for git repo
 sudo mkdir /home/traver/public-setupfiles
-
 cd /home/traver/public-setupfiles
 git init
 git remote add origin https://github.com/wickedyoda/public-setupfiles
