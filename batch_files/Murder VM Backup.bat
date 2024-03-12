@@ -1,0 +1,1 @@
+robocopy C:\Users\trave\Downloads\vms \\nas\public\vm\murder23 /r:2 /w:2  /purge

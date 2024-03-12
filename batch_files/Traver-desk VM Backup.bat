@@ -1,0 +1,1 @@
+robocopy C:\Users\trave\Downloads\vms \\NAS\public\vm\traver-desk /r:2 /w:2 /purge

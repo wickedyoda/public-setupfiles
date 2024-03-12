@@ -1,0 +1,15 @@
+ #robocopy C:\Users\trave\OneDrive\Ark "d:\naspublic\Ark" /z /s /r:2 /w:3  /copy:dt /purge
+#robocopy C:\Users\trave\OneDrive\Documents d:\naspublic\documents /z /s /r:2 /w:2 /copy:dt /purge
+#robocopy "C:\Users\trave\OneDrive\Family Health Docs" d:\naspublic\FamilyHealthDocs /z /s /r:2  /w:3 /copy:dt /purge
+#robocopy C:\Users\trave\OneDrive\Devry D:\nasdevry /z /s /r:2 /w:2 /copy:dt /purge
+#robocopy C:\Users\traverssd\OneDrive\Devry D:\nasdevry /z /s /r:2 /w:2 /copy:dt /purge
+#robocopy C:\Users\trave\OneDrive\Desktop d:\naspublic\desktop /z /s /r:2 /w:2 /copy:dt /purge
+#robocopy "C:\Users\trave\OneDrive\IT Work" d:\naspublic\ITWork /z /s /r:2 /w:2 /copy:dt /purge
+#robocopy C:\Users\trave\OneDrive\Ark \\NAS\public\Ark /z /s /r:2 /w:3  /copy:dt /purge
+#robocopy C:\Users\trave\OneDrive\Documents \\NAS\public\documents /z /s /r:2 /copy:dt /w:2  
+#robocopy "C:\Users\trave\OneDrive\Family Health Docs" \\NAS\public\FamilyHealthDocs /z /copy:dt /s /r:2  /w:3 /purge
+#robocopy C:\Users\trave\OneDrive\Desktop \\NAS\public\desktop /z /s /r:2 /w:2  /copy:dt /purge
+#robocopy C:\Users\trave\Downloads d:\naspublic\Downloads /z /s /r:2 /w:3 /copy:dt /XD "C:\Users\trave\Downloads\VMs" 
+#robocopy C:\Users\trave\OneDrive\Devry \\NAS\devry /z /s /r:2 /w:2  /copy:dt /purge
+#robocopy \\NAS\public d:\naspublic /z /s /r:2 /w:3 /copy:dt /purge /MT:8 /compress
+#robocopy \\nas\vm d:\vms /z /s /r:2 /w:3 /copy:dt /purge /MT:8 /compress
