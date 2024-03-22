@@ -6,6 +6,9 @@ apt-get update -y
 # installing git
 sudo apt install git -y
 
+# installing cockpit
+sudo apt install cockpit -y
+
 # mkdir for git repo
 sudo mkdir /home/traver
 sudo mkdir /home/traver/public-setupfiles
