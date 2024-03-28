@@ -12,14 +12,28 @@ sudo apt install git -y
 # installing cockpit
 sudo apt install cockpit -y
 
-# mkdir for git repo
-sudo mkdir /home/traver
-sudo mkdir /home/traver/public-setupfiles
-cd /home/traver/public-setupfiles
-git init
-git remote add origin https://github.com/wickedyoda/public-setupfiles
-git pull
-git checkout main
+# Check if /home/traver/public-setupfiles exists
+if [ -d "/home/traver/public-setupfiles" ]; then
+    # Change directory to /home/traver/public-setupfiles
+    cd /home/traver/public-setupfiles
+    
+    # Stash any local changes
+    git stash
+    
+    # Pull the latest changes from the remote repository
+    git pull
+else
+    # mkdir for git repo
+    sudo mkdir -p /home/traver/public-setupfiles
+    cd /home/traver/public-setupfiles
+    git init
+    git remote add origin https://github.com/wickedyoda/public-setupfiles
+    git pull origin main
+    git checkout main
+
+fi
+
+
 
 # Change permissions
 sudo chmod +x -R /home/traver/public-setupfiles
