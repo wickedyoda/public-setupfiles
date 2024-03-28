@@ -9,6 +9,9 @@ sudo apt install git -y
 # installing cockpit
 sudo apt install cockpit -y
 
+# Removing ufw
+sudo apt remove ufw -y
+
 # Check if /home/traver/public-setupfiles exists
 if [ -d "/home/traver/public-setupfiles" ]; then
     # Change directory to /home/traver/public-setupfiles
