@@ -3,10 +3,16 @@
 cd /home/traver
 
 # Check distro and download updated public-setupfiles
-if [ -f "/etc/debian_version" ]; then
+if [ -x "$(command -v lsb_release)" ]; then
+    distro=$(lsb_release -si)
+else
+    distro=$(cat /etc/os-release | grep -oP '(?<=^ID=).+' | tr -d '"')
+fi
+
+if [ "$distro" = "Ubuntu" ]; then
     # Pull file A
     wget https://raw.githubusercontent.com/wickedyoda/public-setupfiles/main/server_config/ubuntu/ubuntu-setup.sh
-elif [ -f "/etc/lsb-release" ]; then
+elif [ "$distro" = "Debian" ]; then
     # Pull file B
     wget https://raw.githubusercontent.com/wickedyoda/public-setupfiles/main/server_config/debian/debian-setup.sh
 fi
