@@ -6,6 +6,9 @@ apt-get update -y
 # add traver sudo
 adduser traver sudo
 
+# uninstall ufm
+apt remove ufw -y
+
 # install open-vm-tools
 apt-get install open-vm-tools -y
 
