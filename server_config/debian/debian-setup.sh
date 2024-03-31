@@ -6,8 +6,14 @@ apt-get update -y
 #adding sudo 
 apt-get install sudo -y
 
-# installing git
-sudo apt install git -y
+# add traver sudo
+adduser traver sudo
+
+# install open-vm-tools
+apt-get install open-vm-tools -y
+
+# installing git and wget
+sudo apt install git wget -y
 
 # installing cockpit
 sudo apt install cockpit -y
@@ -33,14 +39,12 @@ else
 
 fi
 
-
-
 # Change permissions
 sudo chmod +x -R /home/traver/public-setupfiles
 
 # Run full updates first time
 sudo /home/traver/public-setupfiles/updates/updates.sh
 
-# Serer apps setup
+# Server apps setup
 sudo apt-get -y install cockpit samba-common-bin openssh-server smbclient cifs-utils exfat-fuse curl unattended-upgrades cron-apt git curl
 

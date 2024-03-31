@@ -3,8 +3,14 @@
 # initial install
 apt-get update -y
 
-# installing git
-sudo apt install git -y
+# add traver sudo
+adduser traver sudo
+
+# install open-vm-tools
+apt-get install open-vm-tools -y
+
+# installing git and wget
+sudo apt install git wget -y
 
 # installing cockpit
 sudo apt install cockpit -y
