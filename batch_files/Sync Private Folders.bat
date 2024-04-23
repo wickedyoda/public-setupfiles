@@ -6,6 +6,5 @@ net use r: \\nas\downloads
 robocopy "C:\Users\Traver\OneDrive\Personal Vault" "W:\Traver's Personal\Private files\Super Private Files" /z /s /r:2 /w:2 /copy:dt 
 robocopy "C:\Users\Trave\OneDrive\Personal Vault" "W:\Traver's Personal\Private files\Super Private Files" /z /s /r:2 /w:2 /copy:dt
 
-robocopy  "W:\Traver's Personal\Private files\Super Private Files" "C:\Users\Traver\OneDrive\Personal Vault" /z /s /r:2 /w:2 /copy:dt 
-robocopy  "W:\Traver's Personal\Private files\Super Private Files" "C:\Users\Trave\OneDrive\Personal Vault" /z /s /r:2 /w:2 /copy:dt
+
 
