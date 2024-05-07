@@ -4,3 +4,7 @@
 # old 
 //nas/public  /home/traver/naspublic  cifs  vers=2.0,username=admin,password=(enterhere),file_mode=0777,dir_mode=0777,_netdev,auto 0 0
 //nas/DownloadedMedia  /home/traver/nasdownloadedmedia  cifs  vers=2.0,username=admin,password=(Enterhere),file_mode=0777,dir_mode=0777,_netdev,auto 0 0
+
+//nas/public  /media/naspublic  cifs  vers=2.0,username=admin,password=$PASSWORD,file_mode=0777,dir_mode=0777,_netdev,auto 0 0
+//nas/DownloadedMedia  /media/nasmedia  cifs  vers=2.0,username=admin,password=$PASSWORD,file_mode=0777,dir_mode=0777,_netdev,auto 0 0
+//nas/public-share2 /media/naspublic-share2  cifs  vers=2.0,username=admin,password=$PASSWORD,file_mode=0777,dir_mode=0777,_netdev,auto 0 0
