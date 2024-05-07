@@ -1,1 +1,1 @@
-robocopy C:\Users\trave\Downloads\vms \\nas\public\vm\murder23 /r:2 /w:2  /purge
+robocopy C:\Users\trave\Downloads\vms \\nas\public-share2\vm\murder23 /z /s /r:2 /w:2  /purge
