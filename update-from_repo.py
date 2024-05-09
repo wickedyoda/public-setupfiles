@@ -1,16 +1,18 @@
 #!/bin/bash
 
-# run apt update to make sure the system has the latest repo files
 import subprocess
 
-subprocess.run(["sudo", "apt", "update", "-y"])
+subprocess.run(["apt", "install", "python", "python3", "-y"])
+
+# run apt update to make sure the system has the latest repo files
+subprocess.run(["apt", "update", "-y"])
 
 # Check if git is installed
 try:
     subprocess.run(["git", "--version"], check=True)
 except subprocess.CalledProcessError:
     # Install git
-    subprocess.run(["sudo", "apt-get", "install", "git", "-y"])
+    subprocess.run(["apt-get", "install", "git", "-y"])
 
 # Specify the remote repository URL
 remote_repo = "https://github.com/wickedyoda/public-setupfiles.git"
