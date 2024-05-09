@@ -6,11 +6,11 @@ remote_repo="https://github.com/wickedyoda/public-setupfiles.git"
 # Specify the local file path
 local_file="./pubic-setupfiles"
 
-# Check if the local file exists
-if [ -f "$local_file" ]; then
-    # Pull the latest updates from the remote repository
-    git -C "$local_file" pull "$remote_repo"
-else
-    # Clone the remote repository to the local file path
-    git clone "$remote_repo" "$local_file"
+# Check if the local file path exists and is not empty
+if [ -d "$local_file" ] && [ -n "$(ls -A $local_file)" ]; then
+    # Delete the existing directory
+    rm -rf "$local_file"
 fi
+
+# Clone the remote repository to the local file path
+git clone "$remote_repo" "$local_file"
