@@ -3,24 +3,25 @@
 cd /home/traver
 
 # Check distro and download updated public-setupfiles
-if [ -x "$(command -v lsb_release)" ]; then
-    distro=$(lsb_release -si)
+if [ -x "$(command -v os-release)" ]; then
+    $ID=$(os-release -si)
 else
-    distro=$(cat /etc/os-release | grep -oP '(?<=^ID=).+' | tr -d '"')
+    $ID=$(cat /etc/os-release | grep -oP '(?<=^ID=).+' | tr -d '"')
 fi
 
-if [ "$distro" = "Ubuntu" ]; then
+if [ "$ID" = "Ubuntu" ]; then
     # Pull file A
-    wget https://raw.githubusercontent.com/wickedyoda/public-setupfiles/main/server_config/ubuntu/ubuntu-setup.sh
-elif [ "$distro" = "Debian" ]; then
+    wget https://raw.githubusercontent.com/wickedyoda/public-setupfiles/main/server_config/ubuntu/ubuntu-setup.sh && chmod +x ./ubuntu-setup.sh
+elif [ "$ID" = "Debian" ]; then
     # Pull file B
-    wget https://raw.githubusercontent.com/wickedyoda/public-setupfiles/main/server_config/debian/debian-setup.sh
+    wget https://raw.githubusercontent.com/wickedyoda/public-setupfiles/main/server_config/debian/debian-setup.sh && chmod +x ./debian-setup.sh
+elif [ "$ID" = "raspbian" ]; then
+    # Pull file B
+    wget https://raw.githubusercontent.com/wickedyoda/public-setupfiles/main/server_config/debian/debian-setup.sh && chmod +x ./debian-setup.sh
 fi
 
 # make updated files executable
 cd /home/traver
-chmod +x ./ubuntu-setup.sh
-chmod +x ./debian-setup.sh
 
 # Check if /home/traver/public-setupfiles exists
 if [ -d "/home/traver/public-setupfiles" ]; then
