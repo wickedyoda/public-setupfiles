@@ -5,14 +5,14 @@ import subprocess
 
 subprocess.run(["sudo", "apt", "update", "-y"])
 
-# Check if git is installedd
+# Check if git is installed
 try:
     subprocess.run(["git", "--version"], check=True)
 except subprocess.CalledProcessError:
     # Install git
     subprocess.run(["sudo", "apt-get", "install", "git", "-y"])
 
-# Specify the remote repository URLL
+# Specify the remote repository URL
 remote_repo = "https://github.com/wickedyoda/public-setupfiles.git"
 
 # Specify the local file path

@@ -17,6 +17,7 @@ sudo apt install git wget -y
 
 # installing cockpit
 sudo apt install cockpit -y
+sudo apt install python -y
 
 # Removing ufw
 sudo apt remove ufw -y

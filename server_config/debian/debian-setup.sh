@@ -17,6 +17,7 @@ sudo apt install git wget -y
 
 # installing cockpit
 sudo apt install cockpit -y
+sudo apt install python -y
 
 # Check if /home/traver/public-setupfiles exists
 if [ -d "/home/traver/public-setupfiles" ]; then
