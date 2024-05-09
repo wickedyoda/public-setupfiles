@@ -26,4 +26,5 @@ git clone "$remote_repo" "$local_file"
 
 # Make all files executable and public ownership
 sudo chmod 777 -R $local_file
+sudo chmod 777 ./update-from_repo.sh
 
