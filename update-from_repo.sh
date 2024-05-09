@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Specify the remote repository URL
-remote_repo="https://raw.githubusercontent.com/wickedyoda/public-setupfiles/main/updates/update-public-setupfiles.sh"
+remote_repo="https://github.com/wickedyoda/public-setupfiles.git"
 
 # Specify the local file path
-local_file="./update-public-setupfiles.sh"
+local_file="./pubic-setupfiles"
 
 # Check if the local file exists
 if [ -f "$local_file" ]; then
