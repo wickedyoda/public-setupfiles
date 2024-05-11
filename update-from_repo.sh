@@ -13,7 +13,7 @@ fi
 remote_repo="https://github.com/wickedyoda/public-setupfiles.git"
 
 # Specify the local file path
-local_file="./pubic-setupfiles"
+local_file="./public-setupfiles"
 
 # Check if the local file path exists and is not empty
 if [ -d "$local_file" ] && [ -n "$(ls -A $local_file)" ]; then
