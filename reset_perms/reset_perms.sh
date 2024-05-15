@@ -8,6 +8,7 @@ sudo mount /dev/sdc1 ./sdc-public2
 
 sudo mount /dev/sdb1 ./sdb-public2-clone/
 
-sudo mount /dev/sdb1 ./datadrive
-sudo chmod 777 -R ./datadrive/public/
-sudo chmod 777 -R ./datadrive/DownloadedMedi/
+cd /home/traver
+
+sudo chmod 777 -R ./drives
+
