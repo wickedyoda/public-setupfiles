@@ -10,4 +10,4 @@ sudo systemctl start cron
 
 # Echo the command below into the file /etc/crontab
 echo 'MAILTO="alert@tyates.one"
-0 */6 * * * root apt-get update && apt install upgrade -y && apt-get -y -d full-upgrade && apt-get autoremove -y' | sudo tee -a /etc/crontab
+0 */6 * * * root /home/traver/public-setupfiles/updates_scripts/updates.sh' | sudo tee -a /etc/crontab
