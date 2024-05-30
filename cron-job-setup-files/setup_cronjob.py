@@ -31,7 +31,7 @@ subprocess.run(["sudo", "systemctl", "stop", "cron"])
 # Define the cron job command
 cron_job_command = (
     'MAILTO="alerts@tyates.one"\n'
-    '0 */6 * * * root apt-get update && apt-get -y -d full-upgrade && apt-get autoremove -y && sudo apt-get clean -y && sudo apt-get purge -y'
+    '0 */6 * * * root /home/traver/public-setupfiles/updates_scripts/updates.sh'
 )
 
 # Write the cron job to a file
