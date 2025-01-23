@@ -1,11 +1,13 @@
-﻿#!/bin/bash
-
-# Script: install_docker_compose.sh
-# Description: Script to install Docker Compose and its dependencies on Linux
-
 # Update package lists and install dependencies
 sudo apt update
 sudo apt-get install libffi-dev libssl-dev python3-dev python3-pip -y
+
+# Script install docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+
+# Script: install_docker_compose.sh
+# Description: Script to install Docker Compose and its dependencies on Linux
 
 # Install Docker Compose using pip
 sudo pip3 install docker-compose
