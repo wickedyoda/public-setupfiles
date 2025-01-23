@@ -19,10 +19,10 @@ sudo systemctl stop cron
 #   echo 'MAILTO="alerts@tyates.one"
 #   0 */6 * * * root apt-get update && apt-get -y -d full-upgrade && apt-get autoremove -y && sudo apt-get clean -y && sudo apt-get purge -y' | sudo tee /etc/cron.d/auto_updates
 
-# Added new line to test.
-echo '"MAILTO="alerts@tyates.one"
-0 */6 * * * root apt-get update && apt-get -y -d full-upgrade && apt-get autoremove -y && sudo apt-get clean -y && sudo apt-get purge -y' 
-0 */1 * * * root mount -a | sudo tee -a /etc/crontab #makes sure the nas is mounted
+# Add the update and upgrade cron job to /etc/cron.d/auto_updates
+echo 'MAILTO="alerts@tyates.one"
+0 */6 * * * root apt-get update && apt-get -y -d full-upgrade && apt-get autoremove -y && sudo apt-get clean -y && sudo apt-get purge -y
+0 */1 * * * root mount -a' | sudo tee /etc/cron.d/auto_updates
 
 # Restart the cron service to apply the new cron job
 sudo systemctl start cron
