@@ -12,9 +12,10 @@ REMOTE_DIR = "/remote_directory"  # Change this to the directory you want to syn
 LOCAL_DIR = "/local/directory"  # Change this to the local path where files should be saved
 
 def connect_ftp():
-    """Connect to FTP server."""
+    """Connect to FTP server with passive mode enabled."""
     ftp = ftplib.FTP(FTP_HOST)
     ftp.login(FTP_USER, FTP_PASS)
+    ftp.set_pasv(True)  # Enable passive mode
     return ftp
 
 def ensure_local_dir(path):
