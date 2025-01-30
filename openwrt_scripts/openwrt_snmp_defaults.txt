@@ -80,9 +80,9 @@ config access private_access
 	option notify all
 
 config system
-	option sysLocation	'Mobile'
+	option sysLocation	'Mothers'
 	option sysContact	'alerts@tyates.one'
-	option sysName		'Mobile_Router'
+	option sysName		'Mothers Router'
 #	option sysServices	72
 #	option sysDescr		'adult playground'
 #	option sysObjectID	'1.2.3.4'
