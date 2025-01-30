@@ -1,28 +1,47 @@
 #!/bin/bash
 
-# run apt update to make sure the system is got latest repo files
-sudo apt update -y
+# Ensure script is run as root or with sudo
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root. Use sudo."
+   exit 1
+fi
+
+# Detect if the system is Debian/Ubuntu-based
+if ! command -v apt &> /dev/null; then
+    echo "This script only supports Debian-based systems (Ubuntu, Debian, etc.)."
+    exit 1
+fi
+
+# Update package lists
+echo "Updating package lists..."
+apt update -y
 
 # Check if git is installed
 if ! command -v git &> /dev/null; then
-    # Install git
-    sudo apt-get install git -y
+    echo "Git is not installed. Installing Git..."
+    apt install -y git
+else
+    echo "Git is already installed."
 fi
 
 # Specify the remote repository URL
-remote_repo="https://github.com/wickedyoda/public-setupfiles.git"
+REMOTE_REPO="https://github.com/wickedyoda/public-setupfiles.git"
 
-# Specify the local file path
-local_file="./public-setupfiles"
+# Specify the local directory for the repository
+LOCAL_DIR="./public-setupfiles"
 
-# Check if the local file path exists and is not empty
-if [ -d "$local_file" ] && [ -n "$(ls -A $local_file)" ]; then
-    # Delete the existing directory
-    sudo rm -rf "$local_file"
+# Check if the local directory exists and is not empty
+if [ -d "$LOCAL_DIR" ] && [ -n "$(ls -A $LOCAL_DIR 2>/dev/null)" ]; then
+    echo "Existing directory detected. Deleting $LOCAL_DIR..."
+    rm -rf "$LOCAL_DIR"
 fi
 
-# Clone the remote repository to the local file path
-git clone "$remote_repo" "$local_file"
+# Clone the remote repository to the local directory
+echo "Cloning repository from $REMOTE_REPO to $LOCAL_DIR..."
+git clone "$REMOTE_REPO" "$LOCAL_DIR"
 
-# Make all files executable and public ownership
-sudo chmod 777 -R $local_file
+# Ensure all files have proper execution permissions
+echo "Setting permissions for $LOCAL_DIR..."
+chmod -R 777 "$LOCAL_DIR"
+
+echo "Script execution completed successfully!"
