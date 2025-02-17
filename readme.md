@@ -1,6 +1,4 @@
 
-More information can be found at https://wiki.wickedyoda.com/
-
 Just a public directory of some simple scripts I use to setup my own clients and things. 
 
 Since its public, I dont have need my new clients to login or worry about cridentials.
