@@ -58,7 +58,7 @@ config access
     option version v3
     option level authPriv
     option readview all
-    option writeview none
+    option writeviewe
     option notifyview none
 
 config user
