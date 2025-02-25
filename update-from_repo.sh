@@ -6,22 +6,10 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# Detect if the system is Debian/Ubuntu-based
-if ! command -v apt &> /dev/null; then
-    echo "This script only supports Debian-based systems (Ubuntu, Debian, etc.)."
-    exit 1
-fi
-
-# Update package lists
-echo "Updating package lists..."
-apt update -y
-
-# Check if git is installed
+# Verify Git is installed
 if ! command -v git &> /dev/null; then
-    echo "Git is not installed. Installing Git..."
-    apt install -y git
-else
-    echo "Git is already installed."
+    echo "Error: Git is not installed. Please install Git manually and re-run the script."
+    exit 1
 fi
 
 # Specify the remote repository URL
@@ -42,6 +30,6 @@ git clone "$REMOTE_REPO" "$LOCAL_DIR"
 
 # Ensure all files have proper execution permissions
 echo "Setting permissions for $LOCAL_DIR..."
-chmod -R 777 "$LOCAL_DIR"
+chmod -R 755 "$LOCAL_DIR"
 
 echo "Script execution completed successfully!"
