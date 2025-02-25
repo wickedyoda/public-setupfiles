@@ -38,8 +38,7 @@ This repository contains various setup scripts and configurations designed to au
 - **`old-app-setup.sh`** – Legacy application setup script.
 - **`update-from_repo.py`** & **`update-from_repo.sh`** – Scripts to **update systems from repositories**.
 - **`.gitignore`** – Specifies ignored files for Git version control.
-- **`LICENSE`** – **GPL-3.0 License**, allowing open-source distribution and modification.
-- **`readme.md`** – This document.
+- **`LICENSE`** – **CC-BY-NC 4.0 License** (Attribution + NonCommercial).
 - **`SECURITY.md`** – Security policies and guidelines.
 
 ---
@@ -51,5 +50,3 @@ git init
 git remote add origin https://github.com/wickedyoda/public-setupfiles
 git fetch
 git checkout main
-
-Updated: 4.24.2025
