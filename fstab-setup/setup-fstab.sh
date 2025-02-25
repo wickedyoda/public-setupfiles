@@ -1,5 +1,5 @@
 # asking for password for fstab entry
-read -s -p "Enter password: " PASSWORD
+read -p "Enter password: " PASSWORD
 
 # installed needed package
 apt update
