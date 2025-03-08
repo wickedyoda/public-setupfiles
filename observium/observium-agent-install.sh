@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CONFIG="agent.conf.sh"
-ENTERPRISE=true
+ENTERPRISE=false
 PKG_MANAGERS=(apt-get zypper yum)
 
 if [ ! -f $CONFIG ]; then

@@ -1,12 +1,12 @@
 #!/bin/bash
-SNMP_COMMUNITY=""
-SYSCONTACT=""
-SYSLOCATION=""
+SNMP_COMMUNITY="yates-network"
+SYSCONTACT="Traver Yates"
+SYSLOCATION="Home Network"
 
 SVN_USER=""
 SVN_PASS=""
 
-OBSERVIUM_HOST=""
+OBSERVIUM_HOST="rasp1"
 
 # Fill with a list of modules you would like to use from /opt/observium/scripts/agent-local
 # at the time of writing available options are: 
