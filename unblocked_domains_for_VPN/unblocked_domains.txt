@@ -38,7 +38,6 @@ tubitv.com
 hulu.hb.omtrdc.net
 vortex.hulu.com
 doppler.hulu.com
-
 tail99133.ts.net
 tailscale.com
 wickedyoda.com
@@ -46,9 +45,8 @@ traveryates.com
 tyates.one
 sampyates.com
 designsbymantha.com
-
 10.0.0.0/16
-192.168.1.0.24 
+192.168.1.0/24 
 192.168.20.0/24 
 192.168.61.0/24 
 192.168.62.0/24 
