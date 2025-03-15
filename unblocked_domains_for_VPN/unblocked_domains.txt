@@ -43,6 +43,7 @@ tailscale.com
 wickedyoda.com
 traveryates.com
 tyates.one
+blueblog2.tyates.one
 sampyates.com
 designsbymantha.com
 10.0.0.0/16
@@ -53,3 +54,4 @@ designsbymantha.com
 192.168.63.0/24 
 192.168.65.0/24 
 192.168.66.0/24
+
