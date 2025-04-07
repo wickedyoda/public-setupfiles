@@ -1,5 +1,21 @@
-# asking for password for fstab entry
-read -p "Enter password: " PASSWORD
+# Set path for credentials file
+CREDENTIALS_FILE="$HOME/.smbcredentials"
+
+# Prompt for username and password
+echo "Creating SMB credentials file at $CREDENTIALS_FILE"
+read -p "Enter your SMB username: " SMB_USER
+read -s -p "Enter your SMB password: " SMB_PASS
+echo
+
+# Write to .smbcredentials securely
+cat <<EOF > "$CREDENTIALS_FILE"
+username=$SMB_USER
+password=$SMB_PASS
+EOF
+
+chmod 600 "$CREDENTIALS_FILE"
+echo "Created credentials file with 600 permissions."
+
 
 # installed needed package
 apt update
