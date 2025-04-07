@@ -15,7 +15,7 @@ apt-get -y install \
   curl
 
 # Make directories
-cd /media
+cd /mnt
 mkdir nasmedia
 mkdir naspublic
 mkdir naspublic-share2
