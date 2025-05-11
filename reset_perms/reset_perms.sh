@@ -1,14 +1,39 @@
-cd /home/traver/drives
+#!/bin/bash
 
-sudo mount /dev/sde1 ./sde-public1/
+# Define mount points and devices
+declare -A mounts=(
+  ["/mnt/public"]="/dev/sdc1"
+  ["/mnt/public-bk"]="/dev/sde1"
+  ["/mnt/public2"]="/dev/sdd1"
+  ["/mnt/public2-bk"]="/dev/sdb1"
+)
 
-sudo mount /dev/sdd1 ./sdd-public1-clone/
+# Create directories if missing
+for dir in "${!mounts[@]}"; do
+  echo "Creating $dir if it doesn't exist..."
+  sudo mkdir -p "$dir"
+done
 
-sudo mount /dev/sdc1 ./sdc-public2
+# Mount main devices
+for dir in "${!mounts[@]}"; do
+  device="${mounts[$dir]}"
+  echo "Mounting $device to $dir..."
+  sudo mount "$device" "$dir"
+done
 
-sudo mount /dev/sdb1 ./sdb-public2-clone/
+# Bind mounts for timeshift folders
+echo "Creating timeshift bind mounts..."
+sudo mkdir -p /mnt/timeshift /mnt/timeshift1
+sudo mount --bind /mnt/public2 /mnt/timeshift
+sudo mount --bind /mnt/public2-bk /mnt/timeshift1
 
-cd /home/traver
+# Fix ownership and permissions
+echo "Resetting permissions..."
+for path in /mnt/public /mnt/public-bk /mnt/public2 /mnt/public2-bk /mnt/timeshift /mnt/timeshift1; do
+  echo "Applying permissions to $path..."
+  sudo chown -R traver:traver "$path"
+  sudo find "$path" -type d -exec chmod 755 {} \;
+  sudo find "$path" -type f -exec chmod 644 {} \;
+done
 
-sudo chmod 777 -R ./drives
-
+echo "All mounts complete and permissions fixed."
