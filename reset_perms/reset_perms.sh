@@ -8,31 +8,31 @@ declare -A mounts=(
   ["/mnt/public2-bk"]="/dev/sdb1"
 )
 
-# Create directories if missing
+# Ensure mount folders exist
 for dir in "${!mounts[@]}"; do
-  echo "Creating $dir if it doesn't exist..."
-  sudo mkdir -p "$dir"
+  echo "Creating $dir if needed..."
+  mkdir -p "$dir"
 done
 
-# Mount main devices
+# Mount each device to its folder
 for dir in "${!mounts[@]}"; do
   device="${mounts[$dir]}"
   echo "Mounting $device to $dir..."
-  sudo mount "$device" "$dir"
+  mount "$device" "$dir"
 done
 
-# Bind mounts for timeshift folders
+# Bind mount for timeshift folders
 echo "Creating timeshift bind mounts..."
-sudo mkdir -p /mnt/timeshift /mnt/timeshift1
-sudo mount --bind /mnt/public2 /mnt/timeshift
-sudo mount --bind /mnt/public2-bk /mnt/timeshift1
+mkdir -p /mnt/timeshift /mnt/timeshift1
+mount --bind /mnt/public2 /mnt/timeshift
+mount --bind /mnt/public2-bk /mnt/timeshift1
 
-# Fix ownership and permissions
-echo "Resetting permissions..."
+# Apply root ownership and full permissions
+echo "Setting root:root ownership and chmod 777..."
 for path in /mnt/public /mnt/public-bk /mnt/public2 /mnt/public2-bk /mnt/timeshift /mnt/timeshift1; do
-  echo "Applying permissions to $path..."
-  sudo chown -R traver:traver "$path"
-  sudo chmod -R 777 "$path" 
+  echo "Processing $path..."
+  chown -R root:root "$path"
+  chmod -R 777 "$path"
 done
 
-echo "All mounts complete and permissions fixed."
+echo "All mounts and permissions applied successfully."
