@@ -32,8 +32,7 @@ echo "Resetting permissions..."
 for path in /mnt/public /mnt/public-bk /mnt/public2 /mnt/public2-bk /mnt/timeshift /mnt/timeshift1; do
   echo "Applying permissions to $path..."
   sudo chown -R traver:traver "$path"
-  sudo find "$path" -type d -exec chmod 755 {} \;
-  sudo find "$path" -type f -exec chmod 644 {} \;
+  sudo chmod -R 777 "$path" 
 done
 
 echo "All mounts complete and permissions fixed."
