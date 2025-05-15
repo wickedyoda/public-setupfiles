@@ -238,9 +238,9 @@ services:
     image: postgres:15
     restart: unless-stopped
     environment:
-      POSTGRES_USER: jellystat
-      POSTGRES_PASSWORD: jellystat
-      POSTGRES_DB: jellystat
+      POSTGRES_USER: ${JELLYSTAT_DB_USER}
+      POSTGRES_PASSWORD: ${JELLYSTAT_DB_PASSWORD}
+      POSTGRES_DB: ${JELLYSTAT_DB_NAME}
     volumes:
       - ${BASE_PATH}/jellystat/postgres:/var/lib/postgresql/data
 
