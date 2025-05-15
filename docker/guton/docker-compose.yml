@@ -1,0 +1,234 @@
+services:
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 8888:8888/tcp # HTTP proxy
+      - 8388:8388/tcp # Shadowsocks
+      - 8388:8388/udp # Shadowsocks
+      - 7878:7878 # Radarr
+      - 9117:9117 # Jackett
+      - 5055:5055 # Jellyseerr
+      - 6767:6767 # Bazarr
+      - 8080:8080 # Qbittorrent
+      - 6881:6881 # Qbittorrent
+      - 6881:6881/udp # Qbittorrent
+      - 8787:8787 # Readarr
+      - 8989:8989 # Sonarr
+      - 6767:6767 # bazarr
+      - 8089:9091 # Transmission
+      - 7474:7474 # Autobrr
+    volumes:
+      - ${BASE_PATH}/gluetun:/gluetun
+    environment:
+      - VPN_SERVICE_PROVIDER=${VPN_PROVIDER}
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=${MULLVAD_KEY}
+      - OPENVPN_PASSWORD=m
+      - TZ=${TZ}
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${BASE_PATH}/radarr/data:/config
+      - ${MEDIA_SHARE}/movies:/movies
+      - ${MEDIA_SHARE}/torrantdownloads/completed:/downloads
+    restart: unless-stopped
+    network_mode: "service:gluetun"
+
+  jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: jackett
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - AUTO_UPDATE=true
+    volumes:
+      - ${BASE_PATH}/jackett/data:/config
+      - ${MEDIA_SHARE}/blackhole:/downloads
+    restart: unless-stopped
+    network_mode: "service:gluetun"
+
+  jellyseerr:
+    image: ghcr.io/fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=${TZ}
+      - PORT=5055
+    volumes:
+      - ${BASE_PATH}/jellyserr/config:/app/config
+    restart: unless-stopped
+    network_mode: "service:gluetun"
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${BASE_PATH}/bazarr/config:/config
+      - ${MEDIA_SHARE}/movies:/movies
+      - ${MEDIA_SHARE}/tv:/tv
+    restart: unless-stopped
+    network_mode: "service:gluetun"
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - WEBUI_PORT=8080
+      - TORRENTING_PORT=6881
+    volumes:
+      - ${BASE_PATH}/qbittorrent/appdata:/config
+      - ${MEDIA_SHARE}/torrantdownloads/qbittorrant:/downloads
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+
+  readarr:
+    image: lscr.io/linuxserver/readarr:develop
+    container_name: readarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${BASE_PATH}/readarr/data:/config
+      - ${MEDIA_SHARE}/books:/books
+      - ${MEDIA_SHARE}/torrantdownloads/completed:/downloads
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${BASE_PATH}/sonarr/data:/config
+      - ${MEDIA_SHARE}/tvseries:/tv
+      - ${MEDIA_SHARE}/torrantdownloads/completed:/downloads
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - USER=${TRANSMISSION_USERNAME}
+      - PASS=${TRANSMISSION_PASSWORD}
+
+    volumes:
+      - ${BASE_PATH}/transmission/config:/config
+      - ${MEDIA_SHARE}/torrantdownloads:/downloads
+      - ${MEDIA_SHARE}/watch:/watch
+    restart: unless-stopped
+    network_mode: "service:gluetun"
+
+  autobrr:
+    container_name: autobrr
+    image: ghcr.io/autobrr/autobrr:latest
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    user: 1000:1000
+    
+    volumes:
+      - ${BASE_PATH}/autobrr/config:/config
+    network_mode: "service:gluetun"
+
+  decluttarr:
+    container_name: decluttarr
+    image: ghcr.io/manimatter/decluttarr:latest
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+      # General
+      LOG_LEVEL: INFO
+
+      # Features
+      REMOVE_TIMER: 10
+      REMOVE_FAILED: "true"
+      REMOVE_FAILED_IMPORTS: "true"
+      REMOVE_METADATA_MISSING: "true"
+      REMOVE_MISSING_FILES: "true"
+      REMOVE_ORPHANS: "true"
+      REMOVE_SLOW: "true"
+      REMOVE_STALLED: "true"
+      REMOVE_UNMONITORED: "true"
+      RUN_PERIODIC_RESCANS: |
+        {
+          "SONARR": {
+            "MISSING": true,
+            "CUTOFF_UNMET": true,
+            "MAX_CONCURRENT_SCANS": 3,
+            "MIN_DAYS_BEFORE_RESCAN": 7
+          },
+          "RADARR": {
+            "MISSING": true,
+            "CUTOFF_UNMET": true,
+            "MAX_CONCURRENT_SCANS": 3,
+            "MIN_DAYS_BEFORE_RESCAN": 7
+          }
+        }
+
+      # Feature Settings
+      PERMITTED_ATTEMPTS: 3
+      NO_STALLED_REMOVAL_QBIT_TAG: "Don't Kill"
+      MIN_DOWNLOAD_SPEED: 100
+      FAILED_IMPORT_MESSAGE_PATTERNS: |
+        [
+          "Not a Custom Format upgrade for existing",
+          "Not an upgrade for existing"
+        ]
+      IGNORED_DOWNLOAD_CLIENTS: '["emulerr"]'
+
+      # Radarr
+      RADARR_URL: http://localhost:7878
+      RADARR_KEY: ${RADARR_API_KEY}
+
+      # Sonarr
+      SONARR_URL: http://localhost:8989
+      SONARR_KEY: ${SONARR_API_KEY}
+
+      # Lidarr
+      LIDARR_URL: http://localhost:8686
+      LIDARR_KEY: ${LIDARR_API_KEY}
+
+      # Readarr
+      READARR_URL: http://localhost:8787
+      READARR_KEY: ${READARR_API_KEY}
+
+      # Whisparr
+      WHISPARR_URL: http://localhost:6969
+      WHISPARR_KEY: ${WHISPARR_API_KEY}
+
+      # qBittorrent
+      QBITTORRENT_URL: http://localhost:8080
+      QBITTORRENT_USERNAME: ${QBITTORRENT_USERNAME}
+      QBITTORRENT_PASSWORD: ${QBITTORRENT_PASSWORD}
+    network_mode: "service:gluetun"
