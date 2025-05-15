@@ -232,3 +232,32 @@ services:
       QBITTORRENT_USERNAME: ${QBITTORRENT_USERNAME}
       QBITTORRENT_PASSWORD: ${QBITTORRENT_PASSWORD}
     network_mode: "service:gluetun"
+
+  postgres:
+    container_name: jellystat-db
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: jellystat
+      POSTGRES_PASSWORD: jellystat
+      POSTGRES_DB: jellystat
+    volumes:
+      - ${BASE_PATH}/jellystat/postgres:/var/lib/postgresql/data
+
+  jellystat:
+    container_name: jellystat
+    image: cyfershepard/jellystat:latest
+    restart: unless-stopped
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: jellystat-db
+      DB_PORT: 5432
+      DB_USER: jellystat
+      DB_PASSWORD: jellystat
+      DB_NAME: jellystat
+      # Uncomment the next line and edit with your Jellyfin URL if needed
+      # JELLYFIN_URL: http://jellyfin:8096
+    ports:
+      - 3000:3000
+    volumes:
+      - ${BASE_PATH}/jellystat/app:/app/backend/instance
