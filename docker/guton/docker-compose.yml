@@ -41,7 +41,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ${BASE_PATH}/radarr/data:/config
-      - ${MEDIA_SHARE}/movies:/movies
+      - ${MEDIA_SHARE}/Movies:/movies
       - ${MEDIA_SHARE}/torrantdownloads/completed:/downloads
     restart: unless-stopped
     network_mode: "service:gluetun"
@@ -81,7 +81,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ${BASE_PATH}/bazarr/config:/config
-      - ${MEDIA_SHARE}/movies:/movies
+      - ${MEDIA_SHARE}/Movies:/movies
       - ${MEDIA_SHARE}/tv:/tv
     restart: unless-stopped
     network_mode: "service:gluetun"
@@ -124,7 +124,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ${BASE_PATH}/sonarr/data:/config
-      - ${MEDIA_SHARE}/tvseries:/tv
+      - ${MEDIA_SHARE}/tv:/tv
       - ${MEDIA_SHARE}/torrantdownloads/completed:/downloads
     network_mode: "service:gluetun"
     restart: unless-stopped
