@@ -1,52 +1,45 @@
 # Public Setup Files
 
-This repository contains various setup scripts and configurations designed to automate system management and streamline deployment processes. The scripts are primarily designed for **Debian-based systems, Raspberry Pi, macOS, and Docker environments**.
+This repository contains a collection of scripts and configuration snippets I use across various systems. Most scripts target Debian/Ubuntu Linux, but you'll also find utilities for macOS, Raspberry Pi, OpenWrt, and Docker environments.  The goal is to speed up system deployment and automate routine maintenance tasks.
 
-## Repository Structure
+## Directory overview
 
-### **Configuration Directories**
-- **`cockpit/`** – Scripts for setting up and managing **Cockpit**, a web-based server management tool.
-- **`compose_files/`** – **Docker Compose** files for orchestrating multi-container applications.
-- **`portainer/`** – Setup files for **Portainer**, a web interface for Docker management.
-- **`telegraf-setup-scripts/`** – Scripts for configuring **Telegraf**, an agent for collecting and reporting system metrics.
+- **Email_domains_block_allow/** – Lists of domains to allow or block for email filtering.
+- **Kali_tools_install/** – Scripts to install popular Kali Linux security tools on Debian-based systems.
+- **batch_files/** – Windows batch files for backups and other automation.
+- **blocked_domains/** – Domain blocklists used by some of the setup scripts.
+- **cockpit/** – Installation helper for the Cockpit web administration interface.
+- **copy-move-files/** – Shell scripts to copy or move media files between locations.
+- **copy_palworld_local/** – Python helper for backing up Palworld server data.
+- **cron-job-setup-files/** – Tools for configuring recurring cron jobs.
+- **debian-files/** – Miscellaneous Debian utilities (e.g., installing bashtop).
+- **docker/** – Docker and Docker Compose setups including Greenbone, Jellyfin and Portainer.
+- **fstab-setup/** – Scripts to build and apply `/etc/fstab` mount entries.
+- **git_clone_setup/** – Notes and helpers for cloning repositories.
+- **mac-scripts/** – Assorted macOS helper scripts.
+- **observium/** – Installer for the Observium monitoring agent.
+- **openwrt_scripts/** – Utilities for managing OpenWrt routers.
+- **paperless-ngx/** – Script to install the Paperless‑ngx document server.
+- **raspberrypi/** – Backup and application install scripts for Raspberry Pi systems.
+- **reset_perms/** – Simple scripts to reset file and directory permissions.
+- **server_config/** – Example configuration files for Debian and Ubuntu servers.
+- **snmp/** – SNMP configuration scripts for Linux and OpenWrt.
+- **system_command_run/** – Run a command across multiple machines via SSH.
+- **telegraf-setup-scripts/** – Install script for the Telegraf metrics agent.
+- **ubuntu-based/** – Application install script for Ubuntu-based systems.
+- **unblocked_domains_for_VPN/** – Domain list allowed through a VPN connection.
+- **updates_scripts/** – Scripts to update or upgrade packages on a system.
 
-### **System Setup and Configuration**
-- **`cron-job-setup-files/`** – Automation scripts for scheduled tasks using **cron**.
-- **`debian-files/`** – Configuration files for **Debian-based** systems.
-- **`fstab-setup/`** – Files for configuring **filesystem mounts**.
-- **`server_config/`** – General **server configuration scripts**.
-- **`ubuntu-debian-based/`** – Setup scripts tailored for **Ubuntu and Debian** systems.
+Root-level helper scripts include **update-from_repo.py** and **update-from_repo.sh** for pulling the latest version of this repository onto a server.
 
-### **Device-Specific Configurations**
-- **`raspberrypi/`** – Setup scripts for **Raspberry Pi** devices.
-- **`rasp2/`** – Additional Raspberry Pi configurations.
-- **`mac-scripts/`** – Configuration and setup scripts for **macOS** systems.
+## Cloning this repository
 
-### **Utility Scripts**
-- **`batch_files/`** – **Windows batch scripts** for automation.
-- **`copy-move-files/`** – Scripts to automate file operations.
-- **`git_clone_setup/`** – Scripts for automating **Git repository cloning and setup**.
-- **`reset_perms/`** – Scripts to **reset file/directory permissions**.
-- **`updates_scripts/`** – Automated **system update scripts**.
+Clone the repository and switch to the main branch:
 
-### **Specialized Setup Scripts**
-- **`greenbone_vas_setup/`** – Setup scripts for **Greenbone Vulnerability Assessment System**.
-- **`omv/`** – Scripts for setting up **OpenMediaVault**, a NAS solution.
-
-### **Root-Level Scripts and Files**
-- **`Kalitoolsinstall.sh`** – Installs **Kali Linux security tools**.
-- **`old-app-setup.sh`** – Legacy application setup script.
-- **`update-from_repo.py`** & **`update-from_repo.sh`** – Scripts to **update systems from repositories**.
-- **`.gitignore`** – Specifies ignored files for Git version control.
-- **`LICENSE`** – **CC-BY-NC 4.0 License** (Attribution + NonCommercial).
-- **`SECURITY.md`** – Security policies and guidelines.
-
----
-
-## **Syncing This Repo Locally**
-To clone and use this repository locally, run:
 ```bash
-git init
-git remote add origin https://github.com/wickedyoda/public-setupfiles
-git fetch
-git checkout main
+git clone https://github.com/wickedyoda/public-setupfiles.git
+cd public-setupfiles
+```
+
+Refer to individual directories for more detailed instructions.
+
