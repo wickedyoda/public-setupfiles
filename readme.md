@@ -1,11 +1,13 @@
 # Public Setup Files
 
-This repository contains a collection of scripts and configuration snippets I use across various systems. Most scripts target Debian/Ubuntu Linux, but you'll also find utilities for macOS, Raspberry Pi, OpenWrt, and Docker environments.  The goal is to speed up system deployment and automate routine maintenance tasks.
+This repository contains a collection of scripts and configuration snippets I use across various systems. Most scripts target Debian/Ubuntu Linux, but you'll also find utilities for macOS, Raspberry Pi, OpenWrt, and Docker environments. The goal is to speed up system deployment and automate routine maintenance tasks.
 
-## Directory overview
+---
+
+## 🔎 Directory Overview
 
 - **Email_domains_block_allow/** – Lists of domains to allow or block for email filtering.
-- **Kali_tools_install/** – Scripts to install popular Kali Linux security tools on Debian-based systems.
+- **Kali_tools_install/** – Scripts to install popular Kali Linux security tools on Debian-based systems, including [Kali Purple setup instructions](https://wickedyoda.com/?p=3131).
 - **batch_files/** – Windows batch files for backups and other automation.
 - **blocked_domains/** – Domain blocklists used by some of the setup scripts.
 - **cockpit/** – Installation helper for the Cockpit web administration interface.
@@ -30,16 +32,17 @@ This repository contains a collection of scripts and configuration snippets I us
 - **unblocked_domains_for_VPN/** – Domain list allowed through a VPN connection.
 - **updates_scripts/** – Scripts to update or upgrade packages on a system.
 
-Root-level helper scripts include **update-from_repo.py** and **update-from_repo.sh** for pulling the latest version of this repository onto a server.
+Root-level helper scripts include:
 
-## Cloning this repository
+- `update-from_repo.py` – Python script to sync updates from this repository.
+- `update-from_repo.sh` – Bash version of the update sync script.
 
-Clone the repository and switch to the main branch:
+---
+
+## 🐙 Cloning This Repository
+
+To clone this repository and switch to the main branch:
 
 ```bash
 git clone https://github.com/wickedyoda/public-setupfiles.git
 cd public-setupfiles
-```
-
-Refer to individual directories for more detailed instructions.
-
