@@ -17,7 +17,6 @@ services:
       - 8080:8080 # Qbittorrent
       - 6881:6881 # Qbittorrent
       - 6881:6881/udp # Qbittorrent
-      - 8787:8787 # Readarr
       - 8989:8989 # Sonarr
       - 6767:6767 # bazarr
       - 8089:9091 # Transmission
@@ -98,20 +97,6 @@ services:
     volumes:
       - ${BASE_PATH}/qbittorrent/appdata:/config
       - ${MEDIA_SHARE}/torrantdownloads/qbittorrant:/downloads
-    network_mode: "service:gluetun"
-    restart: unless-stopped
-
-  readarr:
-    image: lscr.io/linuxserver/readarr:develop
-    container_name: readarr
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - ${BASE_PATH}/readarr/data:/config
-      - ${MEDIA_SHARE}/books:/books
-      - ${MEDIA_SHARE}/torrantdownloads/completed:/downloads
     network_mode: "service:gluetun"
     restart: unless-stopped
 
@@ -216,10 +201,6 @@ services:
       # Lidarr
       LIDARR_URL: http://localhost:8686
       LIDARR_KEY: ${LIDARR_API_KEY}
-
-      # Readarr
-      READARR_URL: http://localhost:8787
-      READARR_KEY: ${READARR_API_KEY}
 
       # Whisparr
       WHISPARR_URL: http://localhost:6969
