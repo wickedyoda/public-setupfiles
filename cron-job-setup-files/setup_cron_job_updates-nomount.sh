@@ -1,27 +1,27 @@
 #!/bin/bash
 
 # Script: setup_auto_updates.sh
-# Description: Script to set up automatic system updates using cron
+# Description: Configure automatic system updates via cron on Debian 12
+
+# Exit immediately on error
+set -e
 
 # Update package lists and install cron
 sudo apt update
-sudo apt install cron -y
+sudo apt install -y cron
 
 # Enable and start the cron service
 sudo systemctl enable cron
-sudo systemctl start cron
+sudo systemctl restart cron
 
-# Stop the cron service to make changes
-sudo systemctl stop cron
+# Write the cron job to /etc/cron.d/auto_updates properly using EOF
+sudo tee /etc/cron.d/auto_updates > /dev/null << 'EOF'
+MAILTO="alerts@tyates.one"
+0 */6 * * * root apt-get update && apt-get -y -d full-upgrade && apt-get autoremove -y && apt-get clean -y && apt-get purge -y
+EOF
 
-# Add the update and upgrade cron job to /etc/cron.d/
-# Old line that doesnt work
-#   echo 'MAILTO="alerts@tyates.one"
-#   0 */6 * * * root apt-get update && apt-get -y -d full-upgrade && apt-get autoremove -y && sudo apt-get clean -y && sudo apt-get purge -y' | sudo tee /etc/cron.d/auto_updates
+# Set proper permissions
+sudo chmod 644 /etc/cron.d/auto_updates
+sudo chown root:root /etc/cron.d/auto_updates
 
-# Add the update and upgrade cron job to /etc/cron.d/auto_updates
-echo 'MAILTO="alerts@tyates.one"
-0 */6 * * * root apt-get update && apt-get -y -d full-upgrade && apt-get autoremove -y && sudo apt-get clean -y && sudo apt-get purge -y' | sudo tee /etc/cron.d/auto_updates
-
-# Restart the cron service to apply the new cron job
-sudo systemctl start cron
+echo "[✓] Auto update cron job installed. Runs every 6 hours."
