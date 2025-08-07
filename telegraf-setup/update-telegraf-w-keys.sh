@@ -3,7 +3,7 @@
 set -e
 
 # === CONFIGURATION ===
-TOKEN="SV_DiBIgrmcSP7t4wFDVHYWj9TGKYstyb6V66k42s2O8B-SyeEq9P4P5yqlWh-QbPglKzfDf5rz9VHq3PQSjOA=="
+TOKEN="$HOSTNAME"
 BUCKET="Home_Network"
 ORG="Home Network"
 URL="http://docker2:8086"
