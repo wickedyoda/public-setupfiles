@@ -7,8 +7,13 @@ TOKEN_FILE="/run/secrets/${HOSTNAME}"
 if [[ -r "$TOKEN_FILE" ]]; then
   TOKEN="$(sudo cat "$TOKEN_FILE")"
 else
-  echo "[✗] Docker secret $TOKEN_FILE not found or unreadable." >&2
-  exit 1
+  echo "[!] Docker secret $TOKEN_FILE not found or unreadable." >&2
+  read -rsp "Enter InfluxDB token: " TOKEN
+  echo
+  if [[ -z "$TOKEN" ]]; then
+    echo "[✗] No token provided. Exiting." >&2
+    exit 1
+  fi
 fi
 BUCKET="Home_Network"
 ORG="Home Network"
@@ -41,7 +46,7 @@ EOF
 fi
 
 echo "[+] Checking for Docker plugin..."
-if ! sudo grep -q '^\s*\[\[inputs.docker\]\]' "$TELEGRAF_CONF"; then
+if ! grep -q '^\s*\[\[inputs.docker\]\]' "$TELEGRAF_CONF"; then
 cat <<EOF | sudo tee -a "$TELEGRAF_CONF" > /dev/null
 
 [[inputs.docker]]
