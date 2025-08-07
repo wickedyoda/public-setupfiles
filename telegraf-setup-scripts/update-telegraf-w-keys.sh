@@ -3,7 +3,13 @@
 set -e
 
 # === CONFIGURATION ===
-TOKEN="$HOSTNAME"
+TOKEN_FILE="/run/secrets/${HOSTNAME}"
+if [[ -r "$TOKEN_FILE" ]]; then
+  TOKEN="$(sudo cat "$TOKEN_FILE")"
+else
+  echo "[✗] Docker secret $TOKEN_FILE not found or unreadable." >&2
+  exit 1
+fi
 BUCKET="Home_Network"
 ORG="Home Network"
 URL="http://docker2:8086"
@@ -35,7 +41,7 @@ EOF
 fi
 
 echo "[+] Checking for Docker plugin..."
-if ! grep -q '\[\[inputs.docker\]\]' "$TELEGRAF_CONF"; then
+if ! sudo grep -q '^\s*\[\[inputs.docker\]\]' "$TELEGRAF_CONF"; then
 cat <<EOF | sudo tee -a "$TELEGRAF_CONF" > /dev/null
 
 [[inputs.docker]]
