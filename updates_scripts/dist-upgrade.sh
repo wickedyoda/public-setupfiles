@@ -1,43 +1,58 @@
-# /bin/bash
+#!/bin/bash
 
-# Backup of existing sources.list file
-sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
+# Backup existing sources
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup.$(date +%F-%H%M)
 
-# Create variable from /etc/os-release file to get ID
+# Detect OS ID and VERSION_CODENAME
 ID=$(grep -oP '(?<=^ID=).+' /etc/os-release)
-  
+CODENAME=$(grep -oP '(?<=^VERSION_CODENAME=).+' /etc/os-release)
+
+echo "Detected OS: $ID"
+echo "Detected Codename: $CODENAME"
+
+# Debian Only
 if [ "$ID" == "debian" ]; then
-    echo "ID_LIKE is debian"
-    echo "Updating sources.list file"
-    echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free" | sudo tee /etc/apt/sources.list
-    echo "deb-src http://deb.debian.org/debian/ bookworm main contrib non-free" | sudo tee -a /etc/apt/sources.list
-    echo "deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free" | sudo tee -a /etc/apt/sources.list
-    echo "deb-src http://deb.debian.org/debian/ bookworm-updates main contrib non-free" | sudo tee -a /etc/apt/sources.list
-    echo "deb http://deb.debian.org/debian/ bookworm-backports main contrib non-free" | sudo tee -a /etc/apt/sources.list
-    echo "deb-src http://deb.debian.org/debian/ bookworm-backports main contrib non-free" | sudo tee -a /etc/apt/sources.list
-    echo "deb http://security.debian.org/debian-security/ bookworm-security main contrib non-free" | sudo tee -a /etc/apt/sources.list
-    echo "deb-src http://security.debian.org/debian-security/ bookworm-security main contrib non-free" | sudo tee -a /etc/apt/sources.list
+    echo "Debian system detected."
+
+    # Check if we're on Bookworm
+    if [ "$CODENAME" != "bookworm" ]; then
+        echo "This script only upgrades Debian 12 (Bookworm). Current version is: $CODENAME"
+        exit 1
+    fi
+
+    echo "Upgrading Debian 12 → Debian 13 (Trixie)..."
+    echo "Updating sources.list to Trixie..."
+
+    sudo tee /etc/apt/sources.list >/dev/null << EOF
+deb http://deb.debian.org/debian trixie main contrib non-free non-free-firmware
+deb-src http://deb.debian.org/debian trixie main contrib non-free non-free-firmware
+
+deb http://deb.debian.org/debian trixie-updates main contrib non-free non-free-firmware
+deb-src http://deb.debian.org/debian trixie-updates main contrib non-free non-free-firmware
+
+deb http://deb.debian.org/debian-security trixie-security main contrib non-free non-free-firmware
+deb-src http://deb.debian.org/debian-security trixie-security main contrib non-free non-free-firmware
+EOF
+
+else
+    echo "This script only supports Debian. Exiting."
+    exit 1
 fi
 
-if [ "$ID" == "ubuntu" ]; then
-    echo "ID_LIKE is ubuntu"
-    echo "Updating sources.list file"
-    echo "deb http://archive.ubuntu.com/ubuntu/ Minotaur restricted universe multiverse" | sudo tee /etc/apt/sources.list
-    echo "deb http://archive.ubuntu.com/ubuntu/ Minotaur main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-    echo "deb http://archive.ubuntu.com/ubuntu/ Minotaur main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-    echo "deb http://security.ubuntu.com/ubuntu Minotaur main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-fi
-
-# update repositories
+echo "=== Running apt update ==="
 sudo apt update
 
-# Full upgrade of system
-sudo apt full-upgrade -y && sudo apt dist-upgrade -y
+echo "=== Starting full upgrade ==="
+sudo apt full-upgrade -y
+sudo apt dist-upgrade -y
 
-# Clean up system
+echo "=== Cleaning system ==="
 sudo apt autoremove -y
 sudo apt clean -y
 sudo apt autopurge -y
 
-echo "System update and cleanup complete!"
-
+echo ""
+echo "======================================================"
+echo " Debian upgrade to TRIXIE is complete!"
+echo " It is recommended to reboot now: sudo reboot"
+echo "======================================================"
