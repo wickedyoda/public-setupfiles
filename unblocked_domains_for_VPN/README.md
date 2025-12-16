@@ -1,10 +1,10 @@
-# debian-dist-upgrades
+# unblocked_domains_for_VPN
 
 ## Purpose
-This directory contains files related to **debian dist upgrades**.
+This directory contains files related to **unblocked domains for VPN**.
 
 ## Contents
-- `dist-upgrade.sh`
+- `unblocked_domains.txt`
 
 ## Usage
 - Review each script or configuration file before running

@@ -1,10 +1,10 @@
-# debian-dist-upgrades
+# cockpit
 
 ## Purpose
-This directory contains files related to **debian dist upgrades**.
+This directory contains files related to **cockpit**.
 
 ## Contents
-- `dist-upgrade.sh`
+- `cockpit_install.sh`
 
 ## Usage
 - Review each script or configuration file before running

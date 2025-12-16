@@ -1,10 +1,10 @@
-# debian-dist-upgrades
+# debian
 
 ## Purpose
-This directory contains files related to **debian dist upgrades**.
+This directory contains files related to **debian**.
 
 ## Contents
-- `dist-upgrade.sh`
+- `debian-setup.sh`
 
 ## Usage
 - Review each script or configuration file before running

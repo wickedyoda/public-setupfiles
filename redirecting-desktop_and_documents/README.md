@@ -1,10 +1,10 @@
-# debian-dist-upgrades
+# redirecting-desktop_and_documents
 
 ## Purpose
-This directory contains files related to **debian dist upgrades**.
+This directory contains files related to **redirecting desktop and documents**.
 
 ## Contents
-- `dist-upgrade.sh`
+- `redirectfiles.sh`
 
 ## Usage
 - Review each script or configuration file before running

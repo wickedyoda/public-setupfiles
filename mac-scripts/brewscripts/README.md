@@ -1,10 +1,10 @@
-# debian-dist-upgrades
+# brewscripts
 
 ## Purpose
-This directory contains files related to **debian dist upgrades**.
+This directory contains files related to **brewscripts**.
 
 ## Contents
-- `dist-upgrade.sh`
+- `update-brew-packages.sh`
 
 ## Usage
 - Review each script or configuration file before running

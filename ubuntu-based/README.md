@@ -1,10 +1,10 @@
-# debian-dist-upgrades
+# ubuntu-based
 
 ## Purpose
-This directory contains files related to **debian dist upgrades**.
+This directory contains files related to **ubuntu based**.
 
 ## Contents
-- `dist-upgrade.sh`
+- `ubuntu_install_apps.sh`
 
 ## Usage
 - Review each script or configuration file before running

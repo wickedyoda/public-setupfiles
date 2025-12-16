@@ -1,10 +1,10 @@
-# debian-dist-upgrades
+# server_config
 
 ## Purpose
-This directory contains files related to **debian dist upgrades**.
+This directory contains files related to **server config**.
 
 ## Contents
-- `dist-upgrade.sh`
+- (No files detected)
 
 ## Usage
 - Review each script or configuration file before running

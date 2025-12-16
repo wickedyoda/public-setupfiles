@@ -1,10 +1,10 @@
-# debian-dist-upgrades
+# git_clone_setup
 
 ## Purpose
-This directory contains files related to **debian dist upgrades**.
+This directory contains files related to **git clone setup**.
 
 ## Contents
-- `dist-upgrade.sh`
+- `Git_clone_local_checkout.md`
 
 ## Usage
 - Review each script or configuration file before running

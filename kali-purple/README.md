@@ -1,10 +1,10 @@
-# debian-dist-upgrades
+# kali-purple
 
 ## Purpose
-This directory contains files related to **debian dist upgrades**.
+This directory contains files related to **kali purple**.
 
 ## Contents
-- `dist-upgrade.sh`
+- `install_kali_purple.sh`
 
 ## Usage
 - Review each script or configuration file before running

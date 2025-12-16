@@ -1,10 +1,10 @@
-# debian-dist-upgrades
+# copy_palworld_local
 
 ## Purpose
-This directory contains files related to **debian dist upgrades**.
+This directory contains files related to **copy palworld local**.
 
 ## Contents
-- `dist-upgrade.sh`
+- `copy_palworld_local.py`
 
 ## Usage
 - Review each script or configuration file before running

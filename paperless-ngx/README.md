@@ -1,10 +1,10 @@
-# debian-dist-upgrades
+# paperless-ngx
 
 ## Purpose
-This directory contains files related to **debian dist upgrades**.
+This directory contains files related to **paperless ngx**.
 
 ## Contents
-- `dist-upgrade.sh`
+- `paperless-ngx-install.sh`
 
 ## Usage
 - Review each script or configuration file before running
