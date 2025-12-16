@@ -7,6 +7,22 @@ exec > >(tee -a "$LOGFILE") 2>&1
 echo "===== Debian Upgrade Script Started: $(date) ====="
 
 # --------------------------------------------------
+# Helper: yes/no prompt (accepts y|yes / n|no)
+# --------------------------------------------------
+ask_yes_no() {
+  local prompt="$1"
+  local reply
+  while true; do
+    read -rp "$prompt [y/n]: " reply
+    case "${reply,,}" in
+      y|yes) return 0 ;;
+      n|no)  return 1 ;;
+      *) echo "Please answer yes or no." ;;
+    esac
+  done
+}
+
+# --------------------------------------------------
 # 1. Verify Debian-based OS
 # --------------------------------------------------
 if [[ ! -f /etc/os-release ]]; then
@@ -26,12 +42,12 @@ echo "Detected OS: $PRETTY_NAME"
 # --------------------------------------------------
 # 2. Identify version and prompt
 # --------------------------------------------------
-DEBIAN_VERSION=$(grep -oP '(?<=VERSION_ID=").*(?=")' /etc/os-release)
-DEBIAN_CODENAME=$(grep -oP '(?<=VERSION_CODENAME=).*' /etc/os-release)
+DEBIAN_VERSION="$VERSION_ID"
+DEBIAN_CODENAME="$VERSION_CODENAME"
 
 echo "Current Debian Version: $DEBIAN_VERSION ($DEBIAN_CODENAME)"
-read -rp "Continue? (yes/no): " CONFIRM
-[[ "$CONFIRM" != "yes" ]] && exit 0
+
+ask_yes_no "Continue?" || exit 0
 
 # --------------------------------------------------
 # 3. Upgrade Menu
@@ -44,70 +60,33 @@ echo "3) Debian distro upgrade"
 echo "4) Convert Debian to Parrot Linux"
 read -rp "Choice [1-4]: " CHOICE
 
-# Ensure non-interactive config handling
+# Non-interactive + keep config files
 export DEBIAN_FRONTEND=noninteractive
-APT_OPTS="-o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef"
+APT_OPTS=(
+  "-o" "Dpkg::Options::=--force-confold"
+  "-o" "Dpkg::Options::=--force-confdef"
+)
 
 # --------------------------------------------------
-# Option 3: Debian Distro Upgrade
+# Option 1: apt upgrade
 # --------------------------------------------------
-if [[ "$CHOICE" == "3" ]]; then
-  echo ""
-  echo "Select Debian upgrade target:"
-  echo "1) Debian 12 (Bookworm - Stable)"
-  echo "2) Debian 13 (Trixie - Testing)"
-  read -rp "Choice [1-2]: " TARGET
-
-  # Backup sources.list
-  cp /etc/apt/sources.list /etc/apt/sources.list.bak.$(date +%F)
-
-  # Comment out existing entries (do not delete)
-  sed -i 's/^[^#]/#&/' /etc/apt/sources.list
-
-  if [[ "$TARGET" == "1" ]]; then
-    echo "Preparing upgrade to Debian 12 (Bookworm)"
-
-    cat <<EOF >> /etc/apt/sources.list
-
-# Debian 12 Bookworm Repositories
-deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
-deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
-deb http://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware
-EOF
-
-  elif [[ "$TARGET" == "2" ]]; then
-    echo "WARNING: Debian 13 (Trixie) is TESTING."
-
-    read -rp "Type I UNDERSTAND to continue: " CONFIRM1
-    read -rp "Type UPGRADE TO 13 to confirm: " CONFIRM2
-
-    if [[ "$CONFIRM1" != "I UNDERSTAND" || "$CONFIRM2" != "UPGRADE TO 13" ]]; then
-      echo "Upgrade to Debian 13 aborted."
-      exit 1
-    fi
-
-    cat <<EOF >> /etc/apt/sources.list
-
-# Debian 13 Trixie Repositories
-deb http://deb.debian.org/debian trixie main contrib non-free non-free-firmware
-deb http://deb.debian.org/debian trixie-updates main contrib non-free non-free-firmware
-deb http://security.debian.org/debian-security trixie-security main contrib non-free non-free-firmware
-EOF
-
-  else
-    echo "Invalid selection."
-    exit 1
-  fi
-
-  echo "Running upgrade process..."
-
+if [[ "$CHOICE" == "1" ]]; then
   apt update
-  apt full-upgrade -y $APT_OPTS
+  apt upgrade -y "${APT_OPTS[@]}"
   apt autoremove -y
-  apt clean
-  apt purge -y '~c'
+  echo "apt upgrade completed."
+  exit 0
+fi
 
-  echo "Debian upgrade process completed."
+# --------------------------------------------------
+# Option 2: apt full-upgrade
+# --------------------------------------------------
+if [[ "$CHOICE" == "2" ]]; then
+  apt update
+  apt upgrade -y "${APT_OPTS[@]}"
+  apt full-upgrade -y "${APT_OPTS[@]}"
+  apt autoremove -y
+  echo "apt full-upgrade completed."
   exit 0
 fi
 
@@ -116,8 +95,7 @@ fi
 # --------------------------------------------------
 if [[ "$CHOICE" == "4" ]]; then
   echo "WARNING: This will convert Debian into Parrot Linux."
-  read -rp "Type CONVERT to proceed: " PARROT_CONFIRM
-  [[ "$PARROT_CONFIRM" != "CONVERT" ]] && exit 1
+  ask_yes_no "Are you sure you want to proceed?" || exit 1
 
   git clone https://gitlab.com/parrotsec/project/debian-conversion-script.git
   cd debian-conversion-script || exit 1
@@ -135,22 +113,24 @@ if [[ "$CHOICE" != "3" ]]; then
 fi
 
 echo ""
-echo "Select Debian target:"
-echo "1) Debian 12 (Bookworm)"
-echo "2) Debian 13 (Trixie - TESTING)"
+echo "Select Debian upgrade target:"
+echo "1) Debian 12 (Bookworm - Stable)"
+echo "2) Debian 13 (Trixie - Testing)"
 read -rp "Choice [1-2]: " TARGET
 
 # Backup sources.list
 cp /etc/apt/sources.list /etc/apt/sources.list.bak.$(date +%F)
 
-# Comment out existing entries
+# Comment out existing entries (do not delete)
 sed -i 's/^[^#]/#&/' /etc/apt/sources.list
 
 # --------------------------------------------------
 # Debian 12
 # --------------------------------------------------
 if [[ "$TARGET" == "1" ]]; then
-  cat <<EOF >> /etc/apt/sources.list
+  echo "Preparing upgrade to Debian 12 (Bookworm)"
+
+cat <<EOF >> /etc/apt/sources.list
 
 # Debian 12 Bookworm Repositories
 deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
@@ -159,7 +139,10 @@ deb http://security.debian.org/debian-security bookworm-security main contrib no
 EOF
 
   apt update
-  apt full-upgrade -y $APT_OPTS
+  apt upgrade -y "${APT_OPTS[@]}"
+  apt full-upgrade -y "${APT_OPTS[@]}"
+  apt autoremove -y
+
   echo "Upgrade to Debian 12 completed."
   exit 0
 fi
@@ -169,15 +152,11 @@ fi
 # --------------------------------------------------
 if [[ "$TARGET" == "2" ]]; then
   echo "WARNING: Debian 13 (Trixie) is TESTING."
-  read -rp "Type I UNDERSTAND to continue: " CONFIRM1
-  read -rp "Type UPGRADE TO 13 to confirm: " CONFIRM2
 
-  if [[ "$CONFIRM1" != "I UNDERSTAND" || "$CONFIRM2" != "UPGRADE TO 13" ]]; then
-    echo "Upgrade aborted."
-    exit 1
-  fi
+  ask_yes_no "Do you understand this is a testing release?" || exit 1
+  ask_yes_no "Confirm upgrade to Debian 13?" || exit 1
 
-  cat <<EOF >> /etc/apt/sources.list
+cat <<EOF >> /etc/apt/sources.list
 
 # Debian 13 Trixie Repositories
 deb http://deb.debian.org/debian trixie main contrib non-free non-free-firmware
@@ -186,7 +165,8 @@ deb http://security.debian.org/debian-security trixie-security main contrib non-
 EOF
 
   apt update
-  apt full-upgrade -y $APT_OPTS
+  apt upgrade -y "${APT_OPTS[@]}"
+  apt full-upgrade -y "${APT_OPTS[@]}"
   apt autoremove -y
   apt clean
   apt purge -y '~c'
