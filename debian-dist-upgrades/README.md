@@ -1,5 +1,23 @@
-# Debian Upgrade & Conversion Script
+# debian-dist-upgrades
 
+## Overview
+This directory is part of the **public-setupfiles** repository.
+It contains scripts, configuration files, or resources related to **debian-dist-upgrades**.
+
+## Usage
+- Review scripts before execution
+- Some files may require **root or sudo privileges**
+- Paths, variables, or credentials may need customization
+
+## Logging & Output
+Scripts may generate logs or output files in the same directory or system locations.
+
+## Safety Notes
+- Always back up important data before running scripts
+- Test in a non-production environment when possible
+- Use at your own risk
+
+---
 A **safe, interactive Debian system upgrade utility** designed for real-world administration.  
 Supports standard upgrades, full upgrades, controlled distro upgrades (Debian 12 / 13), and optional Parrot Linux conversion — with logging and guardrails.
 
