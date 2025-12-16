@@ -1,3 +1,4 @@
+<<<<<<< HEAD
     # system_command_run
 
     ## Purpose
@@ -20,3 +21,25 @@
 
     ## Safety
     Always back up data before running scripts that modify system state.
+=======
+# system_command_run
+
+## Overview
+This directory is part of the **public-setupfiles** repository.
+It contains scripts, configuration files, or resources related to **system_command_run**.
+
+## Usage
+- Review scripts before execution
+- Some files may require **root or sudo privileges**
+- Paths, variables, or credentials may need customization
+
+## Logging & Output
+Scripts may generate logs or output files in the same directory or system locations.
+
+## Safety Notes
+- Always back up important data before running scripts
+- Test in a non-production environment when possible
+- Use at your own risk
+
+---
+>>>>>>> main
