@@ -43,6 +43,4 @@ Root-level helper scripts include:
 
 To clone this repository and switch to the main branch:
 
-```bash
-git clone https://github.com/wickedyoda/public-setupfiles.git
-cd public-setupfiles
+```sudo curl -s https://raw.githubusercontent.com/wickedyoda/public-setupfiles/refs/heads/main/update-from_repo.sh | sudo bash```
