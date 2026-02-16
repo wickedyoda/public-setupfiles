@@ -41,7 +41,6 @@ jtvnw.net
 kick.com
 literotica.com
 login.twitter.com
-mastodon.social
 medium.com
 meetup.com
 mobile.twitter.com
@@ -94,9 +93,6 @@ video.twimg.com
 vk.com
 vk.ru
 vkuser.net
-telegram.org
-imgur.com
-imgur.io
 weibo.cn
 weibo.com
 www.twitter.com
