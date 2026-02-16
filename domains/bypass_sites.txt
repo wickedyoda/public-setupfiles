@@ -95,6 +95,20 @@ video.twimg.com
 vk.com
 vk.ru
 vkuser.net
+telegram.org
+t.me
+signal.org
+quora.com
+medium.com
+flickr.com
+staticflickr.com
+imgur.com
+imgur.io
+badoo.com
+meetup.com
+nextdoor.com
+clubhouse.com
+tsyndicate.com
 weibo.cn
 weibo.com
 www.twitter.com
@@ -103,4 +117,5 @@ x.com
 xhcdn.com
 xhamster.com
 xvideos.com
+youporn.com
 youporn.com
