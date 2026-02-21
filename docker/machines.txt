@@ -1,0 +1,5 @@
+# One hostname or IP per line.
+# Lines starting with # are ignored.
+# Example:
+# docker-host-01
+# 192.168.1.20
