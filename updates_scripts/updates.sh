@@ -1,3 +1,5 @@
+sudo ./fix_apt_influx.sh
+
 sudo apt update
 sudo apt upgrade -y
 sudo apt full-upgrade -y
