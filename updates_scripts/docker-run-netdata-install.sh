@@ -1,9 +1,15 @@
-docker run -d --name=netdata \
-  --pid=host \
-  --network=host \
-  -v netdataconfig:/etc/netdata \
-  -v netdatalib:/var/lib/netdata \
-  -v netdatacache:/var/cache/netdata \
+docker run -d \
+  --name netdata \
+  --hostname docker1 \
+  --pid host \
+  --network host \
+  --restart unless-stopped \
+  --cap-add SYS_PTRACE \
+  --cap-add SYS_ADMIN \
+  --security-opt apparmor=unconfined \
+  -v /root/docker/netdata/config:/etc/netdata \
+  -v /root/docker/netdata/lib:/var/lib/netdata \
+  -v /root/docker/netdata/cache:/var/cache/netdata \
   -v /:/host/root:ro,rslave \
   -v /etc/passwd:/host/etc/passwd:ro \
   -v /etc/group:/host/etc/group:ro \
@@ -14,8 +20,4 @@ docker run -d --name=netdata \
   -v /var/log:/host/var/log:ro \
   -v /var/run/docker.sock:/var/run/docker.sock:ro \
   -v /run/dbus:/run/dbus:ro \
-  --restart unless-stopped \
-  --cap-add SYS_PTRACE \
-  --cap-add SYS_ADMIN \
-  --security-opt apparmor=unconfined \
-  netdata/netdata
+  netdata/netdata 
