@@ -3,12 +3,16 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# --- CONFIG ---
 SRC_SCRIPT="${SCRIPT_DIR}/docker-backup.sh"
 DEST_DIR="/root/docker"
 DEST_SCRIPT="${DEST_DIR}/docker-backup.sh"
 CRON_JOB_FILE="/etc/cron.d/docker-backup"
 LOG_FILE="/var/log/docker_backup.log"
+
+if [[ "${EUID}" -ne 0 ]]; then
+  echo "Run this script as root."
+  exit 1
+fi
 
 mkdir -p "${DEST_DIR}"
 
@@ -25,3 +29,4 @@ EOF
 
 chmod 644 "${CRON_JOB_FILE}"
 echo "Installed ${CRON_JOB_FILE}"
+echo "Docker backups will run every 12 hours."
