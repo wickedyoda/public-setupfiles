@@ -6,7 +6,8 @@ set -euo pipefail
 # =========================
 
 # Backup destination
-BACKUP_BASE="/mnt/backup/docker-backups"
+HOSTNAME="$(hostname -s)"
+BACKUP_BASE="/mnt/naspublic/docker-backups/${HOSTNAME}"
 
 # What to back up
 SOURCE_PATHS=(
@@ -30,12 +31,18 @@ COMPOSE_DIRS=(
   "/home/traver/docker"
 )
 
-# Timestamp
-TIMESTAMP="$(date '+%Y-%m-%d_%H-%M-%S')"
-BACKUP_DIR="${BACKUP_BASE}/${TIMESTAMP}"
+# Date/time foldering
+DATE_STAMP="$(date '+%Y-%m-%d')"
+TIME_STAMP="$(date '+%H-%M-%S')"
+BACKUP_DIR="${BACKUP_BASE}/${DATE_STAMP}"
 
 log() {
   echo "[$(date '+%F %T')] $*" | tee -a "$LOG_FILE"
+}
+
+archive_name_for_path() {
+  local path="$1"
+  echo "${path#/}" | tr '/' '_'
 }
 
 start_containers() {
@@ -69,6 +76,27 @@ cleanup_old_backups() {
   find "$BACKUP_BASE" -mindepth 1 -maxdepth 1 -type d -mtime +"$RETENTION_DAYS" -exec rm -rf {} \; >>"$LOG_FILE" 2>&1 || true
 }
 
+create_archive() {
+  local path="$1"
+  local archive_name
+  local archive_path
+  local parent_dir
+  local base_name
+
+  if [[ ! -e "$path" ]]; then
+    log "Warning: source path missing: $path"
+    return 0
+  fi
+
+  archive_name="$(archive_name_for_path "$path")"
+  archive_path="${BACKUP_DIR}/${TIME_STAMP}_${archive_name}.tar.gz"
+  parent_dir="$(dirname "$path")"
+  base_name="$(basename "$path")"
+
+  log "Creating archive ${archive_path} from ${path}"
+  tar --xattrs --acls --numeric-owner -czpf "$archive_path" -C "$parent_dir" "$base_name" >>"$LOG_FILE" 2>&1
+}
+
 main() {
   log "========================================"
   log "Starting Docker backup"
@@ -76,22 +104,14 @@ main() {
   mkdir -p "$BACKUP_BASE"
   mkdir -p "$BACKUP_DIR"
 
-  for path in "${SOURCE_PATHS[@]}"; do
-    if [[ ! -e "$path" ]]; then
-      log "Warning: source path missing: $path"
-    fi
-  done
-
   if [[ "$STOP_CONTAINERS" == "true" ]]; then
     stop_containers
   fi
 
-  log "Running rsync backup to $BACKUP_DIR"
-  rsync -aHAX --delete \
-    /root/docker \
-    /home/traver/docker \
-    /var/lib/docker/volumes \
-    "$BACKUP_DIR"/ >>"$LOG_FILE" 2>&1
+  log "Creating separate compressed backups in $BACKUP_DIR"
+  for path in "${SOURCE_PATHS[@]}"; do
+    create_archive "$path"
+  done
 
   log "Backup sizes:"
   du -sh "$BACKUP_DIR" >>"$LOG_FILE" 2>&1 || true
