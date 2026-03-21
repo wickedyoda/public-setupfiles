@@ -1,6 +1,6 @@
 docker run -d \
   --name netdata \
-  --hostname docker1 \
+  --hostname docker3 \
   --pid host \
   --network host \
   --restart unless-stopped \
