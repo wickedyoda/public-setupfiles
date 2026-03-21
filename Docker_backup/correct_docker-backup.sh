@@ -23,10 +23,10 @@ cat > "${CRON_JOB_FILE}" <<EOF
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-# Run every 12 hours
-0 */12 * * * root ${DEST_SCRIPT} >> ${LOG_FILE} 2>&1
+# Run every 3 hours
+0 */3 * * * root ${DEST_SCRIPT} >> ${LOG_FILE} 2>&1
 EOF
 
 chmod 644 "${CRON_JOB_FILE}"
 echo "Installed ${CRON_JOB_FILE}"
-echo "Docker backups will run every 12 hours."
+echo "Docker backups will run every 3 hours."

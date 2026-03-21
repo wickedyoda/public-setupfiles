@@ -6,18 +6,19 @@ set -euo pipefail
 # =========================
 
 # Backup destination
+NAS_ROOT="/mnt/naspublic"
 HOSTNAME="$(hostname -s)"
-BACKUP_BASE="/mnt/naspublic/docker-backups/${HOSTNAME}"
+BACKUP_BASE="${NAS_ROOT}/docker-backup/${HOSTNAME}"
 
 # What to back up
 SOURCE_PATHS=(
   "/root/docker"
-  "/home/traver/docker"
   "/var/lib/docker/volumes"
+  "/home/traver/docker"
 )
 
 # Retention in days
-RETENTION_DAYS=7
+RETENTION_DAYS=14
 
 # Log file
 LOG_FILE="/var/log/docker_backup.log"
@@ -32,9 +33,10 @@ COMPOSE_DIRS=(
 )
 
 # Date/time foldering
+MONTH_STAMP="$(date '+%Y-%m')"
 DATE_STAMP="$(date '+%Y-%m-%d')"
 TIME_STAMP="$(date '+%H-%M-%S')"
-BACKUP_DIR="${BACKUP_BASE}/${DATE_STAMP}"
+BACKUP_DIR="${BACKUP_BASE}/${MONTH_STAMP}/${DATE_STAMP}"
 
 log() {
   echo "[$(date '+%F %T')] $*" | tee -a "$LOG_FILE"
@@ -43,6 +45,29 @@ log() {
 archive_name_for_path() {
   local path="$1"
   echo "${path#/}" | tr '/' '_'
+}
+
+require_backup_target() {
+  if command -v mountpoint >/dev/null 2>&1; then
+    mountpoint -q "$NAS_ROOT" || {
+      log "Error: ${NAS_ROOT} is not mounted. Aborting backup."
+      exit 1
+    }
+    return
+  fi
+
+  if command -v findmnt >/dev/null 2>&1; then
+    findmnt -rn "$NAS_ROOT" >/dev/null 2>&1 || {
+      log "Error: ${NAS_ROOT} is not mounted. Aborting backup."
+      exit 1
+    }
+    return
+  fi
+
+  if [[ ! -d "$NAS_ROOT" ]]; then
+    log "Error: ${NAS_ROOT} is not mounted. Aborting backup."
+    exit 1
+  fi
 }
 
 start_containers() {
@@ -73,7 +98,8 @@ stop_containers() {
 
 cleanup_old_backups() {
   log "Removing backups older than ${RETENTION_DAYS} days from ${BACKUP_BASE}"
-  find "$BACKUP_BASE" -mindepth 1 -maxdepth 1 -type d -mtime +"$RETENTION_DAYS" -exec rm -rf {} \; >>"$LOG_FILE" 2>&1 || true
+  find "$BACKUP_BASE" -mindepth 2 -maxdepth 2 -type d -mtime +"$RETENTION_DAYS" -exec rm -rf {} + >>"$LOG_FILE" 2>&1 || true
+  find "$BACKUP_BASE" -mindepth 1 -maxdepth 1 -type d -empty -delete >>"$LOG_FILE" 2>&1 || true
 }
 
 create_archive() {
@@ -94,13 +120,18 @@ create_archive() {
   base_name="$(basename "$path")"
 
   log "Creating archive ${archive_path} from ${path}"
-  tar --xattrs --acls --numeric-owner -czpf "$archive_path" -C "$parent_dir" "$base_name" >>"$LOG_FILE" 2>&1
+  if command -v pigz >/dev/null 2>&1; then
+    tar --xattrs --acls --numeric-owner -cpf - -C "$parent_dir" "$base_name" 2>>"$LOG_FILE" | pigz 2>>"$LOG_FILE" > "$archive_path"
+  else
+    tar --xattrs --acls --numeric-owner -czpf "$archive_path" -C "$parent_dir" "$base_name" >>"$LOG_FILE" 2>&1
+  fi
 }
 
 main() {
   log "========================================"
   log "Starting Docker backup"
 
+  require_backup_target
   mkdir -p "$BACKUP_BASE"
   mkdir -p "$BACKUP_DIR"
 
