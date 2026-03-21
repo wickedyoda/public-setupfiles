@@ -10,6 +10,11 @@ DEST_SCRIPT="${DEST_DIR}/docker-backup.sh"
 CRON_JOB_FILE="/etc/cron.d/docker-backup"
 LOG_FILE="/var/log/docker_backup.log"
 
+if [[ "${EUID}" -ne 0 ]]; then
+  echo "Run this script as root."
+  exit 1
+fi
+
 mkdir -p "${DEST_DIR}"
 
 install -m 755 "${SRC_SCRIPT}" "${DEST_SCRIPT}"
@@ -19,8 +24,8 @@ cat > "${CRON_JOB_FILE}" <<EOF
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-# Run every 12 hours
-0 */12 * * * root ${DEST_SCRIPT} >> ${LOG_FILE} 2>&1
+# Run every 3 hours
+0 */3 * * * root ${DEST_SCRIPT} >> ${LOG_FILE} 2>&1
 EOF
 
 chmod 644 "${CRON_JOB_FILE}"
