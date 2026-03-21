@@ -8,11 +8,36 @@ DEST_DIR="/root/docker"
 DEST_SCRIPT="${DEST_DIR}/docker-backup.sh"
 CRON_JOB_FILE="/etc/cron.d/docker-backup"
 LOG_FILE="/var/log/docker_backup.log"
+CRON_MATCH='docker-backup\.sh|docker_backup\.log|docker-backup-log'
 
 if [[ "${EUID}" -ne 0 ]]; then
   echo "Run this script as root."
   exit 1
 fi
+
+remove_legacy_cron_jobs() {
+  local cron_file
+  while IFS= read -r cron_file; do
+    rm -f "$cron_file"
+    echo "Removed legacy cron file ${cron_file}"
+  done < <(grep -El "${CRON_MATCH}" /etc/cron.d/* 2>/dev/null || true)
+
+  if [[ -f /etc/crontab ]] && grep -Eq "${CRON_MATCH}" /etc/crontab; then
+    grep -Ev "${CRON_MATCH}" /etc/crontab >/tmp/docker-backup-etc-crontab.cleaned || true
+    install -m 644 /tmp/docker-backup-etc-crontab.cleaned /etc/crontab
+    rm -f /tmp/docker-backup-etc-crontab.cleaned
+    echo "Removed legacy Docker backup entries from /etc/crontab"
+  fi
+
+  if crontab -l -u root >/tmp/docker-backup-root-crontab 2>/dev/null; then
+    grep -Ev "${CRON_MATCH}" /tmp/docker-backup-root-crontab >/tmp/docker-backup-root-crontab.cleaned || true
+    crontab -u root /tmp/docker-backup-root-crontab.cleaned
+    rm -f /tmp/docker-backup-root-crontab /tmp/docker-backup-root-crontab.cleaned
+    echo "Removed legacy Docker backup entries from root crontab"
+  fi
+}
+
+remove_legacy_cron_jobs
 
 mkdir -p "${DEST_DIR}"
 
