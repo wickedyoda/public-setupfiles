@@ -13,6 +13,7 @@ BACKUP_BASE="${NAS_ROOT}/docker-backup/${HOSTNAME}"
 # What to back up
 SOURCE_PATHS=(
   "/root/docker"
+  "/opt/docker"
   "/var/lib/docker/volumes"
   "/home/traver/docker"
 )
@@ -29,6 +30,7 @@ STOP_CONTAINERS="false"
 # Docker compose search roots for optional stop/start
 COMPOSE_DIRS=(
   "/root/docker"
+  "/opt/docker"
   "/home/traver/docker"
 )
 

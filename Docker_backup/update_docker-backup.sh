@@ -42,21 +42,18 @@ remove_legacy_cron_jobs() {
   fi
 }
 
-remove_legacy_cron_jobs
-
-mkdir -p "${DEST_DIR}"
-
 install_scripts() {
   local file
+  mkdir -p "${DEST_DIR}"
+
   for file in "${FILES_TO_INSTALL[@]}"; do
     install -m 755 "${SCRIPT_DIR}/${file}" "${DEST_DIR}/${file}"
     echo "Installed ${DEST_DIR}/${file}"
   done
 }
 
-install_scripts
-
-cat > "${CRON_JOB_FILE}" <<EOF
+install_cron_job() {
+  cat > "${CRON_JOB_FILE}" <<EOF
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
@@ -64,6 +61,11 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 0 */3 * * * root ${DEST_SCRIPT} >> ${LOG_FILE} 2>&1
 EOF
 
-chmod 644 "${CRON_JOB_FILE}"
-echo "Installed ${CRON_JOB_FILE}"
-echo "Docker backup scripts were updated and will run every 3 hours."
+  chmod 644 "${CRON_JOB_FILE}"
+  echo "Installed ${CRON_JOB_FILE}"
+}
+
+remove_legacy_cron_jobs
+install_scripts
+install_cron_job
+echo "Docker backup scripts were updated and the 3-hour cron job was refreshed."
