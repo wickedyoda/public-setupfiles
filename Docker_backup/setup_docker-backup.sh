@@ -3,13 +3,17 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# --- CONFIG ---
-SRC_SCRIPT="${SCRIPT_DIR}/docker-backup.sh"
 DEST_DIR="/root/docker"
 DEST_SCRIPT="${DEST_DIR}/docker-backup.sh"
 CRON_JOB_FILE="/etc/cron.d/docker-backup"
 LOG_FILE="/var/log/docker_backup.log"
 CRON_MATCH='docker-backup\.sh|docker_backup\.log|docker-backup-log'
+FILES_TO_INSTALL=(
+  "docker-backup.sh"
+  "setup_docker-backup.sh"
+  "correct_docker-backup.sh"
+  "update_docker-backup.sh"
+)
 
 if [[ "${EUID}" -ne 0 ]]; then
   echo "Run this script as root."
@@ -42,8 +46,15 @@ remove_legacy_cron_jobs
 
 mkdir -p "${DEST_DIR}"
 
-install -m 755 "${SRC_SCRIPT}" "${DEST_SCRIPT}"
-echo "Installed ${DEST_SCRIPT}"
+install_scripts() {
+  local file
+  for file in "${FILES_TO_INSTALL[@]}"; do
+    install -m 755 "${SCRIPT_DIR}/${file}" "${DEST_DIR}/${file}"
+    echo "Installed ${DEST_DIR}/${file}"
+  done
+}
+
+install_scripts
 
 cat > "${CRON_JOB_FILE}" <<EOF
 SHELL=/bin/bash
