@@ -21,8 +21,8 @@ if [[ "${EUID}" -ne 0 ]]; then
 fi
 
 detect_mode() {
-  # If any prior install artifact exists, treat this run as an update.
-  if [[ -f "${DEST_SCRIPT}" || -f "${CRON_JOB_FILE}" || -d "${DEST_DIR}" ]]; then
+  # Treat as update only when concrete install artifacts are present.
+  if [[ -f "${DEST_SCRIPT}" || -f "${CRON_JOB_FILE}" ]]; then
     echo "update"
   else
     echo "first-time"
@@ -68,9 +68,9 @@ install_scripts() {
 install_scripts
 
 if [[ "${MODE}" == "first-time" ]]; then
-  echo "Detected first-time install. Applying Docker backup setup."
+  echo "No existing Docker backup install detected. Installing Docker backup scripts and cron configuration."
 else
-  echo "Detected existing install. Applying Docker backup update to the latest config."
+  echo "Existing Docker backup install detected. Reinstalling Docker backup scripts and refreshing cron configuration."
 fi
 
 cat > "${CRON_JOB_FILE}" <<EOF
