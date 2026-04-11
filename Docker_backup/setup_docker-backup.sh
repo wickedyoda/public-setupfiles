@@ -20,6 +20,17 @@ if [[ "${EUID}" -ne 0 ]]; then
   exit 1
 fi
 
+detect_mode() {
+  # If any prior install artifact exists, treat this run as an update.
+  if [[ -f "${DEST_SCRIPT}" || -f "${CRON_JOB_FILE}" || -d "${DEST_DIR}" ]]; then
+    echo "update"
+  else
+    echo "first-time"
+  fi
+}
+
+MODE="$(detect_mode)"
+
 remove_legacy_cron_jobs() {
   local cron_file
   while IFS= read -r cron_file; do
@@ -56,6 +67,12 @@ install_scripts() {
 
 install_scripts
 
+if [[ "${MODE}" == "first-time" ]]; then
+  echo "Detected first-time install. Applying Docker backup setup."
+else
+  echo "Detected existing install. Applying Docker backup update to the latest config."
+fi
+
 cat > "${CRON_JOB_FILE}" <<EOF
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
@@ -66,3 +83,5 @@ EOF
 
 chmod 644 "${CRON_JOB_FILE}"
 echo "Installed ${CRON_JOB_FILE}"
+echo "Installed helper scripts: ${DEST_DIR}/correct_docker-backup.sh and ${DEST_DIR}/update_docker-backup.sh"
+echo "Complete: setup/update finished with current Docker backup configuration."
