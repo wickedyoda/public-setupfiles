@@ -93,8 +93,11 @@ setup_docker_repo() {
 	local keyring_dir="/etc/apt/keyrings"
 	local keyring_file="${keyring_dir}/docker.asc"
 	local repo_file="/etc/apt/sources.list.d/docker.list"
+	local main_sources_file="/etc/apt/sources.list"
+	local repo_line
 	local arch
 	arch="$(dpkg --print-architecture)"
+	repo_line="deb [arch=${arch} signed-by=${keyring_file}] https://download.docker.com/linux/debian ${VERSION_CODENAME} stable"
 
 	log "Configuring Docker APT repository..."
 	install -m 0755 -d "${keyring_dir}"
@@ -103,8 +106,17 @@ setup_docker_repo() {
 	chmod a+r "${keyring_file}"
 
 	cat > "${repo_file}" <<EOF
-deb [arch=${arch} signed-by=${keyring_file}] https://download.docker.com/linux/debian ${VERSION_CODENAME} stable
+${repo_line}
 EOF
+
+	# Ensure the Docker repo line is present in the main sources.list as requested.
+	touch "${main_sources_file}"
+	if grep -Fq "https://download.docker.com/linux/debian ${VERSION_CODENAME} stable" "${main_sources_file}"; then
+		log "Docker repository already present in ${main_sources_file}."
+	else
+		log "Adding Docker repository to ${main_sources_file}..."
+		printf "\n# Docker repository\n%s\n" "${repo_line}" >> "${main_sources_file}"
+	fi
 }
 
 install_docker() {
