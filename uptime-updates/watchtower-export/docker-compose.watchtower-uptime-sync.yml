@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 300 --cleanup
+
+  uptime-sync-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: uptime-sync-bot
+    restart: unless-stopped
+    volumes:
+      - ./config.yml:/app/config.yml:ro
+      - ./container-monitor-map.yaml:/app/container-monitor-map.yaml:ro
+    environment:
+      - UPTIME_BOT_CONFIG=/app/config.yml
+      - UPTIME_BOT_MAP=/app/container-monitor-map.yaml
