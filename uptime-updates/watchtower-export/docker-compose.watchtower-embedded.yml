@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  watchtower-with-uptime-bot:
+    build:
+      context: .
+      dockerfile: watchtower-embedded/Dockerfile.watchtower-with-uptime-bot
+    container_name: watchtower-with-uptime-bot
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config.yml:/opt/uptime-bot/config.yml:ro
+      - ./container-monitor-map.yaml:/opt/uptime-bot/container-monitor-map.yaml:ro
+    command: --interval 300 --cleanup

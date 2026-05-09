@@ -1,0 +1,43 @@
+# Container to Uptime Kuma monitor mapping
+#
+# Fill in one item per container you want tracked.
+# The bot can read this file to know:
+# 1) which Docker host to query
+# 2) which container on that host to watch
+# 3) which Uptime Kuma monitor to update when container ID changes
+#
+# Notes:
+# - uptime_monitor_id is the numeric ID in Uptime Kuma.
+#   You can get it from the monitor URL, e.g. /dashboard/42 -> 42
+# - host_api should be the Docker API endpoint for that host.
+#   Example: tcp://10.0.84.21:2375
+# - container_name should match docker container name used by that host.
+#
+# Optional fields:
+# - enabled: true/false (default true)
+# - expected_uptime_type: set to "docker" to protect against wrong monitor type updates
+
+mappings:
+  - name: "media-server jellyfin"
+    enabled: true
+    host_label: "media-server"
+    host_api: "tcp://10.0.84.21:2375"
+    container_name: "jellyfin"
+    uptime_monitor_id: 21
+    expected_uptime_type: "docker"
+
+  - name: "nas immich"
+    enabled: true
+    host_label: "nas"
+    host_api: "tcp://10.0.84.22:2375"
+    container_name: "immich-server"
+    uptime_monitor_id: 34
+    expected_uptime_type: "docker"
+
+  - name: "lab pihole"
+    enabled: false
+    host_label: "lab"
+    host_api: "tcp://10.0.84.30:2375"
+    container_name: "pihole"
+    uptime_monitor_id: 56
+    expected_uptime_type: "docker"

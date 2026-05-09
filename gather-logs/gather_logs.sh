@@ -10,35 +10,27 @@ mkdir -p "$OUTDIR"
 
 echo "Collecting logs into $OUTDIR..."
 
+# Common logs
+cp -a /var/log/syslog* "$OUTDIR/" 2>/dev/null
+cp -a /var/log/auth.log* "$OUTDIR/" 2>/dev/null
+cp -a /var/log/kern.log* "$OUTDIR/" 2>/dev/null
+cp -a /var/log/daemon.log* "$OUTDIR/" 2>/dev/null
+cp -a /var/log/dmesg* "$OUTDIR/" 2>/dev/null
+cp -a /var/log/boot.log* "$OUTDIR/" 2>/dev/null
+cp -a /var/log/dpkg.log* "$OUTDIR/" 2>/dev/null
+cp -a /var/log/apt "$OUTDIR/" 2>/dev/null
 
-
-# Copy ALL log files recursively from /var/log, preserving directory structure
-rsync -a /var/log/ "$OUTDIR/var_log/" 2>/dev/null
-
-# Journal logs (Linux only)
-if command -v journalctl >/dev/null 2>&1; then
-	journalctl -b > "$OUTDIR/journal-current-boot.log" 2>/dev/null
-	journalctl > "$OUTDIR/journal-all.log" 2>/dev/null
-fi
-
+# Journal logs
+journalctl -b > "$OUTDIR/journal-current-boot.log" 2>/dev/null
+journalctl > "$OUTDIR/journal-all.log" 2>/dev/null
 
 # System info
 uname -a > "$OUTDIR/uname.txt"
-hostname > "$OUTDIR/hostnamectl.txt" 2>/dev/null
+hostnamectl > "$OUTDIR/hostnamectl.txt" 2>/dev/null
 df -h > "$OUTDIR/disk-usage.txt"
-if command -v free >/dev/null 2>&1; then
-	free -h > "$OUTDIR/memory.txt"
-else
-	vm_stat > "$OUTDIR/memory.txt" 2>/dev/null
-fi
-if command -v ip >/dev/null 2>&1; then
-	ip addr > "$OUTDIR/ip-addresses.txt"
-else
-	ifconfig > "$OUTDIR/ip-addresses.txt" 2>/dev/null
-fi
-if command -v systemctl >/dev/null 2>&1; then
-	systemctl --failed > "$OUTDIR/failed-services.txt" 2>/dev/null
-fi
+free -h > "$OUTDIR/memory.txt"
+ip addr > "$OUTDIR/ip-addresses.txt"
+systemctl --failed > "$OUTDIR/failed-services.txt" 2>/dev/null
 
 # Create zip
 zip -r "$ZIPFILE" "$OUTDIR" >/dev/null
