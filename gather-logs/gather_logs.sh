@@ -24,7 +24,7 @@ cp -a /var/log/apt "$OUTDIR/" 2>/dev/null
 journalctl -b > "$OUTDIR/journal-current-boot.log" 2>/dev/null
 journalctl > "$OUTDIR/journal-all.log" 2>/dev/null
 
-# System info
+hostname > "$OUTDIR/hostname.txt" 2>/dev/null
 uname -a > "$OUTDIR/uname.txt"
 hostnamectl > "$OUTDIR/hostnamectl.txt" 2>/dev/null
 df -h > "$OUTDIR/disk-usage.txt"
