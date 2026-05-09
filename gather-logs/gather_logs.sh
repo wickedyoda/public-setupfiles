@@ -3,10 +3,14 @@
 DATE=$(date +%Y-%m-%d_%H-%M-%S)
 HOST=$(hostname)
 
-OUTDIR="/tmp/${DATE}-${HOST}"
+umask 077
+OUTDIR=$(mktemp -d "/tmp/${DATE}-${HOST}.XXXXXX")
 ZIPFILE="/tmp/${DATE}-${HOST}.zip"
 
-mkdir -p "$OUTDIR"
+if [ -z "$OUTDIR" ]; then
+  echo "Failed to create output directory."
+  exit 1
+fi
 
 echo "Collecting logs into $OUTDIR..."
 
