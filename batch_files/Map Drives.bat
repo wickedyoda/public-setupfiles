@@ -12,3 +12,4 @@ net use s: /delete
 net use w: \\nas\public
 net use r: \\nas\downloads
 net use t: \\NAS\public2
+net use s: \\nas\media
