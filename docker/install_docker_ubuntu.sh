@@ -9,14 +9,10 @@ sh get-docker.sh
 # Script: install_docker_compose.sh
 # Description: Script to install Docker Compose and its dependencies on Linux
 
-# Install Docker Compose using pip
-sudo pip3 install docker-compose
-
-# Download Docker Compose executable
-DOCKER_COMPOSE_VERSION=2.20.3
-sudo curl -L --fail https://github.com/docker/compose/releases/download/v${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
-
-# Make Docker Compose executable
+# Install Docker Compose (v2) binary (standalone method)
+DOCKER_COMPOSE_VERSION=2.27.0
+sudo curl -L --fail "https://github.com/docker/compose/releases/download/v${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64" \
+  -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
 # Check if Docker Compose installation was successful
