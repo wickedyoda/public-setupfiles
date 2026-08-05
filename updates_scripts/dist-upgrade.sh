@@ -1,10 +1,13 @@
-# /bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
 # Backup of existing sources.list file
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
 
 # Create variable from /etc/os-release file to get ID
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release)
+# shellcheck disable=SC1091
+. /etc/os-release
+ID="${ID:-}"
   
 if [ "$ID" == "debian" ]; then
     echo "ID_LIKE is debian"
@@ -22,10 +25,10 @@ fi
 if [ "$ID" == "ubuntu" ]; then
     echo "ID_LIKE is ubuntu"
     echo "Updating sources.list file"
-    echo "deb http://archive.ubuntu.com/ubuntu/ Minotaur restricted universe multiverse" | sudo tee /etc/apt/sources.list
-    echo "deb http://archive.ubuntu.com/ubuntu/ Minotaur main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-    echo "deb http://archive.ubuntu.com/ubuntu/ Minotaur main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
-    echo "deb http://security.ubuntu.com/ubuntu Minotaur main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+    CODENAME="${VERSION_CODENAME:?missing VERSION_CODENAME}"
+    echo "deb http://archive.ubuntu.com/ubuntu/ ${CODENAME} main restricted universe multiverse" | sudo tee /etc/apt/sources.list
+    echo "deb http://archive.ubuntu.com/ubuntu/ ${CODENAME}-updates main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+    echo "deb http://security.ubuntu.com/ubuntu ${CODENAME}-security main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
 fi
 
 # update repositories
