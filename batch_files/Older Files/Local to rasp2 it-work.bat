@@ -1,0 +1,1 @@
+robocopy "C:\Users\trave\OneDrive\IT Work" \\RASP2\share\nas1public\it-work /s /z /r:2 /w:3 /copy:dt 

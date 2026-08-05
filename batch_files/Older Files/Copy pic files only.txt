@@ -1,0 +1,4 @@
+robocopy C:\Users\trave\Downloads\*.jpeg "\\NAS\public\Traver's Personal\Downloaded pictures" /z /s /r:2 /w:3 /copy:dt /XD "C:\Users\trave\Downloads\VMs" 
+robocopy C:\Users\trave\Downloads\*.gif "\\NAS\public\Traver's Personal\Downloaded pictures\*.gif" /z /s /r:2 /w:3 /copy:dt /XD "C:\Users\trave\Downloads\VMs" 
+robocopy C:\Users\trave\Downloads\*.jpg "\\NAS\public\Traver's Personal\Downloaded pictures\*.jpg" /z /s /r:2 /w:3 /copy:dt /XD "C:\Users\trave\Downloads\VMs" 
+robocopy C:\Users\trave\Downloads\*.png "\\NAS\public\Traver's Personal\Downloaded pictures\*.png" /z /s /r:2 /w:3 /copy:dt /XD "C:\Users\trave\Downloads\VMs" 

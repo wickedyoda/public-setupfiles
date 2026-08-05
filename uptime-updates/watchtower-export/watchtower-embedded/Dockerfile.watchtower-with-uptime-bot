@@ -1,0 +1,23 @@
+FROM containrrr/watchtower:latest
+
+USER root
+
+RUN apk add --no-cache python3 py3-pip
+
+WORKDIR /opt/uptime-bot
+
+COPY requirements.txt /opt/uptime-bot/requirements.txt
+RUN pip3 install --no-cache-dir -r /opt/uptime-bot/requirements.txt
+
+COPY uptime-bot.py /opt/uptime-bot/uptime-bot.py
+COPY config.yml /opt/uptime-bot/config.yml
+COPY container-monitor-map.yaml /opt/uptime-bot/container-monitor-map.yaml
+COPY watchtower-embedded/start-watchtower-with-uptime-bot.sh /usr/local/bin/start-watchtower-with-uptime-bot.sh
+
+RUN chmod +x /usr/local/bin/start-watchtower-with-uptime-bot.sh
+
+ENV UPTIME_BOT_CONFIG=/opt/uptime-bot/config.yml
+ENV UPTIME_BOT_MAP=/opt/uptime-bot/container-monitor-map.yaml
+
+ENTRYPOINT ["/usr/local/bin/start-watchtower-with-uptime-bot.sh"]
+CMD ["--interval", "300", "--cleanup"]
