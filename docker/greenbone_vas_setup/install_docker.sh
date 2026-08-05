@@ -1,5 +1,10 @@
-#remove previous conflicting packages
-for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt remove $pkg; done
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Remove previous conflicting packages
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
+  sudo apt remove "$pkg" -y
+done
 
 #updates, setup souces and install.
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -14,8 +19,10 @@ sudo apt update
 #install docker
 sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
 
-#Adduser to docker
-sudo usermod -aG docker $USER && su $USER
+# Add user to docker group
+sudo usermod -aG docker "$USER"
+echo "[*] Added $USER to docker group."
+echo "[!] Log out and log back in for Docker group changes to take effect."
 
 # create download dir:
 export DOWNLOAD_DIR=$HOME/greenbone-community-container && mkdir -p $DOWNLOAD_DIR
