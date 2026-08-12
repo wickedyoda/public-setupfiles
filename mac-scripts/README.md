@@ -1,31 +1,16 @@
-<<<<<<< HEAD
-    # mac-scripts
-
-    ## Purpose
-    This directory contains files related to **mac scripts**.
-
-    ## Contents
-    - `not working- download-sync.sh`
-- `rsync basic.sh`
-- `disable_DS_store.sh`
-
-    ## Usage
-    - Review each script or configuration file before running
-    - Some scripts may require **root or sudo**
-    - Paths and variables may need adjustment for your environment
-
-    ## Notes
-    - This folder is part of the **public-setupfiles** repository
-    - Files are provided as-is for reference or automation
-
-    ## Safety
-    Always back up data before running scripts that modify system state.
-=======
 # mac-scripts
 
 ## Overview
 This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **mac-scripts**.
+It contains scripts, configuration files, or resources related to **macOS**.
+
+## Contents
+- `brewscripts/` – Homebrew package update and install helpers
+- `disable_DS_store.sh` – Disable `.DS_Store` files on network volumes
+- `DS_STore_destroy.sh` – Clean up existing `.DS_Store` files
+- `system_updates.sh` – Update macOS and Homebrew
+- `updates.sh` – General macOS update script
+- `tile-windows/` – One-click window tiling script (Hammerspoon-based)
 
 ## Usage
 - Review scripts before execution
@@ -41,4 +26,3 @@ Scripts may generate logs or output files in the same directory or system locati
 - Use at your own risk
 
 ---
->>>>>>> main
