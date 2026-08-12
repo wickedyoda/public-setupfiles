@@ -1,27 +1,11 @@
 # brewscripts
 
-<<<<<<< HEAD
-## Purpose
-This directory contains files related to **brewscripts**.
-
-## Contents
-- `update-brew-packages.sh`
-
-## Usage
-- Review each script or configuration file before running
-- Some scripts may require **root or sudo**
-- Paths and variables may need adjustment for your environment
-
-## Notes
-- This folder is part of the **public-setupfiles** repository
-- Files are provided as-is for reference or automation
-
-## Safety
-Always back up data before running scripts that modify system state.
-=======
 ## Overview
 This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **brewscripts**.
+It contains scripts related to **Homebrew** package management on macOS.
+
+## Contents
+- `update-brew-packages.sh` – Update Homebrew and upgrade installed packages
 
 ## Usage
 - Review scripts before execution
@@ -37,4 +21,3 @@ Scripts may generate logs or output files in the same directory or system locati
 - Use at your own risk
 
 ---
->>>>>>> main
