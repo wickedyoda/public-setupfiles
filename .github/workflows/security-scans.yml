@@ -1,0 +1,75 @@
+name: Security Scans
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+  packages: read
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find all shell scripts
+        id: find_scripts
+        run: |
+          echo "scripts=$(find . -name '*.sh' -not -path './.git/*' -not -path './.idea/*' -not -path './.vscode/*' | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
+
+      - name: Run ShellCheck
+        if: steps.find_scripts.outputs.scripts != ''
+        uses: ludeeus/shellicopter@1.0.0
+        with:
+          scripts: ${{ steps.find_scripts.outputs.scripts }}
+
+  python-deps:
+    name: Python Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find requirements.txt files
+        id: find_reqs
+        run: |
+          echo "reqs=$(find . -name 'requirements.txt' -not -path './.git/*' | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
+
+      - name: Install pip-audit
+        if: steps.find_reqs.outputs.reqs != ''
+        run: pip install pip-audit
+
+      - name: Audit Python dependencies
+        if: steps.find_reqs.outputs.reqs != ''
+        run: |
+          for req in ${{ steps.find_reqs.outputs.reqs }}; do
+            echo "Auditing: $req"
+            pip-audit -r "$req"
+          done
+
+  docker-scout:
+    name: Docker Scout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find Dockerfiles
+        id: find_dockerfiles
+        run: |
+          echo "files=$(find . -iname 'Dockerfile*' -not -path './.git/*' | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
+
+      - name: Run Docker Scout
+        if: steps.find_dockerfiles.outputs.files != ''
+        uses: docker/scout-action@v0
+        with:
+          command: cves
+          image: alpine:latest
+          severity: critical
+          fails-on: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
