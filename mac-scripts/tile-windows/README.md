@@ -19,6 +19,8 @@ brew install --cask hammerspoon
 ```
 Open Hammerspoon and **grant Accessibility permission** in System Settings → Privacy & Security → Accessibility.
 
+> **Note:** The clickable `.app` searches these known `hs` binary locations automatically: `/opt/homebrew/bin/hs`, `/usr/local/bin/hs`, `/opt/local/bin/hs`, and the Hammerspoon Caskroom path. This is necessary because AppleScript's `do shell script` runs with a minimal PATH that doesn't include your interactive shell's PATH.
+
 ### 2. Install the config
 ```bash
 # Back up existing config if you have one
