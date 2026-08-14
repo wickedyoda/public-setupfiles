@@ -1,0 +1,6 @@
+# Gluetun
+# Never commit real environment files with secrets
+.env
+*.env
+!.gitkeep
+!gluetun.env.example
