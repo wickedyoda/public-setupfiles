@@ -1,0 +1,82 @@
+name: Security Scans
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+  packages: read
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ShellCheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Run ShellCheck
+        # Non-blocking on first rollout — existing scripts have pre-existing warnings.
+        # Set to `false` to make it gating.
+        continue-on-error: true
+        run: |
+          find . -name '*.sh' -not -path './.git/*' -not -path './.idea/*' -not -path './.vscode/*' -print0 \
+            | while IFS= read -r -d '' script; do
+                echo "Checking: $script"
+                shellcheck "$script" || true
+              done
+
+  python-deps:
+    name: Python Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find requirements.txt files
+        id: find_reqs
+        run: |
+          echo "reqs=$(find . -name 'requirements.txt' -not -path './.git/*' -print0 | tr '\0' ' ')" >> "$GITHUB_OUTPUT"
+
+      - name: Install pip-audit
+        if: steps.find_reqs.outputs.reqs != ''
+        run: pip install pip-audit
+
+      - name: Audit Python dependencies
+        if: steps.find_reqs.outputs.reqs != ''
+        run: |
+          for req in ${{ steps.find_reqs.outputs.reqs }}; do
+            echo "Auditing: $req"
+            pip-audit -r "$req"
+          done
+
+  docker-vulns:
+    name: Docker Vulnerability Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find Dockerfiles
+        id: find_dockerfiles
+        run: |
+          echo "files=$(find . -iname 'Dockerfile*' -not -path './.git/*' -print0 | tr '\0' ' ')" >> "$GITHUB_OUTPUT"
+
+      - name: Scan Dockerfiles with Trivy
+        if: steps.find_dockerfiles.outputs.files != ''
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+          format: 'table'
+          ignore-unfixed: true
+          skip-dirs: |
+            .git
+            .idea
+            .vscode
