@@ -1,45 +1,112 @@
-<<<<<<< HEAD
-    # raspberrypi
-
-    ## Purpose
-    This directory contains files related to **raspberrypi**.
-
-    ## Contents
-    - `raspberry_pi_fstab.sh`
-- `rasp_pi_install_apps.sh`
-- `Media_to_ap-share.sh`
-- `public_to_usb.sh`
-
-    ## Usage
-    - Review each script or configuration file before running
-    - Some scripts may require **root or sudo**
-    - Paths and variables may need adjustment for your environment
-
-    ## Notes
-    - This folder is part of the **public-setupfiles** repository
-    - Files are provided as-is for reference or automation
-
-    ## Safety
-    Always back up data before running scripts that modify system state.
-=======
 # raspberrypi
 
 ## Overview
-This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **raspberrypi**.
 
-## Usage
-- Review scripts before execution
-- Some files may require **root or sudo privileges**
-- Paths, variables, or credentials may need customization
-
-## Logging & Output
-Scripts may generate logs or output files in the same directory or system locations.
-
-## Safety Notes
-- Always back up important data before running scripts
-- Test in a non-production environment when possible
-- Use at your own risk
+Scripts for Raspberry Pi setup, applications, and storage configuration.
 
 ---
->>>>>>> main
+
+## Files
+
+| Script | Description |
+|--------|-------------|
+| `rasp_pi_install_apps.sh` | Install common applications |
+| `raspberry_pi_fstab.sh` | Configure network mounts |
+| `Media_to_ap-share.sh` | Sync media to Apple TV share |
+| `public_to_usb.sh` | Transfer public files to USB |
+
+---
+
+## Application Installation
+
+### `rasp_pi_install_apps.sh`
+
+```bash
+sudo ./raspberrypi/rasp_pi_install_apps.sh
+```
+
+**Installs:**
+- Network tools: wireshark, nmap, openvpn, etherape, remmina
+- Storage tools: cifs-utils, exfat-fuse
+- Utilities: curl, git, python, unattended-upgrades, cron-apt
+- Media server: ventz-media-pi (optional)
+
+---
+
+## fstab Configuration
+
+### `raspberry_pi_fstab.sh`
+
+```bash
+sudo ./raspberrypi/raspberry_pi_fstab.sh
+```
+
+**Configures:**
+```
+/media/naspublic
+/media/nasdownloadedmedia
+/media/naspublic-share2
+```
+
+---
+
+## Media Sync
+
+### `Media_to_ap-share.sh`
+
+```bash
+sudo ./raspberrypi/Media_to_ap-share.sh
+```
+
+Syncs movies to Apple TV media share.
+
+---
+
+### `public_to_usb.sh`
+
+```bash
+sudo ./raspberrypi/public_to_usb.sh
+```
+
+Transfers NAS public share to USB drive.
+
+---
+
+## Raspberry Pi Tips
+
+### SD Card Wear
+
+Consider using tmpfs for `/var/log`:
+
+```bash
+# Add to /etc/fstab
+tmpfs /var/log tmpfs defaults,noatime,nosuid,size=100M 0 0
+```
+
+### Network
+
+- Use static IP for stable NAS mounts
+- Consider WiFi power management: `sudo iw dev wlan0 set power_save off`
+
+### Storage
+
+- External USB drives should be labeled consistently
+- Use UUIDs in fstab for reliability: `fstab` with UUID mounts more reliable than device paths
+
+---
+
+## Quick Start
+
+```bash
+# 1. Update system
+sudo apt update && sudo apt upgrade -y
+
+# 2. Install applications
+sudo ./raspberrypi/rasp_pi_install_apps.sh
+
+# 3. Configure mounts
+sudo ./raspberrypi/raspberry_pi_fstab.sh
+
+# 4. Reboot
+sudo reboot
+```

@@ -1,42 +1,98 @@
 # debian-dist-upgrades
 
-<<<<<<< HEAD
-## Purpose
-This directory contains files related to **debian dist upgrades**.
-=======
 ## Overview
-This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **debian-dist-upgrades**.
 
-## Usage
-- Review scripts before execution
-- Some files may require **root or sudo privileges**
-- Paths, variables, or credentials may need customization
-
-## Logging & Output
-Scripts may generate logs or output files in the same directory or system locations.
-
-## Safety Notes
-- Always back up important data before running scripts
-- Test in a non-production environment when possible
-- Use at your own risk
+A safe, interactive Debian system upgrade utility with guardrails and logging.
 
 ---
-A **safe, interactive Debian system upgrade utility** designed for real-world administration.  
-Supports standard upgrades, full upgrades, controlled distro upgrades (Debian 12 / 13), and optional Parrot Linux conversion — with logging and guardrails.
->>>>>>> main
 
 ## Contents
-- `dist-upgrade.sh`
+
+| File | Description |
+|------|-------------|
+| `dist-upgrade.sh` | Interactive upgrade script |
+
+---
 
 ## Usage
-- Review each script or configuration file before running
-- Some scripts may require **root or sudo**
-- Paths and variables may need adjustment for your environment
 
-## Notes
-- This folder is part of the **public-setupfiles** repository
-- Files are provided as-is for reference or automation
+```bash
+sudo ./debian-dist-upgrades/dist-upgrade.sh
+```
 
-## Safety
-Always back up data before running scripts that modify system state.
+---
+
+## Upgrade Options
+
+| Choice | Description |
+|--------|-------------|
+| 1 | `apt upgrade` — Security and bug fixes only |
+| 2 | `apt full-upgrade` — Recommended for regular updates |
+| 3 | Debian distro upgrade (major version) |
+| 4 | Convert to Parrot Linux (security-focused) |
+
+---
+
+## Upgrade Paths
+
+### Minor Updates
+
+```bash
+# Security updates
+apt update && apt upgrade -y
+apt autoremove -y
+```
+
+### Major Version Upgrade
+
+**Supported:**
+- Debian 11 (Bullseye) → 12 (Bookworm)
+- Debian 12 (Bookworm) → 13 (Trixie - testing)
+
+**Process:**
+1. Confirmation prompts
+2. Backup of `/etc/apt/sources.list`
+3. Update sources to new release
+4. Run upgrades
+
+---
+
+## Debian 13 (Trixie) Notes
+
+⚠️ **Testing Release Warning**
+
+Before proceeding:
+- Understand this is a testing release
+- Have backups ready
+- Test in non-production environment
+
+---
+
+## Parrot Linux Conversion
+
+Option 4 allows converting Debian to Parrot Security/Privacy OS.
+
+**Prerequisites:**
+- Internet connection
+- 2-4 hours time
+- Disk space for additional packages
+
+---
+
+## Safety Features
+
+- Interactive confirmation before each step
+- Sources.list backup before distro upgrade
+- Proper handling of config files
+- Cleanup of temporary files
+
+---
+
+## Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| 0 | Success |
+| 1 | Invalid input |
+| 2 | OS not Debian-based |
+| 3 | User cancelled |

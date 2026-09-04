@@ -1,43 +1,54 @@
-<<<<<<< HEAD
-    # debian-files
-
-    ## Purpose
-    This directory contains files related to **debian files**.
-
-    ## Contents
-    - `update_tailscale.sh`
-- `install-bashtop.sh`
-
-    ## Usage
-    - Review each script or configuration file before running
-    - Some scripts may require **root or sudo**
-    - Paths and variables may need adjustment for your environment
-
-    ## Notes
-    - This folder is part of the **public-setupfiles** repository
-    - Files are provided as-is for reference or automation
-
-    ## Safety
-    Always back up data before running scripts that modify system state.
-=======
 # debian-files
 
 ## Overview
-This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **debian-files**.
 
-## Usage
-- Review scripts before execution
-- Some files may require **root or sudo privileges**
-- Paths, variables, or credentials may need customization
-
-## Logging & Output
-Scripts may generate logs or output files in the same directory or system locations.
-
-## Safety Notes
-- Always back up important data before running scripts
-- Test in a non-production environment when possible
-- Use at your own risk
+Utility scripts for Debian-based Linux systems.
 
 ---
->>>>>>> main
+
+## Files
+
+| Script | Purpose |
+|--------|---------|
+| `install-bashtop.sh` | Install system monitoring tool |
+| `update_tailscale.sh` | Update Tailscale with keyring |
+
+---
+
+## Installing Bashtop
+
+```bash
+sudo ./debian-files/install-bashtop.sh
+```
+
+**What it does:**
+1. Clones bashtop from GitHub
+2. Compiles and installs
+3. Note: Uses development version
+
+---
+
+## Updating Tailscale
+
+```bash
+sudo ./debian-files/update_tailscale.sh
+```
+
+**Features:**
+- Detects Debian/Ubuntu/Raspbian
+- Downloads official repo
+- Uses keyring-based installation (modern method)
+- Falls back to legacy `apt-key` for older releases
+
+**Supported distros:**
+- Debian 10 (Buster), 11, 12
+- Ubuntu 18.04, 20.04, 22.04, 24.04
+- Raspbian
+
+---
+
+## Usage Notes
+
+- Run scripts as root or with sudo
+- Scripts may modify `/etc/apt/sources.list.d/`
+- First-time run requires internet access for package downloads

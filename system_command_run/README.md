@@ -1,45 +1,81 @@
-<<<<<<< HEAD
-    # system_command_run
-
-    ## Purpose
-    This directory contains files related to **system command run**.
-
-    ## Contents
-    - `machines.txt`
-- `run_command_on_machines_Keys.py'`
-- `Run_command_on_machines.sh`
-- `run_command_on_machines.py'`
-
-    ## Usage
-    - Review each script or configuration file before running
-    - Some scripts may require **root or sudo**
-    - Paths and variables may need adjustment for your environment
-
-    ## Notes
-    - This folder is part of the **public-setupfiles** repository
-    - Files are provided as-is for reference or automation
-
-    ## Safety
-    Always back up data before running scripts that modify system state.
-=======
 # system_command_run
 
 ## Overview
-This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **system_command_run**.
 
-## Usage
-- Review scripts before execution
-- Some files may require **root or sudo privileges**
-- Paths, variables, or credentials may need customization
-
-## Logging & Output
-Scripts may generate logs or output files in the same directory or system locations.
-
-## Safety Notes
-- Always back up important data before running scripts
-- Test in a non-production environment when possible
-- Use at your own risk
+Run commands across multiple machines via SSH using a machine list file.
 
 ---
->>>>>>> main
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `Run_command_on_machines.sh` | Bash script for SSH command execution |
+| `run_command_on_machines.py'` | Python script (alternate, may have bugs) |
+| `run_command_on_machines_Keys.py'` | SSH key-based version |
+| `machines.txt` | Machine list (host, user, password) |
+
+---
+
+## Usage
+
+### Bash Script
+
+```bash
+# Edit machines.txt with target hosts
+# Format: HOST USER PASSWORD (password can be empty for key auth)
+./system_command_run/Run_command_on_machines.sh
+```
+
+**Prompt:**
+```
+Enter command to execute:
+```
+
+**Example:**
+```
+sudo apt update
+```
+
+---
+
+## Configuration
+
+### machines.txt
+
+Format: `HOST USER PASSWORD`
+
+```
+docker1 root 
+docker2 root YOURPASSWORD
+192.168.1.100 admin PASSWORD
+```
+
+Leave password empty to use SSH keys.
+
+---
+
+## Security Notes
+
+- **Never commit machines.txt with real passwords**
+- Use SSH keys for better security
+- Restrict machine list to trusted hosts
+- Keys version (`run_command_on_machines_Keys.py'`) uses key-based auth
+
+---
+
+## Alternative: Python Keys Version
+
+```bash
+python3 system_command_run/run_command_on_machines_Keys.py'
+```
+
+Uses paramiko with key-based SSH authentication.
+
+---
+
+## Related
+
+- Check disk usage across machines
+- Restart services on multiple hosts
+- Run maintenance scripts remotely

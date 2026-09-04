@@ -1,43 +1,71 @@
-<<<<<<< HEAD
-    # telegraf-setup-scripts
-
-    ## Purpose
-    This directory contains files related to **telegraf setup scripts**.
-
-    ## Contents
-    - `install-client.sh`
-- `update-telegraf-w-keys.sh`
-
-    ## Usage
-    - Review each script or configuration file before running
-    - Some scripts may require **root or sudo**
-    - Paths and variables may need adjustment for your environment
-
-    ## Notes
-    - This folder is part of the **public-setupfiles** repository
-    - Files are provided as-is for reference or automation
-
-    ## Safety
-    Always back up data before running scripts that modify system state.
-=======
 # telegraf-setup-scripts
 
 ## Overview
-This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **telegraf-setup-scripts**.
 
-## Usage
-- Review scripts before execution
-- Some files may require **root or sudo privileges**
-- Paths, variables, or credentials may need customization
-
-## Logging & Output
-Scripts may generate logs or output files in the same directory or system locations.
-
-## Safety Notes
-- Always back up important data before running scripts
-- Test in a non-production environment when possible
-- Use at your own risk
+Install and configure Telegraf metrics agent for system monitoring.
 
 ---
->>>>>>> main
+
+## Files
+
+| Script | Description |
+|--------|-------------|
+| `install-client.sh` | Install Telegraf on Linux client |
+| `update-telegraf-w-keys.sh` | Update with SSH key support |
+
+---
+
+## Installation
+
+### Install Client
+
+```bash
+curl -s https://raw.githubusercontent.com/wickedyoda/public-setupfiles/main/telegraf-setup-scripts/install-client.sh | sudo bash
+```
+
+Or download:
+
+```bash
+curl -s https://raw.githubusercontent.com/wickedyoda/public-setupfiles/main/telegraf-setup-scripts/install-client.sh -o install-telegraf.sh
+chmod +x install-telegraf.sh
+sudo ./install-telegraf.sh
+```
+
+---
+
+## What It Does
+
+The script installs:
+1. Telegraf service
+2. Default configuration (often with InfluxDB input/output)
+3. Optional: Secure secret storage
+
+---
+
+## Configuration
+
+Telegraf configuration is typically at:
+- `/etc/telegraf/telegraf.conf` (Linux)
+- Custom configs via flags
+
+Edit to add your InfluxDB or Prometheus endpoint.
+
+---
+
+## Uninstallation
+
+```bash
+# Remove package
+sudo apt remove telegraf
+sudo apt autoremove
+
+# Remove config
+sudo rm -rf /etc/telegraf
+```
+
+---
+
+## Related
+
+- [Monitoring Wiki](../Monitoring.md)
+- `observium/` — Alternative monitoring agent

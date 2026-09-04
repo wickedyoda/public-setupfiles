@@ -1,40 +1,67 @@
-# kali-purple
+# kach-purple
 
-<<<<<<< HEAD
-## Purpose
-This directory contains files related to **kali purple**.
-
-## Contents
-- `install_kali_purple.sh`
-
-## Usage
-- Review each script or configuration file before running
-- Some scripts may require **root or sudo**
-- Paths and variables may need adjustment for your environment
-
-## Notes
-- This folder is part of the **public-setupfiles** repository
-- Files are provided as-is for reference or automation
-
-## Safety
-Always back up data before running scripts that modify system state.
-=======
 ## Overview
-This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **kali-purple**.
 
-## Usage
-- Review scripts before execution
-- Some files may require **root or sudo privileges**
-- Paths, variables, or credentials may need customization
-
-## Logging & Output
-Scripts may generate logs or output files in the same directory or system locations.
-
-## Safety Notes
-- Always back up important data before running scripts
-- Test in a non-production environment when possible
-- Use at your own risk
+Kali Purple installation script for setting up the Kali Linux Purple security platform.
 
 ---
->>>>>>> main
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `install_kali_purple.sh` | Main installation script |
+
+---
+
+## Usage
+
+```bash
+sudo ./kali-purple/install_kali_purple.sh
+```
+
+---
+
+## What It Installs
+
+1. **Kali Purple Tools**
+   - `kali-tools-identify`
+   - `kali-tools-protect`
+   - `kali-tools-detect`
+   - `kali-tools-respond`
+   - `kali-tools-recover`
+
+2. **Purple Experience**
+   - `kali-themes-purple` — Purple theme
+   - `kali-menu` — Kali menu system
+   - `kali-wallpapers-legacy` — Legacy wallpapers
+
+3. **System Updates**
+   - Updates Kali sources.list
+   - Installs all available packages
+   - Cleans up
+
+---
+
+## Prerequisites
+
+- Kali Linux or Debian-based system
+- Root/sudo access
+- Internet connection
+
+---
+
+## Interactive Prompts
+
+The script will prompt for:
+- Which Kali Purple tool categories to install (1-5 or 'all')
+- Kali Purple experience options (1-4)
+
+---
+
+## Post-Installation
+
+After installation completes:
+- Log out and back in to see theme changes
+- Kali Purple tools available in applications menu
+- Verify installation with `kali-menu` command

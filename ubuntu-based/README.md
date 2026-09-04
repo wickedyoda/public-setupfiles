@@ -1,40 +1,70 @@
 # ubuntu-based
 
-<<<<<<< HEAD
-## Purpose
-This directory contains files related to **ubuntu based**.
-
-## Contents
-- `ubuntu_install_apps.sh`
-
-## Usage
-- Review each script or configuration file before running
-- Some scripts may require **root or sudo**
-- Paths and variables may need adjustment for your environment
-
-## Notes
-- This folder is part of the **public-setupfiles** repository
-- Files are provided as-is for reference or automation
-
-## Safety
-Always back up data before running scripts that modify system state.
-=======
 ## Overview
-This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **ubuntu-based**.
 
-## Usage
-- Review scripts before execution
-- Some files may require **root or sudo privileges**
-- Paths, variables, or credentials may need customization
-
-## Logging & Output
-Scripts may generate logs or output files in the same directory or system locations.
-
-## Safety Notes
-- Always back up important data before running scripts
-- Test in a non-production environment when possible
-- Use at your own risk
+Scripts for Ubuntu-based system setup and application installation.
 
 ---
->>>>>>> main
+
+## Files
+
+| Script | Description |
+|--------|-------------|
+| `ubuntu_install_apps.sh` | Install common applications on Ubuntu |
+
+---
+
+## Usage
+
+```bash
+sudo ./ubuntu-based/ubuntu_install_apps.sh
+```
+
+---
+
+## What It Installs
+
+The script installs a curated set of applications commonly needed on Ubuntu systems:
+
+### Development Tools
+- git, curl, wget
+
+### System Utilities
+- htop (system monitoring)
+- tmux (terminal multiplexer)
+
+### Networking
+- openssh-server
+- nmap (network scanner)
+
+### Media
+- VLC media player
+- ffmpeg (video/audio tools)
+
+### Productivity
+- KeepassXC (password manager)
+- LibreOffice (office suite)
+
+---
+
+## Requirements
+
+- Ubuntu 20.04+ recommended
+- Root/sudo access
+- Internet connection
+
+---
+
+## Post-Installation
+
+After running the script:
+1. Log out and back in for group changes
+2. Review installed applications
+3. Configure any tools that need customization
+
+---
+
+## Related
+
+- `debian-files/` — For Debian systems
+- `updates_scripts/` — For system updates

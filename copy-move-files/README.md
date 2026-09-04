@@ -1,45 +1,68 @@
-<<<<<<< HEAD
-    # copy-move-files
-
-    ## Purpose
-    This directory contains files related to **copy move files**.
-
-    ## Contents
-    - `Brandons-Minecraft_backup.sh`
-- `media_to_usb.sh`
-- `nas public.sh`
-- `public_to_usb.sh`
-
-    ## Usage
-    - Review each script or configuration file before running
-    - Some scripts may require **root or sudo**
-    - Paths and variables may need adjustment for your environment
-
-    ## Notes
-    - This folder is part of the **public-setupfiles** repository
-    - Files are provided as-is for reference or automation
-
-    ## Safety
-    Always back up data before running scripts that modify system state.
-=======
 # copy-move-files
 
 ## Overview
-This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **copy-move-files**.
+
+Shell scripts for copying, moving, and synchronizing media files between local storage, NAS, and external drives.
+
+## Files
+
+| Script | Purpose |
+|--------|---------|
+| `Brandons-Minecraft_backup.sh` | Minecraft server world backup |
+| `media_to_usb.sh` | Copy NAS media to USB |
+| `nas public.sh` | Sync NAS public to local |
+| `public_to_usb.sh` | Transfer public share to USB |
 
 ## Usage
-- Review scripts before execution
-- Some files may require **root or sudo privileges**
-- Paths, variables, or credentials may need customization
 
-## Logging & Output
-Scripts may generate logs or output files in the same directory or system locations.
+### Copy Media to USB
 
-## Safety Notes
-- Always back up important data before running scripts
-- Test in a non-production environment when possible
-- Use at your own risk
+```bash
+sudo ./copy-move-files/media_to_usb.sh
+```
+
+### Sync NAS to Local
+
+```bash
+sudo ./copy-move-files/nas\ public.sh
+```
+
+### Public Share to USB
+
+```bash
+sudo ./copy-move-files/public_to_usb.sh
+```
+
+### Minecraft Backup
+
+```bash
+# Stops container and backs up world data
+./copy-move-files/Brandons-Minecraft_backup.sh
+```
 
 ---
->>>>>>> main
+
+## Configuration
+
+Edit scripts to modify:
+- Source paths (NAS mount points)
+- Destination paths
+- Rsync options
+
+---
+
+## Error Handling
+
+Use `--dry-run` option with rsync to test:
+
+```bash
+rsync -avh --dry-run --progress /source/ /dest/
+```
+
+---
+
+## Notes
+
+- Run as root when mounting/dismounting
+- Ensure NAS is mounted before running
+- Check USB drive space before large transfers
