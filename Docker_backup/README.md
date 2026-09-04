@@ -1,22 +1,76 @@
-# Docker_backup
+# Docker Backup
+
+Scripts for backing up Docker data to NAS storage.
 
 ## Overview
-This directory contains the Docker backup scripts for this repository.
+
+This directory contains scripts for creating, restoring, and managing Docker data backups.
 
 ## Files
-- `docker-backup.sh` backs up Docker data to the NAS share.
-- `setup_docker-backup.sh` installs the backup script and cron job on a new system.
-- `correct_docker-backup.sh` repairs older installs and rewrites the cron job.
-- `update_docker-backup.sh` replaces previously installed backup scripts on a system and refreshes the cron job.
+
+| Script | Description |
+|--------|-------------|
+| `docker-backup.sh` | Main backup script |
+| `setup_docker-backup.sh` | Install backup script and cron job |
+| `correct_docker-backup.sh` | Fix older installations |
+| `update_docker-backup.sh` | Update existing backup scripts |
+| `update_docker-backup.sh` | Update existing backup scripts |
 
 ## Usage
-- Review the scripts before running them.
-- Run the install or correction scripts as `root`.
-- Run `update_docker-backup.sh` as `root` on existing systems to replace older installed copies.
-- Adjust paths if the target system uses different Docker or NAS mount locations.
+
+### First-time Setup
+
+```bash
+sudo ./setup_docker-backup.sh
+```
+
+This:
+- Installs the backup script to `/usr/local/sbin/`
+- Creates a cron job running every 3 hours
+- Sets up logging to `/var/log/docker-backup.log`
+
+### Manual Backup
+
+```bash
+sudo ./docker-backup.sh
+```
+
+### Restore from Backup
+
+```bash
+# Find latest backup
+ls -lt /mnt/naspublic/docker-backup/$(hostname)/ | head
+
+# Extract and restore
+cd /
+tar -xzf /path/to/backup.tar.gz
+```
+
+## Backup Contents
+
+```
+/mnt/naspublic/docker-backup/{hostname}/{month}/{date}/
+├── /root/docker
+├── /opt/docker
+├── /var/lib/docker/volumes
+└── /home/traver/docker
+```
+
+## Schedule
+
+- **Frequency:** Every 3 hours
+- **Cron:** `0 */3 * * *`
+- **Retention:** 14 days (automated cleanup)
+
+## Configuration
+
+Edit `docker-backup.sh` to modify:
+- `BACKUP_DEST` — Destination directory
+- `RETENTION_DAYS` — How long to keep backups
+- `DOCKER_PATHS` — Which paths to back up
 
 ## Notes
-- Backups are written to `/mnt/naspublic/docker-backup/{hostname}/{month}/{date}/`.
-- The backup set includes `/root/docker`, `/opt/docker`, `/var/lib/docker/volumes`, and `/home/traver/docker`.
-- The backup job runs every 3 hours.
-- Backups older than 14 days are removed automatically.
+
+- Requires write access to NAS mount
+- Large backups may take significant time
+- Test restore procedure periodically

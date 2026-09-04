@@ -1,40 +1,48 @@
 # redirecting-desktop_and_documents
 
-<<<<<<< HEAD
-## Purpose
-This directory contains files related to **redirecting desktop and documents**.
-
-## Contents
-- `redirectfiles.sh`
-
-## Usage
-- Review each script or configuration file before running
-- Some scripts may require **root or sudo**
-- Paths and variables may need adjustment for your environment
-
-## Notes
-- This folder is part of the **public-setupfiles** repository
-- Files are provided as-is for reference or automation
-
-## Safety
-Always back up data before running scripts that modify system state.
-=======
 ## Overview
-This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **redirecting-desktop_and_documents**.
 
-## Usage
-- Review scripts before execution
-- Some files may require **root or sudo privileges**
-- Paths, variables, or credentials may need customization
-
-## Logging & Output
-Scripts may generate logs or output files in the same directory or system locations.
-
-## Safety Notes
-- Always back up important data before running scripts
-- Test in a non-production environment when possible
-- Use at your own risk
+Script to redirect Windows Desktop and Documents folders to OneDrive.
 
 ---
->>>>>>> main
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `redirectfiles.sh` | Redirect Desktop/Documents to OneDrive |
+
+---
+
+## Usage
+
+Run as Administrator on Windows:
+
+```batch
+# Double-click or run from Command Prompt
+redirectfiles.sh
+```
+
+---
+
+## What It Does
+
+1. Creates backup of existing folders
+2. Creates symbolic links to OneDrive equivalents
+3. Moves existing content to OneDrive
+
+---
+
+## Prerequisites
+
+- OneDrive must be installed and configured
+- Desktop/Documents must not be in cloud sync yet
+- Run as Administrator
+
+---
+
+## Safety
+
+- Creates backups: `~/Desktop.backup`, `~/Documents.backup`
+- If symlinks already exist, skips the operation
+- Test on a non-critical folder first

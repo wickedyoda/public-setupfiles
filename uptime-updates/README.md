@@ -1,94 +1,128 @@
-# Uptime Updates Bot
+# Uptime Updates
 
-This directory contains a bot that keeps Uptime Kuma Docker monitor container IDs in sync when containers are recreated.
+Uptime Kuma container monitoring synchronization bot.
+
+---
+
+## Overview
+
+The uptime-updates bot keeps Docker container IDs synchronized with Uptime Kuma monitors when containers are recreated.
 
 ## Files
 
-- `config.yml` - Uptime Kuma URL, API key, and bot behavior settings.
-- `container-monitor-map.yaml` - Docker host/container to Uptime monitor ID mappings.
-- `uptime-bot.py` - Continuous sync bot runner.
-- `setup-update_uptime-bot.sh` - Installer/updater for Linux systemd.
-- `requirements.txt` - Python dependencies used by the bot virtualenv.
+| File | Description |
+|------|-------------|
+| `uptime-bot.py` | Main Python bot |
+| `config.yml` | Uptime Kuma API configuration |
+| `container-monitor-map.yaml` | Container-to-monitor mappings |
+| `requirements.txt` | Python dependencies |
+| `setup-update_uptime-bot.sh` | Installation script |
+| `export-watchtower-bundle.sh` | Create Docker bundle |
 
-## Requirements
+## Installation
 
-- Linux host with systemd
-- Root or sudo access
-- Docker remote API reachable for each mapped host (`host_api`)
+### Using Setup Script
 
-## Configure
+```bash
+sudo bash uptime-updates/setup-update_uptime-bot.sh
+```
 
-1. Edit `config.yml`:
-   - Set `uptime_kuma.url`
-   - Set `uptime_kuma.api_key`
-   - Optional: adjust `bot.poll_interval_seconds`
+### Options
 
-2. Edit `container-monitor-map.yaml`:
-   - Add one mapping per container
-   - Set `host_api`, `container_name`, and `uptime_monitor_id`
+```bash
+sudo bash setup-update_uptime-bot.sh \
+  --install-dir /opt/uptime-updates \
+  --service-name uptime-updates-bot.service \
+  --user root
+```
 
-## Install And Start Service
+---
 
-Run from this directory:
+## Configuration
 
+### config.yml
+
+```yaml
+uptime_kuma:
+  url: "http://127.0.0.1:3001"
+  api_key: "YOUR_API_KEY_HERE"
+
+bot:
+  dry_run: false
+  request_timeout_seconds: 10
+  poll_interval_seconds: 60
+```
+
+### container-monitor-map.yaml
+
+```yaml
+mappings:
+  - name: "media-server jellyfin"
+    enabled: true
+    host_api: "tcp://10.0.84.21:2375"
+    container_name: "jellyfin"
+    uptime_monitor_id: 21
+    expected_uptime_type: "docker"
+```
+
+---
+
+## Docker Standalone Deployment
+
+See `uptime-updates/watchtower-export/` for Docker Compose files:
+- `docker-compose.watchtower-uptime-sync.yml`
+- `docker-compose.watchtower-embedded.yml`
+
+---
+
+## Usage with Docker Remote API
+
+### Enable Docker TCP API
+
+```bash
+# On each Docker host
+sudo bash /path/to/public-setupfiles/docker_stuff/setup-docker-remote-api.sh --allow-ip 10.0.84.50
+```
+
+### Update Monitor Mapping
+
+Edit `container-monitor-map.yaml` and re-run:
 ```bash
 sudo bash setup-update_uptime-bot.sh
 ```
 
-What this does:
-- Installs/updates files under `/opt/uptime-updates`
-- Ensures compatible Python is available (for `uptime-bot.py`)
-- Creates virtualenv and installs dependencies from `requirements.txt`
-- Writes/updates systemd service
-- Enables service on boot and restarts it
+The bot reloads configuration each cycle, so most changes apply without restart.
 
-## Update After Changes
+---
 
-After editing files in this directory, re-run:
+## Watchtower Export
 
-```bash
-sudo bash setup-update_uptime-bot.sh
-```
+### Files
 
-The installer is idempotent and acts as both installer and updater.
+| File | Purpose |
+|------|---------|
+| `Dockerfile` | Bot container image |
+| `requirements.txt` | Python deps |
+| `docker-compose.watchtower-uptime-sync.yml` | Separate containers |
+| `docker-compose.watchtower-embedded.yml` | Embedded mode |
 
-By default on update:
-- Existing live `/opt/uptime-updates/config.yml` is preserved
-- Existing live `/opt/uptime-updates/container-monitor-map.yaml` is preserved
-
-Use overwrite flags only when you want to replace live files from repo copies.
-
-## Common Commands
+### Build Bundle
 
 ```bash
-systemctl status uptime-updates-bot.service
-journalctl -u uptime-updates-bot.service -f
-systemctl restart uptime-updates-bot.service
-systemctl stop uptime-updates-bot.service
-systemctl disable uptime-updates-bot.service
+cd uptime-updates
+sudo bash export-watchtower-bundle.sh
 ```
 
-## Installer Options
+Creates timestamped tar.gz for sharing.
+
+---
+
+## Monitoring
 
 ```bash
-sudo bash setup-update_uptime-bot.sh --help
+# Check service status
+systemctl status uptime-updates-bot
+
+# View logs
+journalctl -u uptime-updates-bot -f
 ```
-
-Useful options:
-- `--install-dir PATH`
-- `--service-name NAME`
-- `--user USER`
-- `--group GROUP`
-- `--no-enable`
-- `--no-start`
-- `--min-python-version 3.9`
-- `--overwrite-config`
-- `--overwrite-map`
-- `--overwrite-all`
-- `--dry-run`
-
-## Notes
-
-- If using Docker TCP API (`tcp://host:2375`), secure network access appropriately.
-- `expected_uptime_type: docker` in mapping items helps prevent accidental updates to non-docker monitors.
-- The bot reloads `config.yml` and `container-monitor-map.yaml` each cycle, so most config changes do not require service restart.

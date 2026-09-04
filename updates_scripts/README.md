@@ -1,44 +1,101 @@
-<<<<<<< HEAD
-    # updates_scripts
-
-    ## Purpose
-    This directory contains files related to **updates scripts**.
-
-    ## Contents
-    - `updates.py`
-- `kali-updates.sh`
-- `updates.sh`
-
-    ## Usage
-    - Review each script or configuration file before running
-    - Some scripts may require **root or sudo**
-    - Paths and variables may need adjustment for your environment
-
-    ## Notes
-    - This folder is part of the **public-setupfiles** repository
-    - Files are provided as-is for reference or automation
-
-    ## Safety
-    Always back up data before running scripts that modify system state.
-=======
 # updates_scripts
 
 ## Overview
-This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **updates_scripts**.
 
-## Usage
-- Review scripts before execution
-- Some files may require **root or sudo privileges**
-- Paths, variables, or credentials may need customization
-
-## Logging & Output
-Scripts may generate logs or output files in the same directory or system locations.
-
-## Safety Notes
-- Always back up important data before running scripts
-- Test in a non-production environment when possible
-- Use at your own risk
+Automated system update scripts for various platforms and use cases.
 
 ---
->>>>>>> main
+
+## Scripts
+
+| File | Description | Platform |
+|------|-------------|----------|
+| `updates.sh` | Standard update script | Linux |
+| `updates.py` | Python version of updates.sh | Linux |
+| `kali-updates.sh` | Kali Linux rolling update with tool selection | Kali/Debian |
+| `docker-run-netdata-install.sh` | Install Netdata in Docker | Docker host |
+| `fix_apt_influx.sh` | Repair InfluxDB APT repository | Debian |
+| `dist-upgrade.sh` | Debian distro upgrade wrapper | Debian |
+
+---
+
+## Standard Updates
+
+### `updates.sh`
+
+```bash
+sudo ./updates.sh
+```
+
+**Commands:**
+```bash
+apt update
+apt upgrade -y
+apt full-upgrade -y
+apt autoremove -y
+apt clean -y
+apt purge -y
+```
+
+---
+
+## Kali Updates
+
+### `kali-updates.sh`
+
+```bash
+sudo ./kali-updates.sh
+```
+
+**Features:**
+- Updates Kali rolling release
+- Interactive tool selection
+- Optional Kali Purple installation
+
+---
+
+## Docker Netdata
+
+### `docker-run-netdata-install.sh`
+
+```bash
+sudo ./docker-stuff/docker_run-netdata-install.sh
+```
+
+Creates a Netdata container for host metrics monitoring.
+
+---
+
+## InfluxDB Fix
+
+### `fix_apt_influx.sh`
+
+```bash
+sudo ./updates_scripts/fix_apt_influx.sh
+```
+
+**Fixes:**
+- InfluxDB repo key verification
+- Sury PHP repo setup
+- Stale APT metadata cleanup
+
+---
+
+## Dist Upgrade
+
+### `dist-upgrade.sh`
+
+Interactive tool for moving to newer Debian releases.
+
+```bash
+sudo ./debian-dist-upgrades/dist-upgrade.sh
+```
+
+See `debian-dist-upgrades/` for details.
+
+---
+
+## Related Scripts
+
+- `setup_cron_clean.sh` (repo root) — Schedules these scripts
+- `updates_clean.sh` (repo root) — Hardened cron version

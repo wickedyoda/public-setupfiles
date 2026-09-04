@@ -1,44 +1,67 @@
-<<<<<<< HEAD
-    # cron-job-setup-files
-
-    ## Purpose
-    This directory contains files related to **cron job setup files**.
-
-    ## Contents
-    - `setup_cron_job_updates-nomount.sh`
-- `CronUpdates-readme.txt`
-- `setup_cron_job_updates.sh`
-
-    ## Usage
-    - Review each script or configuration file before running
-    - Some scripts may require **root or sudo**
-    - Paths and variables may need adjustment for your environment
-
-    ## Notes
-    - This folder is part of the **public-setupfiles** repository
-    - Files are provided as-is for reference or automation
-
-    ## Safety
-    Always back up data before running scripts that modify system state.
-=======
 # cron-job-setup-files
 
 ## Overview
-This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **cron-job-setup-files**.
+
+This directory contains scripts and documentation for configuring automatic cron jobs on Linux systems.
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `setup_cron_job_updates.sh` | Install auto-updates via /etc/cron.d |
+| `setup_cron_job_updates-nomount.sh` | Auto-updates without mount requirement |
+| `CronUpdates-readme.txt` | Usage documentation |
 
 ## Usage
-- Review scripts before execution
-- Some files may require **root or sudo privileges**
-- Paths, variables, or credentials may need customization
 
-## Logging & Output
-Scripts may generate logs or output files in the same directory or system locations.
+### Install System Updates
 
-## Safety Notes
-- Always back up important data before running scripts
-- Test in a non-production environment when possible
-- Use at your own risk
+```bash
+sudo ./setup_cron_job_updates.sh
+```
+
+### Install Without Mount Dependencies
+
+```bash
+sudo ./setup_cron_job_updates-nomount.sh
+```
+
+This version:
+- Skips `mount -a` before updates
+- Safer for systems without guaranteed mounts
 
 ---
->>>>>>> main
+
+## Cron Schedule
+
+Default cron job (`/etc/cron.d/auto_updates`):
+
+| Time | Command |
+|------|---------|
+| `0 */6 * * *` | `apt-get update && apt-get -y full-upgrade && apt-get autoremove -y` |
+| `0 */1 * * *` | `mount -a` (if enabled) |
+
+---
+
+## Log Location
+
+```
+/var/log/auto_updates.log
+```
+
+---
+
+## Environment Variables
+
+For non-root execution, set:
+
+```bash
+MAILTO="alerts@tyates.one"
+```
+
+---
+
+## References
+
+- [Cron job setup](CronUpdates-readme.txt) for detailed documentation
+- `setup_cron_clean.sh` in repository root for updated/cleaner version

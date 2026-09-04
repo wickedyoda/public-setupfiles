@@ -1,43 +1,54 @@
-<<<<<<< HEAD
-    # Email_domains_block_allow
+# Email Domains Block/Allow Lists
 
-    ## Purpose
-    This directory contains files related to **Email domains block allow**.
-
-    ## Contents
-    - `email_domain_allow_block_list.md`
-- `blocked_domains.md`
-
-    ## Usage
-    - Review each script or configuration file before running
-    - Some scripts may require **root or sudo**
-    - Paths and variables may need adjustment for your environment
-
-    ## Notes
-    - This folder is part of the **public-setupfiles** repository
-    - Files are provided as-is for reference or automation
-
-    ## Safety
-    Always back up data before running scripts that modify system state.
-=======
-# Email_domains_block_allow
+Domain filtering policies for email servers.
 
 ## Overview
-This directory is part of the **public-setupfiles** repository.
-It contains scripts, configuration files, or resources related to **Email_domains_block_allow**.
+
+These lists are used for SMTP-level domain filtering on email servers like Postfix, Exim, or Microsoft Exchange.
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `blocked_domains.md` | Domains to reject completely |
+| `email_domain_allow_block_list.md` | Comprehensive allow/block rules |
 
 ## Usage
-- Review scripts before execution
-- Some files may require **root or sudo privileges**
-- Paths, variables, or credentials may need customization
 
-## Logging & Output
-Scripts may generate logs or output files in the same directory or system locations.
+### Postfix Example
 
-## Safety Notes
-- Always back up important data before running scripts
-- Test in a non-production environment when possible
-- Use at your own risk
+```postfix
+# /etc/postfix/access
+blocked-domain.com    REJECT
+spam-domain.org       REJECT
 
----
->>>>>>> main
+# Hash and load
+postmap /etc/postfix/access
+postfix reload
+```
+
+### Exim Example
+
+```exim
+# /etc/exim4/conf.d/acl/acl_check_rcpt
+deny
+  domains = +blocked_domains
+  message = Domain blocked
+```
+
+### Microsoft Exchange
+
+Use Transport Rules in Exchange Admin Center:
+- Condition: Sender domain matches blocked list
+- Action: Reject message
+
+## Maintenance
+
+Update lists by pulling from this repository and refreshing your server's access database.
+
+## Categories
+
+- Spam senders
+- Known malicious domains
+- Disposable email providers
+- Competitor/whois domains
