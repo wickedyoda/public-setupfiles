@@ -1,0 +1,31 @@
+name: ShellCheck
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  shellcheck:
+    name: ShellCheck Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck on all shell scripts
+        uses: ludeeus/action-shellcheck@2.0.0
+        with:
+          # Check all .sh files, excluding .git and vendor directories
+          files: |
+            *.sh
+            **/*.sh
+          # Exclude directories we don't want to lint
+          exclude: |
+            .git
+            .idea
+            .vscode
