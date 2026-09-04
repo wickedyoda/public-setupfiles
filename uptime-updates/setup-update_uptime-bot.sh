@@ -67,6 +67,7 @@ run_cmd() {
 	if [[ "${DRY_RUN}" == "true" ]]; then
 		echo "[DRY-RUN] $*"
 	else
+		# shellcheck disable=SC2294  # eval is intentional here to execute command arrays
 		eval "$@"
 	fi
 }

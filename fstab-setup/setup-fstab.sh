@@ -1,3 +1,4 @@
+#!/bin/bash
 # Set path for credentials file
 CREDENTIALS_FILE="$HOME/.smbcredentials"
 

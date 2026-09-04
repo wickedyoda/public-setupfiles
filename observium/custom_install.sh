@@ -142,7 +142,7 @@ else
     VER=$(uname -r)
 fi
 
-if [[ !$OS =~ ^(Ubuntu|Debian)$ ]]; then
+if [[ ! $OS =~ ^(Ubuntu|Debian)$ ]]; then
     echo -e "${RED} [*] ERROR: This installscript does not support this distro, only Debian or Ubuntu supported. Use the manual guide at https://docs.observium.org/install_rhel7/ ${NC}"
     exit 1
 fi

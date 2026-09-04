@@ -1,0 +1,975 @@
+
+In /root/public-setupfiles/copy-move-files/Brandons-Minecraft_backup.sh line 3:
+robocopy C:\Users\yates\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\games\com.mojang \\nas\public\game_backups\Minecraft\Brandons-backup /z /s /r:2 /w:3 /XD /purge
+           ^-- SC1001 (info): This \U will be a regular 'U' in this context.
+                 ^-- SC1001 (info): This \y will be a regular 'y' in this context.
+                       ^-- SC1001 (info): This \A will be a regular 'A' in this context.
+                               ^-- SC1001 (info): This \L will be a regular 'L' in this context.
+                                     ^-- SC1001 (info): This \P will be a regular 'P' in this context.
+                                              ^-- SC1001 (info): This \M will be a regular 'M' in this context.
+                                                                                   ^-- SC1001 (info): This \L will be a regular 'L' in this context.
+                                                                                              ^-- SC1001 (info): This \g will be a regular 'g' in this context.
+                                                                                                    ^-- SC1001 (info): This \c will be a regular 'c' in this context.
+                                                                                                                     ^-- SC1001 (info): This \p will be a regular 'p' in this context.
+                                                                                                                            ^-- SC1001 (info): This \g will be a regular 'g' in this context.
+                                                                                                                                         ^-- SC1001 (info): This \M will be a regular 'M' in this context.
+                                                                                                                                                   ^-- SC1001 (info): This \B will be a regular 'B' in this context.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC1001 -- This \A will be a regular 'A' in ...
+
+In /root/public-setupfiles/Kali_tools_install/setup_debian_kali_tools.sh line 31:
+read -p "Enter the number corresponding to your choice: " choice
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2162 -- read without -r will mangle backs...
+
+In /root/public-setupfiles/reset_perms/reset_perms 1.sh line 1:
+
+^-- SC2148 (error): Tips depend on target shell and yours is unknown. Add a shebang or a 'shell' directive.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2148 -- Tips depend on target shell and y...
+
+In /root/public-setupfiles/ubuntu-based/ubuntu_install_apps.sh line 2:
+!/bin/bash
+ ^-- SC1035 (error): You are missing a required space after the !.
+
+
+In /root/public-setupfiles/ubuntu-based/ubuntu_install_apps.sh line 49:
+cd /home/traver/Downloads 
+^-----------------------^ SC2164 (warning): Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
+
+Did you mean: 
+cd /home/traver/Downloads || exit 
+
+
+In /root/public-setupfiles/ubuntu-based/ubuntu_install_apps.sh line 50:
+wget -O discord-0.0.1.deb https://discordapp.com/api/download?platform=linux&format=deb
+                                                                            ^-- SC1132 (warning): This & terminates the command. Escape it or add space after & to silence.
+                                                                             ^----^ SC2034 (warning): format appears unused. Verify use (or export if used externally).
+
+
+In /root/public-setupfiles/ubuntu-based/ubuntu_install_apps.sh line 66:
+//nas/DownloadedMedia  /home/traver/nasdownloadedmedia  cifs vers=2.0,username=traver,password=mypassword,file_mode=0777,dir_mode=0777 0 0" >> /etc/fstab
+                                                                                                                                            ^-- SC2024 (warning): sudo doesn't affect redirects. Use .. | sudo tee -a file
+
+For more information:
+  https://www.shellcheck.net/wiki/SC1035 -- You are missing a required space ...
+  https://www.shellcheck.net/wiki/SC1132 -- This & terminates the command. Es...
+  https://www.shellcheck.net/wiki/SC2024 -- sudo doesn't affect redirects. Us...
+
+In /root/public-setupfiles/raspberrypi/raspberry_pi_fstab.sh line 1:
+# ----------------------------------------------------------------------
+^-- SC2148 (error): Tips depend on target shell and yours is unknown. Add a shebang or a 'shell' directive.
+
+
+In /root/public-setupfiles/raspberrypi/raspberry_pi_fstab.sh line 13:
+//nas/DownloadedMedia  /home/pi/nasdownloadedmedia  cifs vers=2.0,username=traver,password=mypassword,file_mode=0777,dir_mode=0777 0 0" >> /etc/fstab
+                                                                                                                                        ^-- SC2024 (warning): sudo doesn't affect redirects. Use .. | sudo tee -a file
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2148 -- Tips depend on target shell and y...
+  https://www.shellcheck.net/wiki/SC2024 -- sudo doesn't affect redirects. Us...
+
+In /root/public-setupfiles/raspberrypi/rasp_pi_install_apps.sh line 2:
+!/bin/bash
+ ^-- SC1035 (error): You are missing a required space after the !.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC1035 -- You are missing a required space ...
+
+In /root/public-setupfiles/server_config/debian/debian-setup.sh line 25:
+    cd /home/traver/public-setupfiles
+    ^-- SC2164 (warning): Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
+
+Did you mean: 
+    cd /home/traver/public-setupfiles || exit
+
+
+In /root/public-setupfiles/server_config/debian/debian-setup.sh line 35:
+    cd /home/traver/public-setupfiles
+    ^-- SC2164 (warning): Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
+
+Did you mean: 
+    cd /home/traver/public-setupfiles || exit
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2164 -- Use 'cd ... || exit' or 'cd ... |...
+
+In /root/public-setupfiles/server_config/ubuntu/ubuntu-docker-install.sh line 27:
+sudo adduser $USER docker
+             ^---^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+sudo adduser "$USER" docker
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2086 -- Double quote to prevent globbing ...
+
+In /root/public-setupfiles/server_config/ubuntu/ubuntu-setup.sh line 28:
+    cd /home/traver/public-setupfiles
+    ^-- SC2164 (warning): Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
+
+Did you mean: 
+    cd /home/traver/public-setupfiles || exit
+
+
+In /root/public-setupfiles/server_config/ubuntu/ubuntu-setup.sh line 38:
+    cd /home/traver/public-setupfiles
+    ^-- SC2164 (warning): Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
+
+Did you mean: 
+    cd /home/traver/public-setupfiles || exit
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2164 -- Use 'cd ... || exit' or 'cd ... |...
+
+In /root/public-setupfiles/docker/greenbone_vas_setup/install_docker.sh line 14:
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+              ^--------------------------^ SC2027 (warning): The surrounding quotes actually unquote this. Remove or escape them.
+              ^--------------------------^ SC2046 (warning): Quote this to prevent word splitting.
+
+
+In /root/public-setupfiles/docker/greenbone_vas_setup/install_docker.sh line 15:
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+   ^-- SC2027 (warning): The surrounding quotes actually unquote this. Remove or escape them.
+   ^-- SC2046 (warning): Quote this to prevent word splitting.
+
+
+In /root/public-setupfiles/docker/greenbone_vas_setup/install_docker.sh line 28:
+export DOWNLOAD_DIR=$HOME/greenbone-community-container && mkdir -p $DOWNLOAD_DIR
+                                                                    ^-----------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+export DOWNLOAD_DIR=$HOME/greenbone-community-container && mkdir -p "$DOWNLOAD_DIR"
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2027 -- The surrounding quotes actually u...
+  https://www.shellcheck.net/wiki/SC2046 -- Quote this to prevent word splitt...
+  https://www.shellcheck.net/wiki/SC2086 -- Double quote to prevent globbing ...
+
+In /root/public-setupfiles/docker/install_docker_debian.sh line 29:
+  sudo usermod -aG docker $USER
+                          ^---^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+  sudo usermod -aG docker "$USER"
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2086 -- Double quote to prevent globbing ...
+
+In /root/public-setupfiles/docker/portainer/portainer-installscript.sh line 17:
+if [ $? -eq 0 ]; then
+     ^-- SC2181 (style): Check exit code directly with e.g. 'if mycmd;', not indirectly with $?.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2181 -- Check exit code directly with e.g...
+
+In /root/public-setupfiles/docker/install_docker_ubuntu.sh line 1:
+# Update package lists and install dependencies
+^-- SC2148 (error): Tips depend on target shell and yours is unknown. Add a shebang or a 'shell' directive.
+
+
+In /root/public-setupfiles/docker/install_docker_ubuntu.sh line 19:
+if [ $? -eq 0 ]; then
+     ^-- SC2181 (style): Check exit code directly with e.g. 'if mycmd;', not indirectly with $?.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2148 -- Tips depend on target shell and y...
+  https://www.shellcheck.net/wiki/SC2181 -- Check exit code directly with e.g...
+
+In /root/public-setupfiles/telegraf-setup-scripts/install-client.sh line 3:
+echo '393e8779c89ac8d958f81f942f9ad7fb82a25e133faddaf92e15b16e6ac9ce4c influxdata-archive_compat.key' | sha256sum -c && cat influxdata-archive_compat.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/influxdata-archive_compat.gpg > /dev/null
+                                                                                                                            ^---------------------------^ SC2002 (style): Useless cat. Consider 'cmd < file | ..' or 'cmd file | ..' instead.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2002 -- Useless cat. Consider 'cmd < file...
+
+In /root/public-setupfiles/fstab-setup/setup-fstab.sh line 1:
+# Set path for credentials file
+^-- SC2148 (error): Tips depend on target shell and yours is unknown. Add a shebang or a 'shell' directive.
+
+
+In /root/public-setupfiles/fstab-setup/setup-fstab.sh line 6:
+read -p "Enter your SMB username: " SMB_USER
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/fstab-setup/setup-fstab.sh line 7:
+read -s -p "Enter your SMB password: " SMB_PASS
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/fstab-setup/setup-fstab.sh line 34:
+cd /mnt
+^-----^ SC2164 (warning): Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
+
+Did you mean: 
+cd /mnt || exit
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2148 -- Tips depend on target shell and y...
+  https://www.shellcheck.net/wiki/SC2164 -- Use 'cd ... || exit' or 'cd ... |...
+  https://www.shellcheck.net/wiki/SC2162 -- read without -r will mangle backs...
+
+In /root/public-setupfiles/fstab-setup/setup-fstab-remake-mnt.sh line 8:
+read -p "Enter NAS Username: " NAS_USER
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/fstab-setup/setup-fstab-remake-mnt.sh line 9:
+read -s -p "Enter NAS Password: " NAS_PASS
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2162 -- read without -r will mangle backs...
+
+In /root/public-setupfiles/openwrt_scripts/openwrt_full-upgrade.sh line 33:
+read -p "Do you want to reboot now? (y/N): " REBOOT
+^--^ SC2162 (info): read without -r will mangle backslashes.
+     ^-- SC3045 (warning): In POSIX sh, read -p is undefined.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC3045 -- In POSIX sh, read -p is undefined.
+  https://www.shellcheck.net/wiki/SC2162 -- read without -r will mangle backs...
+
+In /root/public-setupfiles/observium/custom_install.sh line 73:
+    if [ $observ_ver = 6 ] || [ $observium_found = "no" ]; then
+         ^---------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+    if [ "$observ_ver" = 6 ] || [ $observium_found = "no" ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 84:
+    echo "rocommunity yates-network" >> /etc/snmp/snmpd.conf
+    ^-- SC2129 (style): Consider using { cmd1; cmd2; } >> file instead of individual redirects.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 92:
+        echo "# This lines allows Observium to detect hardware, vendor and serial" >> /etc/snmp/snmpd.conf
+        ^-- SC2129 (style): Consider using { cmd1; cmd2; } >> file instead of individual redirects.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 98:
+        echo "# This lines allows Observium to detect hardware, vendor and serial" >> /etc/snmp/snmpd.conf
+        ^-- SC2129 (style): Consider using { cmd1; cmd2; } >> file instead of individual redirects.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 104:
+    echo "# This line allows Observium to collect an accurate uptime" >> /etc/snmp/snmpd.conf
+    ^-- SC2129 (style): Consider using { cmd1; cmd2; } >> file instead of individual redirects.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 121:
+        /opt/observium/add_device.php $hostname $snmpcommunity
+                                      ^-------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+        /opt/observium/add_device.php "$hostname" $snmpcommunity
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 131:
+ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
+^--^ SC2034 (warning): ARCH appears unused. Verify use (or export if used externally).
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 134:
+    . /etc/lsb-release
+      ^--------------^ SC1091 (info): Not following: /etc/lsb-release: openBinaryFile: does not exist (No such file or directory)
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 145:
+if [[ !$OS =~ ^(Ubuntu|Debian)$ ]]; then
+       ^-- SC1035 (error): You are missing a required space here.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 169:
+read -n 1 observ_ver
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 176:
+if [ $observ_ver = 4 ]; then
+     ^---------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+if [ "$observ_ver" = 4 ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 182:
+elif [ $observ_ver = 5 ]; then
+       ^---------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$observ_ver" = 5 ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 194:
+if [ $observ_ver = 2 ] || [ $observ_ver = 3 ]; then
+     ^---------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                            ^---------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+if [ "$observ_ver" = 2 ] || [ "$observ_ver" = 3 ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 196:
+    read -p "Please enter your SVN Username: " svn_user
+    ^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 197:
+    read -s -p "Please enter your SVN Password: " svn_password
+    ^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 200:
+elif [ $observ_ver = 6 ]; then
+       ^---------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$observ_ver" = 6 ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 206:
+    read -p "  SVN Username: " svn_user
+    ^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 207:
+    read -s -p "  SVN Password: " svn_password
+    ^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 211:
+    read -p "  MySQL Host:Port: " mysql_host
+    ^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 212:
+    read -p "  MySQL Username [observium]: " mysql_user
+    ^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 214:
+    read -s -p "  MySQL Password: " mysql_password
+    ^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 217:
+    read -p "  RRDCacheD Host:Port: " rrdcahed_host
+    ^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 221:
+    read -p "  Observium Poller Name [$hostname]: " observium_poller
+    ^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 226:
+elif [ $observ_ver = 1 ]; then
+       ^---------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$observ_ver" = 1 ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 254:
+    if $(dpkg --list mysql-server 2>/dev/null | egrep -q ^ii) || $(dpkg --list mariadb-server 2>/dev/null | egrep -q ^ii); then
+       ^-- SC2091 (warning): Remove surrounding $() to avoid executing output (or use eval if intentional).
+                                                ^---^ SC2196 (info): egrep is non-standard and deprecated. Use grep -E instead.
+                                                                 ^-- SC2091 (warning): Remove surrounding $() to avoid executing output (or use eval if intentional).
+                                                                                                            ^---^ SC2196 (info): egrep is non-standard and deprecated. Use grep -E instead.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 260:
+                    read -s mysql_root
+                    ^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 272:
+        read -s mysql_root
+        ^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 280:
+if [ $OS = "Ubuntu" ] && [ $VER = "16.04" ]; then
+     ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                           ^--^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+if [ "$OS" = "Ubuntu" ] && [ "$VER" = "16.04" ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 292:
+elif [ $OS = "Ubuntu" ] && [ $VER = "17.04" ]; then
+       ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                             ^--^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$OS" = "Ubuntu" ] && [ "$VER" = "17.04" ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 304:
+elif [ $OS = "Ubuntu" ] && [ $VER = "17.10" ]; then
+       ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                             ^--^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$OS" = "Ubuntu" ] && [ "$VER" = "17.10" ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 316:
+elif [ $OS = "Ubuntu" ] && [ $VER = "18.04" ]; then
+       ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                             ^--^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$OS" = "Ubuntu" ] && [ "$VER" = "18.04" ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 329:
+elif [ $OS = "Ubuntu" ] && [ $VER = "20.04" ]; then
+       ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                             ^--^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$OS" = "Ubuntu" ] && [ "$VER" = "20.04" ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 341:
+elif [ $OS = "Ubuntu" ] && [ $VER = "21.04" ]; then
+       ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                             ^--^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$OS" = "Ubuntu" ] && [ "$VER" = "21.04" ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 354:
+elif [ $OS = "Ubuntu" ] && [ $VER = "22.04" ]; then
+       ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                             ^--^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$OS" = "Ubuntu" ] && [ "$VER" = "22.04" ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 366:
+elif [ $OS = "Ubuntu" ] && [ $VER = "24.04" ]; then
+       ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                             ^--^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$OS" = "Ubuntu" ] && [ "$VER" = "24.04" ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 378:
+elif [ $OS = "Debian" ] && [[ $VER =~ ^8.* ]]; then
+       ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$OS" = "Debian" ] && [[ $VER =~ ^8.* ]]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 390:
+elif [ $OS = "Debian" ] && [[ $VER =~ ^9.* ]]; then
+       ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$OS" = "Debian" ] && [[ $VER =~ ^9.* ]]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 402:
+elif [ $OS = "Debian" ] && [[ $VER =~ ^10.* ]]; then
+       ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$OS" = "Debian" ] && [[ $VER =~ ^10.* ]]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 412:
+elif [ $OS = "Debian" ] && [[ $VER =~ ^11.* ]]; then
+       ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$OS" = "Debian" ] && [[ $VER =~ ^11.* ]]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 421:
+elif [ $OS = "Debian" ] && [[ $VER =~ ^12.* ]]; then
+       ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$OS" = "Debian" ] && [[ $VER =~ ^12.* ]]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 432:
+   echo "OS:" $OS
+              ^-^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+   echo "OS:" "$OS"
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 433:
+   echo "Version:" $VER
+                   ^--^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+   echo "Version:" "$VER"
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 440:
+if [ $observ_ver = 1 ]; then
+     ^---------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+if [ "$observ_ver" = 1 ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 445:
+elif [ $observ_ver = 2 ] || [ $observ_ver = 6 ]; then
+       ^---------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                              ^---------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$observ_ver" = 2 ] || [ "$observ_ver" = 6 ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 450:
+elif [ $observ_ver = 3 ]; then
+       ^---------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$observ_ver" = 3 ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 462:
+    mysql_password="$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-15};echo;)"
+                                                                  ^------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+    mysql_password="$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c"${1:-15}";echo;)"
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 465:
+    if [[ $OS = "Ubuntu" ]] && ( [[ $VER = "20.04" ]] || [[ $VER = "21.04" ]] || [[ $VER = "22.04" ]] || [[ $VER = "24.04" ]] ); then
+                               ^-- SC2235 (style): Use { ..; } instead of (..) to avoid subshell overhead.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 472:
+elif [ $observ_ver = 6 ]; then
+       ^---------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+elif [ "$observ_ver" = 6 ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 485:
+if [ $observ_ver = 6 ]; then
+     ^---------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+if [ "$observ_ver" = 6 ]; then
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 489:
+    echo -e "" >> config.php
+    ^----------------------^ SC2129 (style): Consider using { cmd1; cmd2; } >> file instead of individual redirects.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 575:
+    read -p "Username: " observ_username
+    ^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 576:
+    read -s -p "Password: " observ_password
+    ^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 577:
+    ./adduser.php $observ_username $observ_password 10
+                  ^--------------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                                   ^--------------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+    ./adduser.php "$observ_username" "$observ_password" 10
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 617:
+read -n 1 yn
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/observium/custom_install.sh line 629:
+read -n 1 yn
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC1035 -- You are missing a required space ...
+  https://www.shellcheck.net/wiki/SC2034 -- ARCH appears unused. Verify use (...
+  https://www.shellcheck.net/wiki/SC2091 -- Remove surrounding $() to avoid e...
+
+In /root/public-setupfiles/observium/observium_agent/observium-agent-install.sh line 12:
+source $CONFIG
+       ^-----^ SC1090 (warning): ShellCheck can't follow non-constant source. Use a directive to specify location.
+
+
+In /root/public-setupfiles/observium/observium_agent/observium-agent-install.sh line 15:
+if [ -z "$PKG_MANAGERS" ] || [ ${#PKG_MANAGERS[@]} -eq 0 ]; then
+         ^-----------^ SC2128 (warning): Expanding an array without an index only gives the first element.
+
+
+In /root/public-setupfiles/observium/observium_agent/observium-agent-install.sh line 19:
+        for pkg in ${PKG_MANAGERS[@]}; do
+                   ^----------------^ SC2068 (error): Double quote array expansions to avoid re-splitting elements.
+
+
+In /root/public-setupfiles/observium/observium_agent/observium-agent-install.sh line 20:
+                TEST=`which $pkg`
+                ^--^ SC2034 (warning): TEST appears unused. Verify use (or export if used externally).
+                     ^----------^ SC2006 (style): Use $(...) notation instead of legacy backticks `...`.
+                            ^--^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+                TEST=$(which "$pkg")
+
+
+In /root/public-setupfiles/observium/observium_agent/observium-agent-install.sh line 21:
+                if [ $? -eq 0 ]; then
+                     ^-- SC2181 (style): Check exit code directly with e.g. 'if mycmd;', not indirectly with $?.
+
+
+In /root/public-setupfiles/observium/observium_agent/observium-agent-install.sh line 54:
+        $ENTERPRISE = false
+                    ^-- SC2283 (error): Remove spaces around = to assign (or use [ ] to compare, or quote '=' if literal).
+
+
+In /root/public-setupfiles/observium/observium_agent/observium-agent-install.sh line 67:
+cd /opt
+^-----^ SC2164 (warning): Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
+
+Did you mean: 
+cd /opt || exit
+
+
+In /root/public-setupfiles/observium/observium_agent/observium-agent-install.sh line 70:
+        svn --username $SVN_USER --password $SVN_PASS co http://svn.observium.org/svn/observium/branches/stable observium
+                       ^-------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                                            ^-------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+        svn --username "$SVN_USER" --password "$SVN_PASS" co http://svn.observium.org/svn/observium/branches/stable observium
+
+
+In /root/public-setupfiles/observium/observium_agent/observium-agent-install.sh line 72:
+        mkdir -p /opt/observium && cd /opt
+                                   ^-----^ SC2164 (warning): Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
+
+Did you mean: 
+        mkdir -p /opt/observium && cd /opt || exit
+
+
+In /root/public-setupfiles/observium/observium_agent/observium-agent-install.sh line 130:
+        for mod in ${MODULES[@]}; do
+                   ^-----------^ SC2068 (error): Double quote array expansions to avoid re-splitting elements.
+
+
+In /root/public-setupfiles/observium/observium_agent/observium-agent-install.sh line 131:
+                cp observium/scripts/agent-local/$mod /usr/lib/observium_agent/local/
+                                                 ^--^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+                cp observium/scripts/agent-local/"$mod" /usr/lib/observium_agent/local/
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2068 -- Double quote array expansions to ...
+  https://www.shellcheck.net/wiki/SC2283 -- Remove spaces around = to assign ...
+  https://www.shellcheck.net/wiki/SC1090 -- ShellCheck can't follow non-const...
+
+In /root/public-setupfiles/observium/observium_agent/agent.conf.sh line 2:
+SNMP_COMMUNITY="yates-network"
+^------------^ SC2034 (warning): SNMP_COMMUNITY appears unused. Verify use (or export if used externally).
+
+
+In /root/public-setupfiles/observium/observium_agent/agent.conf.sh line 3:
+SYSCONTACT="Traver Yates"
+^--------^ SC2034 (warning): SYSCONTACT appears unused. Verify use (or export if used externally).
+
+
+In /root/public-setupfiles/observium/observium_agent/agent.conf.sh line 4:
+SYSLOCATION="Home Network"
+^---------^ SC2034 (warning): SYSLOCATION appears unused. Verify use (or export if used externally).
+
+
+In /root/public-setupfiles/observium/observium_agent/agent.conf.sh line 6:
+SVN_USER=""
+^------^ SC2034 (warning): SVN_USER appears unused. Verify use (or export if used externally).
+
+
+In /root/public-setupfiles/observium/observium_agent/agent.conf.sh line 7:
+SVN_PASS=""
+^------^ SC2034 (warning): SVN_PASS appears unused. Verify use (or export if used externally).
+
+
+In /root/public-setupfiles/observium/observium_agent/agent.conf.sh line 9:
+OBSERVIUM_HOST="rasp1"
+^------------^ SC2034 (warning): OBSERVIUM_HOST appears unused. Verify use (or export if used externally).
+
+
+In /root/public-setupfiles/observium/observium_agent/agent.conf.sh line 20:
+MODULES=()
+^-----^ SC2034 (warning): MODULES appears unused. Verify use (or export if used externally).
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2034 -- MODULES appears unused. Verify us...
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt.sh line 11:
+read SNMP_USER
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt.sh line 13:
+read -s SNMP_PASSWORD
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt.sh line 15:
+read -s SNMP_PASSWORD_CONFIRM
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt.sh line 24:
+read SYS_LOCATION
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt.sh line 26:
+read SYS_CONTACT
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt.sh line 83:
+snmpwalk -v3 -u $SNMP_USER -a MD5 -A $SNMP_PASSWORD -x AES -X $SNMP_PASSWORD -l authPriv localhost
+                ^--------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                                     ^------------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                                                              ^------------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+snmpwalk -v3 -u "$SNMP_USER" -a MD5 -A "$SNMP_PASSWORD" -x AES -X "$SNMP_PASSWORD" -l authPriv localhost
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2086 -- Double quote to prevent globbing ...
+  https://www.shellcheck.net/wiki/SC2162 -- read without -r will mangle backs...
+
+In /root/public-setupfiles/snmp/setup_snmp.sh line 5:
+read SNMP_USER
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp.sh line 7:
+read -s SNMP_PASSWORD
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp.sh line 9:
+read -s SNMP_PASSWORD_CONFIRM
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp.sh line 18:
+read SYS_LOCATION
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp.sh line 20:
+read SYS_CONTACT
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp.sh line 62:
+snmpstatus -v3 -u $SNMP_USER -a MD5 -A $SNMP_PASSWORD -x AES -X $SNMP_PASSWORD -l authPriv localhost
+                  ^--------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                                       ^------------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                                                                ^------------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+snmpstatus -v3 -u "$SNMP_USER" -a MD5 -A "$SNMP_PASSWORD" -x AES -X "$SNMP_PASSWORD" -l authPriv localhost
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2086 -- Double quote to prevent globbing ...
+  https://www.shellcheck.net/wiki/SC2162 -- read without -r will mangle backs...
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt_v2.sh line 12:
+echo "✔ OpenWrt detected: $(. /etc/os-release && echo $PRETTY_NAME)"
+                                                      ^----------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+echo "✔ OpenWrt detected: $(. /etc/os-release && echo "$PRETTY_NAME")"
+
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt_v2.sh line 15:
+read -p "Enter SNMPv3 username (e.g., admin): " SNMP_USER
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt_v2.sh line 16:
+read -s -p "Enter SNMPv3 password: " SNMP_PASSWORD
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt_v2.sh line 18:
+read -s -p "Re-enter SNMPv3 password: " SNMP_PASSWORD_CONFIRM
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt_v2.sh line 26:
+read -p "Enter SNMP system location (e.g., Router Closet): " SYS_LOCATION
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt_v2.sh line 27:
+read -p "Enter SNMP system contact (e.g., admin@example.com): " SYS_CONTACT
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt_v2.sh line 39:
+cp /etc/config/snmpd /etc/config/snmpd.bak.$(date +%s)
+                                           ^---------^ SC2046 (warning): Quote this to prevent word splitting.
+
+
+In /root/public-setupfiles/snmp/setup_snmp_openwrt_v2.sh line 93:
+echo "✅ SNMPv3 successfully configured on OpenWrt ${PRETTY_NAME}"
+                                                  ^------------^ SC2031 (info): PRETTY_NAME was modified in a subshell. That change might be lost.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2046 -- Quote this to prevent word splitt...
+  https://www.shellcheck.net/wiki/SC2031 -- PRETTY_NAME was modified in a sub...
+  https://www.shellcheck.net/wiki/SC2086 -- Double quote to prevent globbing ...
+
+In /root/public-setupfiles/snmp/Setup_snmp_macos.sh line 21:
+read SNMP_USER
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/Setup_snmp_macos.sh line 23:
+read -s SNMP_PASSWORD
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/Setup_snmp_macos.sh line 25:
+read -s SNMP_PASSWORD_CONFIRM
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/Setup_snmp_macos.sh line 34:
+read SYS_LOCATION
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/Setup_snmp_macos.sh line 36:
+read SYS_CONTACT
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/snmp/Setup_snmp_macos.sh line 64:
+snmpwalk -v3 -u $SNMP_USER -a MD5 -A $SNMP_PASSWORD -x AES -X $SNMP_PASSWORD -l authPriv localhost
+                ^--------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                                     ^------------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+                                                              ^------------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+
+Did you mean: 
+snmpwalk -v3 -u "$SNMP_USER" -a MD5 -A "$SNMP_PASSWORD" -x AES -X "$SNMP_PASSWORD" -l authPriv localhost
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2086 -- Double quote to prevent globbing ...
+  https://www.shellcheck.net/wiki/SC2162 -- read without -r will mangle backs...
+
+In /root/public-setupfiles/debian-dist-upgrades/dist-upgrade.sh line 122:
+cp /etc/apt/sources.list /etc/apt/sources.list.bak.$(date +%F)
+                                                   ^---------^ SC2046 (warning): Quote this to prevent word splitting.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2046 -- Quote this to prevent word splitt...
+
+In /root/public-setupfiles/debian-files/update_tailscale.sh line 84:
+  mkdir -p -m 0755 "$KEYRING_DIR"
+           ^-- SC2174 (warning): When used with -p, -m only applies to the deepest directory.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2174 -- When used with -p, -m only applie...
+
+In /root/public-setupfiles/debian-files/install-bashtop.sh line 1:
+git clone https://github.com/aristocratos/bashtop.git
+^-- SC2148 (error): Tips depend on target shell and yours is unknown. Add a shebang or a 'shell' directive.
+
+
+In /root/public-setupfiles/debian-files/install-bashtop.sh line 2:
+cd bashtop
+^--------^ SC2164 (warning): Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
+
+Did you mean: 
+cd bashtop || exit
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2148 -- Tips depend on target shell and y...
+  https://www.shellcheck.net/wiki/SC2164 -- Use 'cd ... || exit' or 'cd ... |...
+
+In /root/public-setupfiles/system_command_run/Run_command_on_machines.sh line 7:
+read COMMAND
+^--^ SC2162 (info): read without -r will mangle backslashes.
+
+
+In /root/public-setupfiles/system_command_run/Run_command_on_machines.sh line 12:
+while IFS=" " read -r HOST USER PASS; do
+^-- SC2095 (info): ssh may swallow stdin, preventing this loop from working properly.
+
+
+In /root/public-setupfiles/system_command_run/Run_command_on_machines.sh line 15:
+        ssh "$USER@$HOST" "$COMMAND" >> "$LOG_FILE" 2>&1
+        ^-- SC2095 (warning): Use ssh -n to prevent ssh from swallowing stdin.
+                           ^------^ SC2029 (info): Note that, unescaped, this expands on the client side.
+
+Did you mean: 
+        ssh -n "$USER@$HOST" "$COMMAND" >> "$LOG_FILE" 2>&1
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2095 -- Use ssh -n to prevent ssh from sw...
+  https://www.shellcheck.net/wiki/SC2029 -- Note that, unescaped, this expand...
+  https://www.shellcheck.net/wiki/SC2095 -- ssh may swallow stdin, preventing...
+
+In /root/public-setupfiles/mac-scripts/rsync basic.sh line 26:
+if [ $? -ne 0 ]; then
+     ^-- SC2181 (style): Check exit code directly with e.g. 'if ! mycmd;', not indirectly with $?.
+
+
+In /root/public-setupfiles/mac-scripts/rsync basic.sh line 40:
+    if [ $? -ne 0 ]; then
+         ^-- SC2181 (style): Check exit code directly with e.g. 'if ! mycmd;', not indirectly with $?.
+
+
+In /root/public-setupfiles/mac-scripts/rsync basic.sh line 50:
+if [ $? -ne 0 ]; then
+     ^-- SC2181 (style): Check exit code directly with e.g. 'if ! mycmd;', not indirectly with $?.
+
+For more information:
+  https://www.shellcheck.net/wiki/SC2181 -- Check exit code directly with e.g...
+
+In /root/public-setupfiles/mac-scripts/system_updates.sh line 1:
+#!/bin/zsh
+^-- SC1071 (error): ShellCheck only supports sh/bash/dash/ksh/'busybox sh' scripts. Sorry!
+
+For more information:
+  https://www.shellcheck.net/wiki/SC1071 -- ShellCheck only supports sh/bash/...
+
+In /root/public-setupfiles/mac-scripts/updates.sh line 1:
+#!/bin/zsh
+^-- SC1071 (error): ShellCheck only supports sh/bash/dash/ksh/'busybox sh' scripts. Sorry!
+
+For more information:
+  https://www.shellcheck.net/wiki/SC1071 -- ShellCheck only supports sh/bash/...

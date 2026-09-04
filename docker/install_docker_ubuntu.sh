@@ -1,3 +1,4 @@
+#!/bin/bash
 # Update package lists and install dependencies
 sudo apt update
 sudo apt-get install libffi-dev libssl-dev python3-dev python3-pip -y

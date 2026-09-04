@@ -1,1 +1,2 @@
+#!/bin/bash
 rsync -r -v /Users/traver/Downloads/ traver@10.0.85.10:'/srv/dev-disk-by-uuid-c725afdf-5b01-4c4b-9e26-16d7abfced6b/public/downloads/Mac Downloads/Apps'
