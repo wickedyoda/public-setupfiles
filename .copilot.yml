@@ -1,0 +1,4 @@
+# Copilot configuration for public-setupfiles
+# Disable automatic Copilot code review on pull requests
+code_review:
+  auto_enable: false
