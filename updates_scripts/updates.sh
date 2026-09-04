@@ -1,3 +1,4 @@
+#!/bin/bash
 sudo ./fix_apt_influx.sh
 
 sudo apt update

@@ -11,9 +11,9 @@ if [[ $EUID -ne 0 ]]; then
   fi
 fi
 
-${SUDO}apt update
-${SUDO}apt upgrade -y
-${SUDO}apt full-upgrade -y
+"${SUDO}"apt update
+"${SUDO}"apt upgrade -y
+"${SUDO}"apt full-upgrade -y
 
 declare -A TOOL_MAP=(
   [1]=kali-tools-identify
@@ -80,13 +80,13 @@ purple_selection="${purple_selection//[[:space:]]/}"
 
 case "$purple_selection" in
   1)
-    add_packages ${TOOL_MAP[@]}
+    add_packages "${TOOL_MAP[@]}"
     ;;
   2)
     add_packages kali-themes-purple kali-menu kali-wallpapers-legacy
     ;;
   3|all|a)
-    add_packages ${TOOL_MAP[@]} kali-themes-purple kali-menu kali-wallpapers-legacy
+    add_packages "${TOOL_MAP[@]}" kali-themes-purple kali-menu kali-wallpapers-legacy
     ;;
   ""|4|skip)
     echo "Skipping Kali Purple installation."
@@ -98,13 +98,13 @@ case "$purple_selection" in
 
 if [[ ${#INSTALL_PKGS[@]} -gt 0 ]]; then
   echo "Installing selected packages: ${INSTALL_PKGS[*]}"
-  ${SUDO}apt install -y "${INSTALL_PKGS[@]}"
+  "${SUDO}"apt install -y "${INSTALL_PKGS[@]}"
   echo "Selected packages installed."
 else
   echo "No optional Kali packages selected for installation."
 fi
 
-${SUDO}apt autoremove -y
-${SUDO}apt clean -y
+"${SUDO}"apt autoremove -y
+"${SUDO}"apt clean -y
 
 echo "System update and cleanup complete!"

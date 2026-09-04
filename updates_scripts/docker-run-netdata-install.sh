@@ -1,3 +1,4 @@
+#!/bin/bash
 docker run -d \
   --name netdata \
   --hostname docker3 \
