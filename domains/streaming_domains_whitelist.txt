@@ -45,10 +45,22 @@ cbsivideo.com
 cbsaavideo.com
 cbs.com
 viacomcbs.com
+paramount.tech
+wwwimage-us.pplusstatic.com
+wwwimage-secure.cbsstatic.com
+thumbnails.cbsig.net
+bakery.pplus.paramount.tech
+cbsi.demdex.net
+vod-gcs-cedexis.cbsaavideo.com
+cbsinteractive.hb.omtrdc.net
+cbsi.live.ott.irdeto.com
+saa.paramountplus.com
+saa.cbsi.com
 peacocktv.com
 nbc.com
 nbcuni.com
 nbcucdn.com
+telemetry.nbcuott.com
 tubitv.com
 fox.com
 foxsports.com
@@ -56,7 +68,13 @@ fubo.tv
 pluto.tv
 roku.com
 rokutime.com
+therokuchannel.roku.com
+api.roku.com
+api.rokutime.com
+roku.admeasurement.com
 crunchyroll.com
+beta-api.crunchyroll.com
+www.crunchyroll.com
 vrv.co
 funimation.com
 aiv-cdn.net
@@ -99,7 +117,82 @@ nhl.com
 nhlstatic.com
 spotify.com
 scdn.co
+api.spotify.com
+cdn.spotify.com
+open.spotify.com
 pandora.com
 soundcloud.com
 deezer.com
 tidal.com
+# --- Added domains from research ---
+# Apple TV+ (rebranded from Apple TV+)
+tv.apple.com
+amp.twimg.com
+# Roku
+retail.rpay.roku.com
+api.rpay.roku.com
+image.roku.com
+vod.delivery.roku.com
+vod-playlist.sr.roku.com
+rights-manager.sr.roku.com
+wv-license.sr.roku.com
+static-delivery.sr.roku.com
+bookmarks.sr.roku.com
+navigation.sr.roku.com
+images-svc.sr.roku.com
+content.sr.roku.com
+content-detail.sr.roku.com
+playback-detail.sr.roku.com
+api2.sr.roku.com
+apis.rpay.roku.com
+# Crunchyroll (additional)
+api.crunchyroll.com
+api-manga.crunchyroll.com
+stage-api.crunchyroll.com
+stage-api-manga.crunchyroll.com
+beta-stage-api.crunchyroll.com
+dev.crunchyroll.com
+# Paramount+ (additional)
+imasdk.googleapis.com
+enduser.adsrv.org
+cdn.privacy.paramount.com
+www.googletagmanager.com
+pagead2.googlesyndication.com
+availability-fastly.syncbak-mediastore-cedexis.cbsaavideo.com
+vod-gcs-qwilt.cbsaavideo.com
+vod-gcs-google.cbsaavideo.com
+# Peacock (additional domains from filterlist)
+ingest.webcol.sdp.peacocktv.com
+mparticle.com
+fwmrm.net
+scorecardresearch.com
+omtrdc.net
+ssai.peacocktv.com
+mytv.clients.peacocktv.com
+bff-ext.clients.peacocktv.com
+imageservice.disco.peacocktv.com
+play.ovp.peacocktv.com
+atom.peacocktv.com
+cybertron.id.peacocktv.com
+meg.disco.peacocktv.com
+ovp.peacocktv.com
+pconfig-prd.cdn.peacocktv.com
+cdn.peacocktv.com
+# Amazon Prime Video (additional)
+aiv-cdn.net
+d1v0o82c0gfg2u.cloudfront.net
+d2cvj4cr2d2r7g.cloudfront.net
+d3n92br3b4jq4j.cloudfront.net
+# YouTube (additional - common streaming)
+youtube.com
+googlevideo.com
+ytimg.com
+youtu.be
+innovidvideo.com
+# General streaming protocols
+akamaized.net
+edgesuite.net
+llnwd.net
+# DuckDuckGo video search
+duckduckgo.com
+duck.com
