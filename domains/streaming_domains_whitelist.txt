@@ -1,3 +1,13 @@
+# --- added domains from research ---
+# amazon prime video (additional)
+# apple tv+ (rebranded from apple tv+)
+# crunchyroll (additional)
+# duckduckgo video search
+# general streaming protocols
+# paramount+ (additional)
+# peacock (additional domains from filterlist)
+# roku
+# youtube (additional - common streaming)
 acorn.tv
 aiv-cdn.net
 akamaized.net
@@ -10,6 +20,7 @@ api.roku.com
 api.rokutime.com
 api.rpay.roku.com
 api.spotify.com
+api2.sr.roku.com
 apis.rpay.roku.com
 apple-dns.net
 apple-tv-plus.com
@@ -42,6 +53,9 @@ content.sr.roku.com
 conviva.com
 crunchyroll.com
 cybertron.id.peacocktv.com
+d1v0o82c0gfg2u.cloudfront.net
+d2cvj4cr2d2r7g.cloudfront.net
+d3n92br3b4jq4j.cloudfront.net
 deezer.com
 dev.crunchyroll.com
 discoveryplus.com
@@ -53,6 +67,8 @@ dplay.com
 dssott.com
 duck.com
 duckduckgo.com
+e.delaymultiplier
+e.retry
 edgesuite.net
 enduser.adsrv.org
 espn.com
@@ -90,6 +106,22 @@ mparticle.com
 mubi.com
 mytv.clients.peacocktv.com
 mzstatic.com
+n.account
+n.assets
+n.auth
+n.content
+n.devices
+n.etpconfig
+n.funmigrator
+n.incentives
+n.localization
+n.messaging
+n.news
+n.playservice
+n.reviews
+n.subscription
+n.talkbox
+n.thirdpartyoauth
 navigation.sr.roku.com
 nba.com
 nbc.com
@@ -97,6 +129,7 @@ nbcucdn.com
 nbcuni.com
 netflix.com
 netflix.net
+netflixdnstest0.com
 nfl.com
 nflxext.com
 nflximg.com
@@ -107,6 +140,7 @@ nhlstatic.com
 omtrdc.net
 open.spotify.com
 ovp.peacocktv.com
+pagead2.googlesyndication.com
 pandora.com
 paramount.tech
 paramountplus.com
@@ -122,6 +156,7 @@ rights-manager.sr.roku.com
 roku.admeasurement.com
 roku.com
 rokutime.com
+s3.amazonaws.com
 saa.cbsi.com
 saa.paramountplus.com
 scdn.co
@@ -136,6 +171,12 @@ stage-api.crunchyroll.com
 static-delivery.sr.roku.com
 telemetry.nbcuott.com
 therokuchannel.roku.com
+this.audiolanguage
+this.country
+this.intercept
+this.locale
+this.settabid
+this.tabid
 thumbnails.cbsig.net
 tidal.com
 tubitv.com
@@ -164,10 +205,18 @@ youtube.com
 ytimg.com
 
 # IP Ranges / CIDRs
-api2.sr.roku.com
-d1v0o82c0gfg2u.cloudfront.net
-d2cvj4cr2d2r7g.cloudfront.net
-d3n92br3b4jq4j.cloudfront.net
-netflixdnstest0.com
-pagead2.googlesyndication.com
-s3.amazonaws.com
+108.175.32.0/20
+17.0.0.0/8
+192.173.64.0/18
+198.38.96.0/19
+198.45.48.0/20
+207.45.72.0/22
+208.75.76.0/22
+224.0.0.0/4
+31.13.64.0/18
+34.192.0.0/10
+45.57.0.0/17
+52.0.0.0/11
+64.120.128.0/17
+66.197.128.0/17
+69.53.224.0/19
