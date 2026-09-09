@@ -4,11 +4,12 @@ Update domain lists by merging new scraped domains with existing file contents.
 Never deletes existing domains - only appends.
 
 Usage:
-    python3 update_domains.py [--streaming] [--social] [--all]
+    python3 update_domains.py [--streaming] [--social] [--bypass] [--porn] [--bamboo] [--all]
 """
 import os
 import shutil
 import argparse
+import re
 import urllib.request
 import urllib.error
 from datetime import datetime
@@ -26,11 +27,10 @@ PORN_FILE = os.path.join(PARENT_DIR, "known_porn_domains.txt")
 STREAMING_SOURCES = {
     "Peacock": "https://raw.githubusercontent.com/lit-bg/Peacock/refs/heads/main/filterlist.txt",
     "Crunchyroll": "https://gist.githubusercontent.com/NicmeisteR/cdc4867cf256c568b6a7f1844ce229f2/raw",
-    "Ozankiratli Streaming": "https://raw.githubusercontent.com/ozankiratli/801ba17705e7f2a904d2e443af5a64f8/raw/436fa9f0c151afc15a601edf77c796b2a6de9be4/PiHoleStreamingLists.md",
 }
 
 SOCIAL_SOURCES = {
-    "Ozankiratli Social": "https://raw.githubusercontent.com/ozankiratli/801ba17705e7f2a904d2e443af5a64f8/raw/436fa9f0c151afc15a601edf77c796b2a6de9be4/PiHoleStreamingLists.md",
+    "PiHole Social": "https://raw.githubusercontent.com/ozankiratli/801ba17705e7f2a904d2e443af5a64f8/raw/436fa9f0c151afc15a601edf77c796b2a6de9be4/PiHoleStreamingLists.md",
 }
 
 def fetch_text(url):
@@ -51,23 +51,40 @@ def backup_file(path, label):
     shutil.copy2(path, backup_path)
     print(f"Backup saved to {backup_path}")
 
+def is_ip_or_cidr(line):
+    """Check if a line is an IP address or CIDR range"""
+    ip_cidr_re = re.compile(r'^(\d{1,3}\.){3}\d{1,3}(/\d+)?$')
+    return bool(ip_cidr_re.match(line))
+
+def is_domain(line):
+    """Check if a line is a valid domain (not an IP, not empty, not a comment)"""
+    if not line or line.startswith("#"):
+        return False
+    if is_ip_or_cidr(line):
+        return False
+    return "." in line
+
 def load_existing(path):
-    """Load existing domains from file (skip IPs, comments, blanks)"""
-    if not os.path.exists(path):
-        return set()
+    """Load existing domains and IPs from file"""
     domains = set()
+    ips = set()
+    if not os.path.exists(path):
+        return domains, ips
     with open(path, "r") as f:
         for line in f:
-            line = line.strip()
+            line = line.strip().lower()
             if not line or line.startswith("#"):
                 continue
-            if "/" in line:
-                continue
-            domains.add(line.lower())
-    return domains
+            if is_ip_or_cidr(line):
+                ips.add(line)
+            else:
+                domains.add(line)
+    return domains, ips
 
 def extract_domains(text):
     domains = set()
+    ips = set()
+    ip_re = re.compile(r'^(\d{1,3}\.){3}\d{1,3}(/\d+)?$')
     for line in text.splitlines():
         line = line.strip()
         if not line or line.startswith("#"):
@@ -75,87 +92,89 @@ def extract_domains(text):
         clean = line.replace("||", "").replace("^", "").replace("|", "").replace("$", "").replace("/", "")
         if " " in clean:
             clean = clean.split()[0]
-        if "." in clean and not clean[0].isdigit:
-            domains.add(clean.lstrip("*").lower())
-    return domains
+        clean = clean.lstrip("*").lower()
+        if not clean:
+            continue
+        if ip_re.match(clean):
+            ips.add(clean)
+        elif "." in clean:
+            domains.add(clean)
+    return domains, ips
 
-def save_domains(path, domains, include_ips=None):
-    domains_only = sorted(d for d in domains if "/" not in d and not any(c.isdigit() for c in d[:d.find(".") if "." in d else 0]))
-    ips = [d for d in domains if "/" in d or any(c.isdigit() for c in d[:15])]
-    unique_ips = sorted(set(ips + (include_ips or [])))
+def save_domains(path, domains, ips):
+    """Save domains and IPs separately, preserving all entries"""
+    sorted_domains = sorted(d for d in domains if not is_ip_or_cidr(d))
+    sorted_ips = sorted(set(ips))
     
     with open(path, "w") as f:
-        for d in domains_only:
-            if d and not d.startswith("0"):  # filter out IP-like prefixes
-                f.write(d + "\n")
-        f.write("\n# IP Ranges / CIDRs\n")
-        for ip in unique_ips:
-            f.write(ip + "\n")
+        for d in sorted_domains:
+            f.write(d + "\n")
+        if sorted_ips:
+            f.write("\n# IP Ranges / CIDRs\n")
+            for ip in sorted_ips:
+                f.write(ip + "\n")
 
 def update_streaming():
-    existing = load_existing(STREAMING_FILE)
-    new_domains = set(existing)
+    existing_domains, existing_ips = load_existing(STREAMING_FILE)
+    all_domains = set(existing_domains)
+    all_ips = set(existing_ips)
     
     for name, url in STREAMING_SOURCES.items():
         print(f"Fetching {name}...")
         text = fetch_text(url)
         if text:
-            scraped = extract_domains(text)
-            new_domains.update(scraped)
+            scraped_domains, scraped_ips = extract_domains(text)
+            all_domains.update(scraped_domains)
+            all_ips.update(scraped_ips)
     
     backup_file(STREAMING_FILE, "streaming_domains_whitelist.txt")
-    save_domains(STREAMING_FILE, new_domains)
-    print(f"Streaming domains: {len(new_domains)} total")
+    save_domains(STREAMING_FILE, all_domains, all_ips)
+    print(f"Streaming: {len(all_domains)} domains + {len(all_ips)} IPs")
 
 def update_social():
-    existing = load_existing(SOCIAL_FILE)
-    new_domains = set(existing)
+    existing_domains, existing_ips = load_existing(SOCIAL_FILE)
+    all_domains = set(existing_domains)
+    all_ips = set(existing_ips)
     
     for name, url in SOCIAL_SOURCES.items():
         print(f"Fetching {name}...")
         text = fetch_text(url)
         if text:
-            scraped = extract_domains(text)
+            scraped_domains, scraped_ips = extract_domains(text)
             social_keywords = ["facebook", "instagram", "twitter", "tiktok", "linkedin",
                              "snapchat", "threads", "mastodon", "reddit", "discord",
                              "pinterest", "youtube", "twitch", "vk", "tumblr",
                              "medium", "clubhouse", "messenger", "telegram", "quora",
                              "imgur", "vimeo", "tiktok"]
-            for d in scraped:
+            for d in scraped_domains:
                 if any(kw in d for kw in social_keywords):
-                    new_domains.add(d)
+                    all_domains.add(d)
     
     backup_file(SOCIAL_FILE, "social_media.txt")
-    save_domains(SOCIAL_FILE, new_domains)
-    print(f"Social media domains: {len(new_domains)} total")
+    save_domains(SOCIAL_FILE, all_domains, all_ips)
+    print(f"Social media: {len(all_domains)} domains + {len(all_ips)} IPs")
 
 def update_bypass():
-    existing = load_existing(BYPASS_FILE)
-    new_domains = set(existing)
+    streaming_domains, streaming_ips = load_existing(STREAMING_FILE)
+    social_domains, social_ips = load_existing(SOCIAL_FILE)
     
-    # Merge streaming + social into bypass_sites.txt
-    streaming = load_existing(STREAMING_FILE)
-    social = load_existing(SOCIAL_FILE)
-    new_domains.update(streaming)
-    new_domains.update(social)
+    all_domains = streaming_domains | social_domains
+    all_ips = streaming_ips | social_ips
     
     backup_file(BYPASS_FILE, "bypass_sites.txt")
-    save_domains(BYPASS_FILE, new_domains)
-    print(f"Bypass sites: {len(new_domains)} total")
+    save_domains(BYPASS_FILE, all_domains, all_ips)
+    print(f"Bypass sites: {len(all_domains)} domains + {len(all_ips)} IPs")
 
 def update_porn():
-    existing = load_existing(PORN_FILE)
-    # This would require dedicated porn domain sources
-    # For now, just ensure file exists
-    if not os.path.exists(PORN_FILE):
-        print("PORN_FILE does not exist - skipping (would need dedicated sources)")
-        return
+    domains, ips = load_existing(PORN_FILE)
     backup_file(PORN_FILE, "known_porn_domains.txt")
-    print(f"Porn domains preserved: {len(existing)} total")
+    # Just preserve existing - no scraping source configured
+    save_domains(PORN_FILE, domains, ips)
+    print(f"Porn domains preserved: {len(domains)} domains + {len(ips)} IPs")
 
 def update_bamboo():
-    existing = load_existing(BAMBOO_FILE)
-    print(f"Bamboo domains preserved: {len(existing)} total")
+    domains, ips = load_existing(BAMBOO_FILE)
+    print(f"Bamboo domains preserved: {len(domains)} domains + {len(ips)} IPs")
 
 def main():
     parser = argparse.ArgumentParser(description="Update domain lists - never delete!")
