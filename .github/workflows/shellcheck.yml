@@ -16,19 +16,52 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Run ShellCheck on all shell scripts
-        # Non-blocking on first rollout — pre-existing scripts have warnings.
-        # Set to false to make it gating.
-        continue-on-error: true
+      - name: Collect changed shell scripts
+        id: changed-shell
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            diff_range="${{ github.event.pull_request.base.sha }}...${{ github.sha }}"
+          elif [[ "${{ github.event.before }}" == "0000000000000000000000000000000000000000" ]]; then
+            diff_range=""
+          else
+            diff_range="${{ github.event.before }}..${{ github.sha }}"
+          fi
+
+          if [[ -n "$diff_range" ]]; then
+            mapfile -t files < <(git diff --name-only --diff-filter=ACMR "$diff_range" | grep -E '\.sh$' || true)
+          else
+            mapfile -t files < <(git ls-files | grep -E '\.sh$' || true)
+          fi
+
+          if [[ ${#files[@]} -eq 0 ]]; then
+            echo "has_files=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          {
+            echo "has_files=true"
+            echo "files<<EOF"
+            printf '%s\n' "${files[@]}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Run ShellCheck on changed shell scripts
+        if: steps.changed-shell.outputs.has_files == 'true'
         uses: ludeeus/action-shellcheck@2.0.0
         with:
-          # Check all .sh files, excluding .git and vendor directories
-          files: |
-            *.sh
-            **/*.sh
+          files: ${{ steps.changed-shell.outputs.files }}
           # Exclude directories we don't want to lint
           exclude: |
             .git
             .idea
             .vscode
+
+      - name: No shell script changes
+        if: steps.changed-shell.outputs.has_files != 'true'
+        run: echo "No changed shell scripts to lint."
