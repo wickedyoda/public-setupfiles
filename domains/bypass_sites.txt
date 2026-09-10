@@ -373,8 +373,5 @@ www.fansly.com
 # =============================================================================
 # ONLYFANS / FANSLY IP RANGES
 # =============================================================================
-
-# OnlyFans (Cloudflare AS13335)
-104.16.0.0/12
-162.159.128.0/19
-172.66.0.0/22
+# NOTE: Avoid adding broad shared-CDN CIDRs (e.g., Cloudflare AS13335) here.
+# If IP-based bypass is required, add only service-dedicated ranges that you can verify are not shared by other customers.
