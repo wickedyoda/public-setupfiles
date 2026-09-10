@@ -241,17 +241,14 @@ def update_social():
 
 
 def update_bypass():
-    """Update bypass_sites.txt from streaming + social lists plus ONLYFANS/FANSLY"""
-    streaming_domains, streaming_ips = load_domains_and_ips(STREAMING_FILE)
+    """Update bypass_sites.txt from social lists plus ONLYFANS/FANSLY"""
     social_domains, social_ips = load_domains_and_ips(SOCIAL_FILE)
     existing_lines = load_all_lines(BYPASS_FILE)
     existing_domains_set = {l.strip().lower() for l in existing_lines if l.strip() and not l.strip().startswith("#")}
     
-    all_domains = streaming_domains | social_domains
-    all_ips = streaming_ips | social_ips
-    new_domains = all_domains - existing_domains_set
-    new_ips = all_ips - {ip.lower() for ip in existing_domains_set if is_ip_or_cidr(ip.lower())}
-
+    all_domains = social_domains.copy()
+    all_ips = social_ips.copy()
+    
     # Add OnlyFans/Fansly from their own sources
     for name, url in SOURCES_BY_TYPE["bypass"].items():
         print(f"Fetching {name}...")
@@ -284,7 +281,7 @@ def main():
     parser = argparse.ArgumentParser(description="Update domain lists - never delete!")
     parser.add_argument("--streaming", action="store_true", help="Update streaming only")
     parser.add_argument("--social", action="store_true", help="Update social media only")
-    parser.add_argument("--bypass", action="store_true", help="Update bypass_sites (combines streaming+social)")
+    parser.add_argument("--bypass", action="store_true", help="Update bypass_sites (combines social+porn+OnlyFans/Fansly)")
     parser.add_argument("--porn", action="store_true", help="Update porn domains")
     parser.add_argument("--all", action="store_true", help="Update all lists")
     args = parser.parse_args()
