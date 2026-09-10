@@ -1,105 +1,315 @@
-netflix.com
-nflxext.com
-nflximg.com
-nflxso.net
-nflxvideo.net
-netflix.net
-netflixdnstest0.com
+# Streaming Domains Whitelist
+# Comprehensive domain and IP whitelist for streaming services.
+# Generated from Netflix partner help center, Netify.app, and streaming-domains repo.
+# Updated: 2026-09-04
+
+# =============================================================================
+# IP RANGES
+# =============================================================================
+
+# Netflix IP ranges (AS2906)
+# Source: partnerhelp.netflixstudios.com, netify.ai
+23.246.0.0/18
 31.13.64.0/18
+34.192.0.0/10
+34.210.0.0/16
+34.216.0.0/14
+34.248.0.0/13
+35.160.0.0/14
+37.77.184.0/21
 45.57.0.0/17
+52.0.0.0/11
+52.40.0.0/14
+52.80.0.0/16
+52.220.0.0/16
+54.230.0.0/16
 64.120.128.0/17
 66.197.128.0/17
 69.53.224.0/19
+95.172.0.0/18
 108.175.32.0/20
 192.173.64.0/18
 198.38.96.0/19
 198.45.48.0/20
 207.45.72.0/22
 208.75.76.0/22
-hbomax.com
-hbo.com
-warnermediacdn.com
-wbdstreaming.com
-max.com
-wmcdp.io
-wmcdp.com
-34.192.0.0/10
-52.0.0.0/11
-hulu.com
-hulustream.com
-huluim.com
-huluad.com
-vortex.hulu.com
-doppler.hulu.com
-conviva.com
-hulu.hb.omtrdc.net
-disneyplus.com
-disney.com
+2a02:26f0::/32
+2a02:26f1::/32
+
+# Hulu IP ranges (AS23286)
+# Source: netify.ai
+8.28.124.0/23
+199.60.116.0/24
+199.200.48.0/22
+208.91.156.0/22
+
+# Apple IP ranges (AS7035, AS13359)
+17.0.0.0/8
+224.0.0.0/4
+
+# =============================================================================
+# DOMAINS — Netflix
+# =============================================================================
+fast.com
+netflix.ca
+netflix.com
+netflix.com.au
+netflix.net
+netflixinvestor.com
+netflixdnstest0.com
+netflixdnstest1.com
+netflixdnstest10.com
+netflixdnstest2.com
+netflixdnstest3.com
+netflixdnstest4.com
+netflixdnstest5.com
+netflixdnstest6.com
+netflixdnstest7.com
+netflixdnstest8.com
+netflixdnstest9.com
+netflixtechblog.com
+nflxext.com
+nflximg.com
+nflximg.net
+nflxsearch.net
+nflxso.net
+nflxvideo.net
+netflix.com.edgesuite.net
+
+# =============================================================================
+# DOMAINS — Amazon Prime Video
+# =============================================================================
+aiv-cdn.net
+aiv-delivery.net
+amazon.com
+amazonaws.com
+atv-ext.amazon.com
+cloudfront.net
+freevee.com
+imdb.com
+imdbtv.com
+prime-video.amazon.dev
+primevideo.com
+pv-cdn.net
+s3.amazonaws.com
+video.a2z.com
+
+# =============================================================================
+# DOMAINS — Disney+
+# =============================================================================
+adobedtm.com
+akamaized.net
 bamgrid.com
 bam.nr-data.net
 cdn.registerdisney.go.com
-disneystreaming.com
-dssott.com
-paramountplus.com
-cbsivideo.com
-cbsaavideo.com
+cdn77.org
+cws.conviva.com
+demdex.net
+disney.com
+disney-plus.net
+disneyplus.com
+disneyplus.disney.co.jp
+disneystreaming.service-now.com
+fastly.net
+hb-api.omtrdc.net
+hwcdn.net
+js-agent.newrelic.com
+omtrdc.net
+qwilt.disney.cqloud.com
+search-api-disney.bamgrid.com
+service-now.com
+siteforce.com
+starott.com
+
+# =============================================================================
+# DOMAINS — HBO Max / Max
+# =============================================================================
+discomax.com
+hbogo.com
+hbogoasia.com
+hbomax.com
+hbo.com
+hbonow.com
+max.com
+warnermediacdn.com
+wbdstreaming.com
+wmcdp.com
+wmcdp.io
+
+# =============================================================================
+# DOMAINS — Hulu
+# =============================================================================
+akadns.net
+cws-hulu.conviva.com
+edgecastcdn.net
+fastly.net
+hb-api.omtrdc.net
+hulu.com
+hulu.playback.edge.bamgrid.com
+hulaad.com
+huluim.com
+hulustream.com
+us-west-2.elb.amazonaws.com
+
+# =============================================================================
+# DOMAINS — Paramount+
+# =============================================================================
 cbs.com
+cbsaavideo.com
+cbsivideo.com
+imasdk.googleapis.com
+paramountplus.com
 viacomcbs.com
-peacocktv.com
+
+# =============================================================================
+# DOMAINS — Peacock
+# =============================================================================
 nbc.com
-nbcuni.com
 nbcucdn.com
-tubitv.com
-fox.com
-foxsports.com
-fubo.tv
-pluto.tv
-roku.com
-rokutime.com
-crunchyroll.com
-vrv.co
-funimation.com
-aiv-cdn.net
-primevideo.com
-amazon.com
-amazonaws.com
-cloudfront.net
-s3.amazonaws.com
-atv-ext.amazon.com
-imdb.com
-imdbtv.com
-freevee.com
-apple.com
+nbcuni.com
+peacocktv.com
+
+# =============================================================================
+# DOMAINS — Apple TV+
+# =============================================================================
 apple-dns.net
+apple-tv-plus.com
+apple.com
 apple.com.edgekey.net
 mzstatic.com
-apple-tv-plus.com
 tv.apple.com
-17.0.0.0/8
-224.0.0.0/4
-vudu.com
-moviefone.com
-mubi.com
-shudder.com
-britbox.com
-acorn.tv
+
+# =============================================================================
+# DOMAINS — YouTube
+# =============================================================================
+google.com
+googleapis.com
+googlevideo.com
+gstatic.com
+youtu.be
+youtube.com
+ytimg.com
+
+# =============================================================================
+# DOMAINS — Tubi
+# =============================================================================
+tubitv.com
+
+# =============================================================================
+# DOMAINS — Crunchyroll
+# =============================================================================
+crunchyroll.com
+
+# =============================================================================
+# DOMAINS — VRV
+# =============================================================================
+vrv.co
+
+# =============================================================================
+# DOMAINS — Funimation
+# =============================================================================
+funimation.com
+
+# =============================================================================
+# DOMAINS — Pluto TV
+# =============================================================================
+pluto.tv
+
+# =============================================================================
+# DOMAINS — Sling
+# =============================================================================
 sling.com
-philo.com
-xumo.com
+
+# =============================================================================
+# DOMAINS — Xfinity Stream
+# =============================================================================
+xfinity.com
+xfinitystream.com
+
+# =============================================================================
+# DOMAINS — Spectrum
+# =============================================================================
+spectrum.com
+spectrum.net
+
+# =============================================================================
+# DOMAINS — Discovery+
+# =============================================================================
 discoveryplus.com
-dplay.com
+
+# =============================================================================
+# DOMAINS — Vudu
+# =============================================================================
+moviefone.com
+vudu.com
+
+# =============================================================================
+# DOMAINS — MUBI
+# =============================================================================
+mubi.com
+
+# =============================================================================
+# DOMAINS — Shudder
+# =============================================================================
+shudder.com
+
+# =============================================================================
+# DOMAINS — BritBox
+# =============================================================================
+britbox.com
+
+# =============================================================================
+# DOMAINS — Acorn TV
+# =============================================================================
+acorn.tv
+
+# =============================================================================
+# DOMAINS — ESPN+
+# =============================================================================
 espn.com
-espncdn.com
 espn.net
+espncdn.com
+
+# =============================================================================
+# DOMAINS — MLB.tv
+# =============================================================================
 mlb.com
 mlbstatic.com
+
+# =============================================================================
+# DOMAINS — NBA League Pass
+# =============================================================================
 nba.com
+
+# =============================================================================
+# DOMAINS — NFL Game Pass
+# =============================================================================
 nfl.com
+
+# =============================================================================
+# DOMAINS — NHL.tv
+# =============================================================================
 nhl.com
 nhlstatic.com
-spotify.com
+
+# =============================================================================
+# DOMAINS — Spotify
+# =============================================================================
 scdn.co
-pandora.com
+spotify.com
+
+# =============================================================================
+# DOMAINS — SoundCloud
+# =============================================================================
 soundcloud.com
-deezer.com
+
+# =============================================================================
+# DOMAINS — Pandora
+# =============================================================================
+pandora.com
+
+# =============================================================================
+# DOMAINS — Tidal
+# =============================================================================
 tidal.com
+deezer.com
