@@ -352,3 +352,26 @@ ytimg.com
 91.108.8.0/22
 93.186.224.0/20
 95.213.0.0/16
+
+# =============================================================================
+# ONLYFANS DOMAINS (Cloudflare AS13335 CDN)
+# =============================================================================
+cdn3.onlyfans.com
+onlyfans.com
+www.onlyfans.com
+
+# =============================================================================
+# FANSLY DOMAINS
+# =============================================================================
+cdn3.fansly.com
+apiv3.fansly.com
+wsv3.fansly.com
+cdev2.fansly.com
+fansly.com
+www.fansly.com
+
+# =============================================================================
+# ONLYFANS / FANSLY IP RANGES
+# =============================================================================
+# NOTE: Avoid adding broad shared-CDN CIDRs (e.g., Cloudflare AS13335) here.
+# If IP-based bypass is required, add only service-dedicated ranges that you can verify are not shared by other customers.
