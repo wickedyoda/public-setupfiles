@@ -241,16 +241,19 @@ def update_social():
 
 
 def update_bypass():
-    """Update bypass_sites.txt from streaming + social lists plus ONLYFANS/FANSLY"""
-    streaming_domains, streaming_ips = load_domains_and_ips(STREAMING_FILE)
+    """Update bypass_sites.txt from social_media.txt + known_porn_domains.txt
+
+    bypass_sites.txt is the combined bypass list for social media and adult
+    content. It does NOT include streaming service domains (those live in
+    streaming_domains_whitelist.txt).
+    """
     social_domains, social_ips = load_domains_and_ips(SOCIAL_FILE)
+    porn_domains, porn_ips = load_domains_and_ips(PORN_FILE)
     existing_lines = load_all_lines(BYPASS_FILE)
     existing_domains_set = {l.strip().lower() for l in existing_lines if l.strip() and not l.strip().startswith("#")}
-    
-    all_domains = streaming_domains | social_domains
-    all_ips = streaming_ips | social_ips
-    new_domains = all_domains - existing_domains_set
-    new_ips = all_ips - {ip.lower() for ip in existing_domains_set if is_ip_or_cidr(ip.lower())}
+
+    all_domains = social_domains | porn_domains
+    all_ips = social_ips | porn_ips
 
     # Add OnlyFans/Fansly from their own sources
     for name, url in SOURCES_BY_TYPE["bypass"].items():

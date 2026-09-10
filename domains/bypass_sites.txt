@@ -21,6 +21,7 @@ amp.twimg.com
 api-manga.crunchyroll.com
 api.crunchyroll.com
 api.facebook.com
+api.instagram.com
 api.roku.com
 api.rokutime.com
 api.rpay.roku.com
@@ -28,7 +29,6 @@ api.spotify.com
 api2.sr.roku.com
 apis.rpay.roku.com
 apple-dns.net
-apple-tv-plus.com
 apple.com
 apple.com.edgekey.net
 apps.facebook.com
@@ -63,7 +63,6 @@ cdn.privacy.paramount.com
 cdn.registerdisney.go.com
 cdn.spotify.com
 cdninstagram.com
-cloudfront.net
 clubhouse.com
 clubhouseapi.com
 connect.facebook.com
@@ -88,9 +87,6 @@ dplay.com
 dssott.com
 duck.com
 duckduckgo.com
-e.delaymultiplier
-e.retry
-edge.facebook.com
 edgesuite.net
 enduser.adsrv.org
 espn.com
@@ -109,7 +105,6 @@ flickr.com
 fox.com
 foxsports.com
 freevee.com
-fubo.tv
 funimation.com
 fwmrm.net
 googlevideo.com
@@ -124,7 +119,6 @@ hulustream.com
 ibyteimg.com
 image.roku.com
 images-svc.sr.roku.com
-imageservice.disco.peacocktv.com
 imasdk.googleapis.com
 imdb.com
 imdbtv.com
@@ -138,8 +132,8 @@ jtvnw.net
 kick.com
 l.facebook.com
 licdn.com
-linkedin.cn
 linkedin.com
+linkedin.cn
 llnwd.net
 lm.facebook.com
 login.facebook.com
@@ -159,22 +153,6 @@ mubi.com
 musical.ly
 mytv.clients.peacocktv.com
 mzstatic.com
-n.account
-n.assets
-n.auth
-n.content
-n.devices
-n.etpconfig
-n.funmigrator
-n.incentives
-n.localization
-n.messaging
-n.news
-n.playservice
-n.reviews
-n.subscription
-n.talkbox
-n.thirdpartyoauth
 navigation.sr.roku.com
 nba.com
 nbc.com
@@ -187,6 +165,8 @@ nextdoor.com
 nfl.com
 nflxext.com
 nflximg.com
+nflximg.net
+nflxsearch.net
 nflxso.net
 nflxvideo.net
 nhl.com
@@ -209,6 +189,7 @@ pinterestcdn.com
 play.ovp.peacocktv.com
 playback-detail.sr.roku.com
 pluto.tv
+polymatech.net
 primevideo.com
 quora.com
 quoracdn.net
@@ -249,13 +230,6 @@ telegram.org
 telemetry.nbcuott.com
 tfbnw.net
 therokuchannel.roku.com
-this.audiolanguage
-this.country
-this.intercept
-this.locale
-this.settabid
-this.tabid
-threads.net
 thumbnails.cbsig.net
 tidal.com
 tiktok.com
@@ -308,51 +282,6 @@ youtu.be
 youtube.com
 ytimg.com
 
-# IP Ranges / CIDRs
-103.136.220.0/22
-103.4.96.0/22
-108.175.32.0/20
-129.134.0.0/16
-13.107.0.0/16
-149.154.160.0/20
-157.240.0.0/16
-161.117.0.0/16
-17.0.0.0/8
-173.252.64.0/18
-179.60.192.0/22
-185.60.216.0/22
-192.173.64.0/18
-198.38.96.0/19
-198.45.48.0/20
-199.96.56.0/21
-204.15.20.0/22
-207.45.72.0/22
-208.75.76.0/22
-224.0.0.0/4
-31.13.24.0/21
-31.13.64.0/18
-34.192.0.0/10
-40.0.0.0/8
-45.57.0.0/17
-47.246.0.0/16
-52.0.0.0/11
-52.96.0.0/12
-64.120.128.0/17
-66.197.128.0/17
-66.220.144.0/20
-69.171.224.0/19
-69.53.224.0/19
-69.63.176.0/20
-74.119.76.0/22
-87.240.128.0/18
-91.108.12.0/22
-91.108.16.0/22
-91.108.4.0/22
-91.108.56.0/22
-91.108.8.0/22
-93.186.224.0/20
-95.213.0.0/16
-
 # =============================================================================
 # ONLYFANS DOMAINS (Cloudflare AS13335 CDN)
 # =============================================================================
@@ -371,7 +300,51 @@ fansly.com
 www.fansly.com
 
 # =============================================================================
-# ONLYFANS / FANSLY IP RANGES
+# IP RANGES / CIDRs
 # =============================================================================
-# NOTE: Avoid adding broad shared-CDN CIDRs (e.g., Cloudflare AS13335) here.
-# If IP-based bypass is required, add only service-dedicated ranges that you can verify are not shared by other customers.
+# OnlyFans (Cloudflare AS13335)
+104.16.0.0/12
+162.159.128.0/19
+172.66.0.0/22
+
+# Facebook/Instagram/Meta (AS32934, AS2603, AS131772)
+103.136.220.0/22
+103.4.96.0/22
+108.175.32.0/20
+129.134.0.0/16
+13.107.0.0/16
+149.154.160.0/20
+157.240.0.0/16
+161.117.0.0/16
+173.252.64.0/18
+179.60.192.0/22
+185.60.216.0/22
+192.173.64.0/18
+198.38.96.0/19
+198.45.48.0/20
+199.96.56.0/21
+204.15.20.0/22
+207.45.72.0/22
+208.75.76.0/22
+31.13.24.0/21
+31.13.64.0/18
+34.192.0.0/10
+40.0.0.0/8
+45.57.0.0/17
+47.246.0.0/16
+52.0.0.0/11
+52.96.0.0/12
+64.120.128.0/17
+66.197.128.0/17
+69.171.224.0/19
+69.53.224.0/19
+74.119.76.0/22
+87.240.128.0/18
+91.108.4.0/22
+91.108.8.0/22
+91.108.12.0/22
+91.108.16.0/22
+91.108.56.0/22
+93.186.224.0/20
+95.213.0.0/16
+224.0.0.0/4
