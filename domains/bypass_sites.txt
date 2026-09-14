@@ -1,7 +1,19 @@
+# =============================================================================
+# BYPASS_SITES INDEX
+# =============================================================================
+# Categories:
+#   1. Social Media       - Facebook, Instagram, TikTok, Twitter, YouTube, etc.
+#   2. OnlyFans Domains   - Content creator platform domains
+#   3. Fansly Domains     - Fansly content creator platform domains
+#   4. IP Ranges / CIDRs  - Network ranges for content delivery
+#
+# NOTE: Streaming service domains (Netflix, Hulu, Disney+, etc.) are NOT
+# included here. See streaming_domains_whitelist.txt for those.
+# =============================================================================
+
 
 about.meta.com
 accounts.facebook.com
-acorn.tv
 ads.facebook.com
 aiv-cdn.net
 akamaized.net
@@ -13,17 +25,13 @@ api.crunchyroll.com
 api.facebook.com
 api.instagram.com
 apple-dns.net
-apple.com
-apple.com.edgekey.net
 apps.facebook.com
 atv-ext.amazon.com
 availability-fastly.syncbak-mediastore-cedexis.cbsaavideo.com
 badoo.com
-bakery.pplus.paramount.tech
 bam.nr-data.net
 bamgrid.com
 bluesky.app
-britbox.com
 bsky.social
 business.facebook.com
 bytedance.com
@@ -31,7 +39,6 @@ bytedance.net
 bytedanceapi.com
 byteoversea.com
 
-cdn.spotify.com
 cdninstagram.com
 
 connect.facebook.com
@@ -42,7 +49,6 @@ conviva.com
 d1v0o82c0gfg2u.cloudfront.net
 d2cvj4cr2d2r7g.cloudfront.net
 d3n92br3b4jq4j.cloudfront.net
-deezer.com
 
 developers.facebook.com
 
@@ -72,8 +78,6 @@ graph.facebook.com
 ibyteimg.com
 
 imasdk.googleapis.com
-imdb.com
-imdbtv.com
 imgur.com
 imgur.io
 imgurmedia.com
@@ -100,7 +104,6 @@ mlb.com
 mlbstatic.com
 moviefone.com
 mparticle.com
-mubi.com
 musical.ly
 
 mzstatic.com
@@ -109,24 +112,15 @@ mzstatic.com
 
 nextdoor.com
 nfl.com
-nflxext.com
-nflximg.com
-nflximg.net
-nflxsearch.net
-nflxso.net
-nflxvideo.net
 nhl.com
 nhlstatic.com
 oculus.com
 omtrdc.net
-open.spotify.com
 
 pagead2.googlesyndication.com
-pandora.com
 
 parler.com
 
-philo.com
 pinimg.com
 pinterest.com
 pinterestcdn.com
@@ -151,8 +145,6 @@ snap.com
 snapads.com
 snapchat.com
 snapkit.com
-soundcloud.com
-spotify.com
 
 static-delivery.sr.roku.com
 static.ak.connect.facebook.com
@@ -166,7 +158,6 @@ telegram.org
 tfbnw.net
 
 thumbnails.cbsig.net
-tidal.com
 tiktok.com
 tiktokcdn-eu.com
 tiktokcdn-us.com
@@ -178,9 +169,7 @@ tiktokv.us
 tiktokw.us
 truthsocial.com
 ttvnw.net
-tubitv.com
 tumblr.com
-tv.apple.com
 twitch.tv
 upload.facebook.com
 viacomcbs.com
@@ -192,9 +181,7 @@ vk.ru
 vkcdn.net
 vkuser.net
 
-vrv.co
 
-wbdstreaming.com
 weibo.cn
 weibo.com
 whatsapp.com
@@ -231,9 +218,6 @@ www.fansly.com
 # IP RANGES / CIDRs
 # =============================================================================
 # OnlyFans (Cloudflare AS13335)
-104.16.0.0/12
-162.159.128.0/19
-172.66.0.0/22
 
 # Facebook/Instagram/Meta (AS32934, AS2603, AS131772)
 103.136.220.0/22
