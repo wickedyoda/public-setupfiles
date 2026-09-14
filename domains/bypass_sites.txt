@@ -1,69 +1,42 @@
-# --- added domains from research ---
-# amazon prime video (additional)
-# apple tv+ (rebranded from apple tv+)
-# crunchyroll (additional)
-# duckduckgo video search
-# general streaming protocols
-# ip ranges / cidrs
-# paramount+ (additional)
-# peacock (additional domains from filterlist)
-# roku
-# youtube (additional - common streaming)
+# ===================================================================
+# BYPASS_SITES INDEX
+# ===================================================================
+# Categories:
+#   1. Facebook/Meta  - facebook.com, instagram.com, meta.com, etc.
+#   2. Amazon          - amazon.com, amazonaws.com, etc.
+#   3. Apple           - apple.com, apple-dns.net, etc.
+#   4. TikTok/Bytedance - tiktok.com, bytedance.com, etc.
+#   5. Instagram        - instagram.com, cdninstagram.com
+#   6. Duck.com         - duck.com, duckduckgo.com
+#   7. ESPN             - espn.com, espn.net, espncdn.com
+#   8. Flickr           - flickr.com, staticflickr.com
+#   9. Meetup           - meetup.com
+#  10. Zoom             - zoom.com, zoom.us, zoomgov.com
+#  11. Discord          - discord.com, discordapp.com, discord.media
+#  12. Messenger        - messenger.com (Facebook Messenger)
+#  13. Pinterest        - pinterest.com, pinimg.com, pinterestcdn.com
+#  14. Quora            - quora.com, quoracdn.net
+#  15. Snapchat         - snapchat.com, snap.com, snapkit.com
+#  16. OnlyFans         - onlyfans.com, cdn3.onlyfans.com
+#  17. Fansly           - fansly.com, cdn3.fansly.com, apiv3.fansly.com
+#  18. WhatsApp         - whatsapp.com, whatsapp.net
+#
+# NOTE: Streaming services (Netflix, Hulu, Disney+, Spotify, etc.)
+# are NOT included. See streaming_domains_whitelist.txt.
+# ===================================================================
+
+# ===================================================================
+# FACEBOOK / META
+# ===================================================================
 about.meta.com
 accounts.facebook.com
-acorn.tv
 ads.facebook.com
-aiv-cdn.net
-akamaized.net
-amazon.com
-amazonaws.com
-amp.twimg.com
-api-manga.crunchyroll.com
-api.crunchyroll.com
 api.facebook.com
-api.instagram.com
-apple-dns.net
-apple.com
-apple.com.edgekey.net
 apps.facebook.com
-atv-ext.amazon.com
-availability-fastly.syncbak-mediastore-cedexis.cbsaavideo.com
-badoo.com
-bakery.pplus.paramount.tech
-bam.nr-data.net
-bamgrid.com
-bluesky.app
-britbox.com
-bsky.social
 business.facebook.com
-bytedance.com
-bytedance.net
-bytedanceapi.com
-byteoversea.com
-
-cdn.spotify.com
-cdninstagram.com
-
 connect.facebook.com
 connect.facebook.net
-
-conviva.com
-
-d1v0o82c0gfg2u.cloudfront.net
-d2cvj4cr2d2r7g.cloudfront.net
-d3n92br3b4jq4j.cloudfront.net
-deezer.com
-
 developers.facebook.com
-
-dssott.com
-duck.com
-duckduckgo.com
-edgesuite.net
-enduser.adsrv.org
-espn.com
-espn.net
-espncdn.com
 facebook.com
 facebook.net
 fb.com
@@ -73,185 +46,28 @@ fb.watch
 fbcdn.com
 fbcdn.net
 fbsbx.com
-flickr.com
-
-fwmrm.net
-
 graph.facebook.com
-
-ibyteimg.com
-
-imasdk.googleapis.com
-imdb.com
-imdbtv.com
-imgur.com
-imgur.io
-imgurmedia.com
-
-innovidvideo.com
-instagram.com
-jtvnw.net
-kick.com
 l.facebook.com
-licdn.com
-linkedin.com
-linkedin.cn
-llnwd.net
 lm.facebook.com
 login.facebook.com
-mastodon.social
-medium.com
-meetup.com
-
 messenger.com
 meta.com
 metacdn.com
-mlb.com
-mlbstatic.com
-moviefone.com
-mparticle.com
-mubi.com
-musical.ly
-
-mzstatic.com
-
-
-
-nextdoor.com
-nfl.com
-nflxext.com
-nflximg.com
-nflximg.net
-nflxsearch.net
-nflxso.net
-nflxvideo.net
-nhl.com
-nhlstatic.com
 oculus.com
 omtrdc.net
-open.spotify.com
-
-pagead2.googlesyndication.com
-pandora.com
-
-parler.com
-
-philo.com
-pinimg.com
-pinterest.com
-pinterestcdn.com
-
-polymatech.net
-
-quora.com
-quoracdn.net
-
-rumble.com
-s3.amazonaws.com
-
-sc-cdn.net
-scdn.co
-scorecardresearch.com
 secure.facebook.com
-shudder.com
-signal.org
-sinaimg.cn
-
-snap.com
-snapads.com
-snapchat.com
-snapkit.com
-soundcloud.com
-spotify.com
-
-static-delivery.sr.roku.com
 static.ak.connect.facebook.com
 static.ak.facebook.com
 static.xx.fbcdn.net
-staticflickr.com
-t.me
-telegram.me
-telegram.org
-
 tfbnw.net
-
-thumbnails.cbsig.net
-tidal.com
-tiktok.com
-tiktokcdn-eu.com
-tiktokcdn-us.com
-tiktokcdn.com
-tiktoklinksafety.us
-tiktokv.com
-tiktokv.eu
-tiktokv.us
-tiktokw.us
-truthsocial.com
-ttvnw.net
-tubitv.com
-tumblr.com
-tv.apple.com
-twitch.tv
 upload.facebook.com
-viacomcbs.com
 video.xx.fbcdn.net
-vimeo.com
-vimeocdn.com
-vk.com
-vk.ru
-vkcdn.net
-vkuser.net
 
-vrv.co
-
-wbdstreaming.com
-weibo.cn
-weibo.com
-whatsapp.com
-whatsapp.net
-wmcdp.com
-wmcdp.io
-
-www.googletagmanager.com
-wwwimage-secure.cbsstatic.com
-wwwimage-us.pplusstatic.com
-xumo.com
-youtu.be
-youtube.com
-ytimg.com
-
-# =============================================================================
-# ONLYFANS DOMAINS (Cloudflare AS13335 CDN)
-# =============================================================================
-cdn3.onlyfans.com
-onlyfans.com
-www.onlyfans.com
-
-# =============================================================================
-# FANSLY DOMAINS
-# =============================================================================
-cdn3.fansly.com
-apiv3.fansly.com
-wsv3.fansly.com
-cdev2.fansly.com
-fansly.com
-www.fansly.com
-
-# =============================================================================
-# IP RANGES / CIDRs
-# =============================================================================
-# OnlyFans (Cloudflare AS13335)
-104.16.0.0/12
-162.159.128.0/19
-172.66.0.0/22
-
-# Facebook/Instagram/Meta (AS32934, AS2603, AS131772)
+# IP Ranges / CIDRs
 103.136.220.0/22
 103.4.96.0/22
 108.175.32.0/20
 129.134.0.0/16
-13.107.0.0/16
-149.154.160.0/20
 157.240.0.0/16
 161.117.0.0/16
 173.252.64.0/18
@@ -266,23 +82,241 @@ www.fansly.com
 208.75.76.0/22
 31.13.24.0/21
 31.13.64.0/18
-34.192.0.0/10
-40.0.0.0/8
 45.57.0.0/17
 47.246.0.0/16
-52.0.0.0/11
-52.96.0.0/12
 64.120.128.0/17
 66.197.128.0/17
 69.171.224.0/19
 69.53.224.0/19
 74.119.76.0/22
 87.240.128.0/18
-91.108.4.0/22
-91.108.8.0/22
 91.108.12.0/22
 91.108.16.0/22
+91.108.4.0/22
 91.108.56.0/22
+91.108.8.0/22
 93.186.224.0/20
 95.213.0.0/16
-224.0.0.0/4
+
+# ===================================================================
+# AMAZON
+# ===================================================================
+aiv-cdn.net
+amazon.com
+amazonaws.com
+atv-ext.amazon.com
+s3.amazonaws.com
+
+# ===================================================================
+# APPLE
+# ===================================================================
+apple-dns.net
+apple.com
+apple.com.edgekey.net
+mzstatic.com
+
+# IP Ranges / CIDRs
+17.0.0.0/8
+17.128.0.0/10
+17.253.0.0/16
+
+# ===================================================================
+# TIKTOK (BYTEDANCE)
+# ===================================================================
+bytedance.com
+bytedance.net
+bytedanceapi.com
+byteoversea.com
+ibyteimg.com
+musical.ly
+tiktok.com
+tiktokcdn-eu.com
+tiktokcdn-us.com
+tiktokcdn.com
+tiktoklinksafety.us
+tiktokv.com
+tiktokv.eu
+tiktokv.us
+tiktokw.us
+
+# IP Ranges / CIDRs
+104.248.116.0/24
+119.237.248.0/24
+119.237.249.0/24
+119.237.250.0/24
+192.247.74.0/24
+193.176.24.0/24
+193.176.25.0/24
+193.176.26.0/24
+193.176.27.0/24
+193.176.28.0/24
+193.176.29.0/24
+193.176.30.0/24
+193.176.31.0/24
+193.176.88.0/24
+193.176.89.0/24
+
+# ===================================================================
+# INSTAGRAM
+# ===================================================================
+api.instagram.com
+cdninstagram.com
+instagram.com
+
+# ===================================================================
+# DUCK.COM (DUCKDUCKGO)
+# ===================================================================
+duck.com
+duckduckgo.com
+
+# ===================================================================
+# ESPN
+# ===================================================================
+espn.com
+espn.net
+espncdn.com
+
+# ===================================================================
+# FLICKR
+# ===================================================================
+flickr.com
+staticflickr.com
+
+# ===================================================================
+# MEETUP
+# ===================================================================
+meetup.com
+
+# ===================================================================
+# ZOOM
+# ===================================================================
+zm-ext.zoom.us
+zoom.com
+zoom.us
+zoomgov.com
+
+# ===================================================================
+# DISCORD
+# ===================================================================
+cdn.discordapp.com
+discord.com
+discord.media
+discordapp.com
+discordapp.net
+media.discordapp.com
+media.discordapp.net
+
+# ===================================================================
+# PINTEREST
+# ===================================================================
+pinimg.com
+pinterest.com
+pinterestcdn.com
+
+# ===================================================================
+# QUORA
+# ===================================================================
+quora.com
+quoracdn.net
+
+# ===================================================================
+# SNAPCHAT
+# ===================================================================
+sc-cdn.net
+scdn.co
+snap.com
+snapads.com
+snapchat.com
+snapkit.com
+
+# IP Ranges / CIDRs
+104.193.14.0/24
+104.193.16.0/24
+104.193.17.0/24
+104.193.18.0/24
+104.193.19.0/24
+104.193.20.0/24
+104.193.21.0/24
+104.193.22.0/24
+104.193.23.0/24
+104.193.24.0/24
+104.193.25.0/24
+104.193.26.0/24
+104.193.27.0/24
+104.193.28.0/24
+104.193.29.0/24
+104.193.30.0/24
+104.193.31.0/24
+104.193.32.0/24
+104.193.33.0/24
+104.193.34.0/24
+104.193.35.0/24
+104.193.36.0/24
+104.193.37.0/24
+104.193.38.0/24
+104.193.39.0/24
+104.193.40.0/24
+104.193.41.0/24
+104.193.42.0/24
+104.193.43.0/24
+104.193.44.0/24
+104.193.45.0/24
+104.193.46.0/24
+104.193.47.0/24
+104.193.48.0/24
+104.193.49.0/24
+104.193.50.0/24
+104.193.51.0/24
+104.193.52.0/24
+104.193.53.0/24
+104.193.54.0/24
+104.193.55.0/24
+104.193.56.0/24
+104.193.57.0/24
+104.193.58.0/24
+104.193.59.0/24
+104.193.60.0/24
+104.193.61.0/24
+104.193.62.0/24
+104.193.63.0/24
+
+# ===================================================================
+# ONLYFANS
+# ===================================================================
+cdn3.onlyfans.com
+onlyfans.com
+www.onlyfans.com
+
+# IP Ranges / CIDRs
+104.16.0.0/12
+162.159.128.0/19
+172.66.0.0/22
+
+# ===================================================================
+# FANSLY
+# ===================================================================
+apiv3.fansly.com
+cdev2.fansly.com
+cdn3.fansly.com
+fansly.com
+wsv3.fansly.com
+www.fansly.com
+
+# IP Ranges / CIDRs
+
+# ===================================================================
+# WHATSAPP (META)
+# ===================================================================
+whatsapp.com
+whatsapp.net
+
+# IP Ranges / CIDRs
+169.155.0.0/16
+169.155.192.0/20
+179.60.128.0/22
+185.39.132.0/24
+185.39.133.0/24
+185.39.134.0/24
+185.39.135.0/24
+185.39.164.0/22
+

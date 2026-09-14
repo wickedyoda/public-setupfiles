@@ -287,7 +287,7 @@ def main():
     parser = argparse.ArgumentParser(description="Update domain lists - never delete!")
     parser.add_argument("--streaming", action="store_true", help="Update streaming only")
     parser.add_argument("--social", action="store_true", help="Update social media only")
-    parser.add_argument("--bypass", action="store_true", help="Update bypass_sites (combines streaming+social)")
+    parser.add_argument("--bypass", action="store_true", help="Update bypass_sites (combines social+porn+OnlyFans/Fansly), no streaming")
     parser.add_argument("--porn", action="store_true", help="Update porn domains")
     parser.add_argument("--all", action="store_true", help="Update all lists")
     args = parser.parse_args()
