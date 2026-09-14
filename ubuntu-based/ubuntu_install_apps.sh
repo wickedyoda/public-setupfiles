@@ -1,5 +1,4 @@
 #!/bin/bash
-!/bin/bash
 
 # ----------------------------------------------------------------------
 # | Add repos                                                          |
@@ -46,8 +45,8 @@ sudo apt-get -y install
 # | Install Discord                  |
 # ----------------------------------------------------------------------
 
-cd /home/traver/Downloads 
-wget -O discord-0.0.1.deb https://discordapp.com/api/download?platform=linux&format=deb
+cd /home/traver/Downloads || exit 
+wget -O discord-0.0.1.deb 'https://discordapp.com/api/download?platform=linux&format=deb'
 sudo dpkg -i discord-0.0.1.deb
 
 
