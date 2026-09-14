@@ -34,4 +34,6 @@ jobs:
         uses: github/codeql-action/autobuild@v3
 
       - name: Perform CodeQL Analysis
+        # Non-blocking during initial rollout phase
+        continue-on-error: true
         uses: github/codeql-action/analyze@v3

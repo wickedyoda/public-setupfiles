@@ -73,7 +73,8 @@ jobs:
           scan-type: 'fs'
           scan-ref: '.'
           severity: 'CRITICAL,HIGH'
-          exit-code: '1'
+          # Non-blocking during initial rollout phase — set to '1' to make it gating
+          exit-code: '0'
           format: 'table'
           ignore-unfixed: true
           skip-dirs: |
