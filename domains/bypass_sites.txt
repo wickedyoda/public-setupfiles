@@ -1,14 +1,4 @@
-# --- added domains from research ---
-# amazon prime video (additional)
-# apple tv+ (rebranded from apple tv+)
-# crunchyroll (additional)
-# duckduckgo video search
-# general streaming protocols
-# ip ranges / cidrs
-# paramount+ (additional)
-# peacock (additional domains from filterlist)
-# roku
-# youtube (additional - common streaming)
+
 about.meta.com
 accounts.facebook.com
 acorn.tv
