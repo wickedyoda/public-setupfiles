@@ -6,8 +6,8 @@ if [ "$(id -u)" -ne 0 ]; then
    exit 1
 fi
 
-# Function to auto-install git dynamically based on platform
-install_git() {
+# Auto-install Git if missing instead of failing silently
+if ! command -v git >/dev/null 2>&1; then
     if command -v apt-get >/dev/null 2>&1; then
         echo "Debian detected. Installing git..."
         apt-get update && apt-get install -y git
@@ -15,25 +15,45 @@ install_git() {
         echo "OpenWrt detected. Installing git..."
         opkg update && opkg install git git-http
     else
-        echo "Error: Neither apt nor opkg found."
+        echo "Error: Neither apt-get nor opkg found to install git."
         exit 1
     fi
-}
-
-# Auto-install Git if missing instead of failing silently
-if ! command -v git >/dev/null 2>&1; then
-    install_git
 fi
 
 REMOTE_REPO="https://github.com/wickedyoda/public-setupfiles.git"
-LOCAL_DIR="./public-setupfiles"
+LOCAL_DIR="public-setupfiles"
 
-if [ -d "$LOCAL_DIR" ] && [ "$(ls -A "$LOCAL_DIR" 2>/dev/null)" ]; then
-    echo "Cleaning old directory..."
-    rm -rf "$LOCAL_DIR"
+# If we're already inside the cloned repo, pull latest
+if [ -d ".git" ] && git remote get-url origin 2>/dev/null | grep -q "wickedyoda/public-setupfiles"; then
+    echo "Already in public-setupfiles repo. Pulling latest changes..."
+    git pull origin main
+    exit_code=$?
+    if [ $exit_code -eq 0 ]; then
+        echo "Update complete!"
+    else
+        echo "Update failed with exit code $exit_code"
+        exit $exit_code
+    fi
+    exit 0
 fi
 
-echo "Cloning repository..."
-git clone "$REMOTE_REPO" "$LOCAL_DIR"
-chmod -R 755 "$LOCAL_DIR"
+# Check if directory already exists
+if [ -d "$LOCAL_DIR" ] && [ "$(ls -A "$LOCAL_DIR" 2>/dev/null)" ]; then
+    echo "Existing directory found. Pulling latest changes..."
+    cd "$LOCAL_DIR" || exit 1
+    git pull origin main
+    exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        echo "Git pull failed, re-cloning..."
+        cd ..
+        rm -rf "$LOCAL_DIR"
+        git clone "$REMOTE_REPO" "$LOCAL_DIR"
+    fi
+else
+    echo "Cloning repository..."
+    git clone "$REMOTE_REPO" "$LOCAL_DIR"
+fi
+
+cd "$LOCAL_DIR" || exit 1
+chmod -R 755 .
 echo "Done!"
