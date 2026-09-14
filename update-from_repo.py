@@ -20,22 +20,22 @@ def run(cmd, **kwargs):
 
 def install_git():
     """Install git if not present."""
-    try:
-        subprocess.run(["git", "--version"], check=True, capture_output=True)
+    # Already installed?
+    if shutil.which("git"):
         return True
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        pass
 
     if shutil.which("apt-get"):
-        run(["apt-get", "update", "-y"])
-        run(["apt-get", "install", "-y", "git"])
+        subprocess.run(["apt-get", "update", "-y"], check=True)
+        subprocess.run(["apt-get", "install", "-y", "git"], check=True)
     elif shutil.which("opkg"):
-        run(["opkg", "update"])
-        run(["opkg", "install", "git", "git-http"])
+        subprocess.run(["opkg", "update"], check=True)
+        subprocess.run(["opkg", "install", "git", "git-http"], check=True)
     else:
         print("Error: Neither apt-get nor opkg found to install git.")
         return False
-    return True
+
+    # Verify git is actually available after install
+    return shutil.which("git") is not None
 
 
 def is_in_repo():
@@ -81,13 +81,14 @@ def main():
             os.chdir("..")
             shutil.rmtree(local_dir)
             run(["git", "clone", remote_repo, local_dir])
-        os.chdir(local_dir)
+        else:
+            os.chdir(local_dir)
     else:
         print("Cloning repository...")
         run(["git", "clone", remote_repo, local_dir])
         os.chdir(local_dir)
 
-    subprocess.run(["chmod", "-R", "755", "."])
+    subprocess.run(["chmod", "-R", "755", "."], check=True)
     print("Done!")
     return 0
 

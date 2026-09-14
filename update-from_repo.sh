@@ -1,4 +1,5 @@
 #!/bin/sh
+set -euo pipefail
 
 # Ensure script is run as root
 if [ "$(id -u)" -ne 0 ]; then
@@ -16,6 +17,11 @@ if ! command -v git >/dev/null 2>&1; then
         opkg update && opkg install git git-http
     else
         echo "Error: Neither apt-get nor opkg found to install git."
+        exit 1
+    fi
+    # Verify git is actually available after install
+    if ! command -v git >/dev/null 2>&1; then
+        echo "Error: Git installation failed. git is not available."
         exit 1
     fi
 fi
@@ -41,9 +47,7 @@ fi
 if [ -d "$LOCAL_DIR" ] && [ "$(ls -A "$LOCAL_DIR" 2>/dev/null)" ]; then
     echo "Existing directory found. Pulling latest changes..."
     cd "$LOCAL_DIR" || exit 1
-    git pull origin main
-    exit_code=$?
-    if [ $exit_code -ne 0 ]; then
+    if ! git pull origin main; then
         echo "Git pull failed, re-cloning..."
         cd ..
         rm -rf "$LOCAL_DIR"
