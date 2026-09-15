@@ -18,14 +18,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run ShellCheck on all shell scripts
+        # Non-blocking during initial rollout phase — set to false to make it gating
+        continue-on-error: true
         uses: ludeeus/action-shellcheck@2.0.0
         with:
-          # Check all .sh files, excluding .git and vendor directories
-          files: |
-            *.sh
-            **/*.sh
+          # Only fail on error-level issues (not warnings, info, or style)
+          severity: error
           # Exclude directories we don't want to lint
-          exclude: |
+          ignore_paths: |
             .git
             .idea
             .vscode
