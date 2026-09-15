@@ -1,4 +1,5 @@
 #!/bin/zsh
+# shellcheck shell=sh
 
 echo "=== Updating macOS Software ==="
 softwareupdate -i -a

@@ -16,7 +16,7 @@ if [ -z "$PKG_MANAGERS" ] || [ ${#PKG_MANAGERS[@]} -eq 0 ]; then
         echo "Error! No package managers specified"
         exit 1
 else
-        for pkg in ${PKG_MANAGERS[@]}; do
+        for pkg in "${PKG_MANAGERS[@]}"; do
                 TEST=`which $pkg`
                 if [ $? -eq 0 ]; then
                 	PKG_MAN=$pkg
@@ -51,7 +51,7 @@ if [ -z "$OBSERVIUM_HOST" ]; then
 fi
 
 if [ -z "$SVN_USER" ] || [ -z "$SVN_PASS" ]; then
-        $ENTERPRISE = false
+        ENTERPRISE=false
 fi
 
 if [ "$ENTERPRISE" = true ]; then
@@ -127,7 +127,7 @@ mkdir -p /usr/lib/observium_agent/local
 if [ -z "$MODULES" ] || [ ${#MODULES[@]} -eq 0 ]; then
         echo "No modules specified skipping..."
 else
-        for mod in ${MODULES[@]}; do
+        for mod in "${MODULES[@]}"; do
                 cp observium/scripts/agent-local/$mod /usr/lib/observium_agent/local/
         done
 fi

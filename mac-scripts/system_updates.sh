@@ -1,4 +1,5 @@
 #!/bin/zsh
+# shellcheck shell=sh
 
 echo "=== Updating Homebrew ==="
 brew update && brew upgrade
