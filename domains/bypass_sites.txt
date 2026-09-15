@@ -111,7 +111,6 @@ amazon-adsystem.com
 amazon.com
 amazonaws.com
 a9.com
-atv-ext.amazon.com
 cloudfront.net
 s3.amazonaws.com
 
@@ -3776,7 +3775,6 @@ deepl.com
 deepnudeaitool.com
 deepstash.com
 deepswapper.com
-deezer.com
 def.sibuzyn.com
 defector.com
 definitions.net
@@ -3888,7 +3886,6 @@ diskgirl.com
 diskgirl.compc.html
 dismall.com
 disneyaulani.com
-disneyplus.com
 disp.cc
 display868.com
 distinctplugins.io
@@ -5688,7 +5685,6 @@ huiyingwu.com
 hujiang.com
 huli.one
 huliku.com
-hulu.com
 humanevents.com
 huntscreens.com
 huoban.com
@@ -7468,7 +7464,6 @@ m.ydxgnd.com
 m.yebaike.com
 m.yicai.com
 m.yoojia.com
-m.youtube.com
 m.yuncaijing.com
 m.yuzizi.com
 m.yw-jz.com
@@ -8050,7 +8045,6 @@ mus567.com
 musesai.io
 music-pi.vercel.app
 music.taihe.com
-music.youtube.com
 musicfy.lol
 musplaylist.ru
 muspz2pi.live.sxmty.com
@@ -8211,7 +8205,6 @@ net.devote-frauen.net
 netapp.com
 netbig.top
 netded.com
-netflixgc.com
 netflixhz.com
 netlify.app
 nettuba.net
@@ -8532,7 +8525,6 @@ ootaotu.com
 op.cdloop.eu
 op.f6ic.com
 opeh33f.naihendu.buzz
-open.spotify.com
 openai.art
 openai2025.xyz
 openaijourney.com
@@ -8655,7 +8647,6 @@ pan.xccld.icu
 panasonic.hk
 pandapia.com
 pandia.pro
-pandora.com
 panku.ch
 pansci.asia
 pansi4.sbs
@@ -8994,7 +8985,6 @@ pref.okayama.jp
 presidentrooseveltlaan168.nl
 prettijd.nl
 prgunai.store
-primevideo.com
 privacysimplified.com
 privatebrowsingmyths.com
 privateplaytime.co
@@ -10065,7 +10055,6 @@ sports-reference.com
 sports.iqiyi.com
 sportsnet-midas.fubo.tv
 sportsv.net
-spotify.com
 spotlight-redbox.amagi.tv
 spp.com.tw
 spreadai.app
@@ -10698,7 +10687,6 @@ tianyuangirl.xyz
 tiaokanwang.vip
 tiatiatoutiao.com
 tibet.net
-tidal.com
 tieba.com
 tiehuatu.com
 tigg.cc
@@ -11010,7 +10998,6 @@ twinkle-leather.com
 twinner.com.tw
 twinstrata.com
 twintail-japan.com
-twitch.tv
 two.awnmy.com
 two.fsylr.com
 twojau6.cfd
@@ -11665,7 +11652,6 @@ viewmedia-hls-8.unreel.me
 vifleem.info
 vikingcabin.com
 villasterappel.nl
-vimeo.com
 vinelink.com
 vinylmeplease.com
 violatorrecords.com
@@ -12717,7 +12703,6 @@ www.discovermagazine.com
 www.discovery.com
 www.discuz.vip
 www.diskaa.com
-www.disneyplus.com
 www.dispatch.com
 www.distinctplugins.io
 www.diyiav.click
@@ -13113,7 +13098,6 @@ www.hubpd.com
 www.hudieqing.com
 www.huffingtonpost.fr
 www.huffpost.com
-www.hulu.com
 www.huluopo.com
 www.humansofnewyork.com
 www.hyaa025.cc
@@ -13638,8 +13622,6 @@ www.nbcconnecticut.com
 www.nbcdfw.com
 www.nbcphiladelphia.com
 www.nctxt.life
-www.netflix.com
-www.netflixgc.com
 www.nettavisen.no
 www.netwerk24.com
 www.neural.love
@@ -13892,7 +13874,6 @@ www.prabhatkhabar.com
 www.press-citizen.com
 www.pressconnects.com
 www.pressherald.com
-www.primevideo.com
 www.problembo.com
 www.prodia.com
 www.progress-index.com
@@ -14742,7 +14723,6 @@ www.younqc1.cfd
 www.youpornoxxx24.com
 www.yourbangtube.com
 www.yourxbang.com
-www.youtube.com
 www.youxiacg.com
 www.ypbj.buzz
 www.yrqcaiji.com
@@ -15848,8 +15828,6 @@ youluoyuan.com
 yourdictionary.com
 yourinfoguide.com
 yousemanhua.com
-youtu.be
-youtube.com
 youwuqiong.top
 youxibao.com
 youxiguancha.com
