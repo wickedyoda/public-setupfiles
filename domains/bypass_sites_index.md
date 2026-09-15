@@ -45,7 +45,7 @@ The file contains three sections, in order:
 |------------|---------------------|
 | known_porn_domains.txt | ~15,907 |
 | known_porn_domains_v2.txt | ~1,933 (unique, not in v1) |
-| **Total porn entries** | **~17,840** |
+| **Total porn entries** | **16,117** |
 
 ## Section 3 — IP Ranges (deduplicated)
 Combined from all service sources. Total IP/CIDR entries: 111.
@@ -67,6 +67,8 @@ Combined from all service sources. Total IP/CIDR entries: 111.
 - ✅ Zero streaming domains in file
 - ✅ Zero non-approved social media domains
 - ✅ Zero duplicate entries (domains or IPs)
+- ✅ Zero digit-leading domains (filtered for DNS tool compatibility — Pi-hole, AdGuard, etc.)
 - ✅ All 18 service groups present with headers
 - ✅ All associated domains included (fb.com, m.me, wa.me, cloudfront.net, etc.)
 - ✅ known_porn_domains.txt and _v2.txt merged with deduplication
+- ✅ DOMAIN_RE in update_domains.py updated to match stricter validation (letter-first label)
