@@ -62,6 +62,11 @@ static.xx.fbcdn.net
 tfbnw.net
 upload.facebook.com
 video.xx.fbcdn.net
+edge-mqtt.facebook.com
+fna.fbcdn.net
+m.me
+web.facebook.com
+xrcdn.com
 
 # IP Ranges / CIDRs
 103.136.220.0/22
@@ -102,9 +107,12 @@ video.xx.fbcdn.net
 # AMAZON
 # ===================================================================
 aiv-cdn.net
+amazon-adsystem.com
 amazon.com
 amazonaws.com
+a9.com
 atv-ext.amazon.com
+cloudfront.net
 s3.amazonaws.com
 
 # ===================================================================
@@ -113,6 +121,10 @@ s3.amazonaws.com
 apple-dns.net
 apple.com
 apple.com.edgekey.net
+appstore.com
+aaplimg.com
+icloud.com
+me.com
 mzstatic.com
 
 # IP Ranges / CIDRs
@@ -166,6 +178,7 @@ instagram.com
 # ===================================================================
 # DUCK.COM (DUCKDUCKGO)
 # ===================================================================
+ddg.gg
 duck.com
 duckduckgo.com
 
@@ -186,6 +199,7 @@ staticflickr.com
 # MEETUP
 # ===================================================================
 meetup.com
+meetupstatic.com
 
 # ===================================================================
 # ZOOM
@@ -200,6 +214,7 @@ zoomgov.com
 # ===================================================================
 cdn.discordapp.com
 discord.com
+discord.new
 discord.media
 discordapp.com
 discordapp.net
@@ -283,7 +298,9 @@ snapkit.com
 # ===================================================================
 # ONLYFANS
 # ===================================================================
+api.onlyfans.com
 cdn3.onlyfans.com
+m.onlyfans.com
 onlyfans.com
 www.onlyfans.com
 
@@ -299,6 +316,7 @@ apiv3.fansly.com
 cdev2.fansly.com
 cdn3.fansly.com
 fansly.com
+m.fansly.com
 wsv3.fansly.com
 www.fansly.com
 
@@ -307,6 +325,10 @@ www.fansly.com
 # ===================================================================
 # WHATSAPP (META)
 # ===================================================================
+graph.whatsapp.com
+m.whatsapp.com
+wa.me
+web.whatsapp.com
 whatsapp.com
 whatsapp.net
 
