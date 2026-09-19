@@ -9,12 +9,18 @@
 ### Clone and Set Up
 
 ```bash
-# Automatic setup (installs git if needed)
+# Automatic setup (installs git if needed, handles existing clones)
 curl -s https://raw.githubusercontent.com/wickedyoda/public-setupfiles/refs/heads/main/update-from_repo.sh | sudo bash
 
-# Or manual clone
+# Or manual clone / update
+# If you haven't cloned yet:
 git clone https://github.com/wickedyoda/public-setupfiles.git
 cd public-setupfiles
+chmod -R 755 .
+
+# If you already have it cloned, just pull latest:
+cd public-setupfiles
+git pull
 chmod -R 755 .
 ```
 
