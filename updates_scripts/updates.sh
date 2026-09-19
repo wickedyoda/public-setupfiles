@@ -1,6 +1,6 @@
 #!/bin/bash
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-sudo "$DIR/fix_apt_influx.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+sudo "$SCRIPT_DIR/fix_apt_influx.sh"
 
 sudo apt update
 sudo apt upgrade -y
