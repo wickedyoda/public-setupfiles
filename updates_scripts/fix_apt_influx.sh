@@ -32,7 +32,7 @@ if [ -s /tmp/influxdata-archive.key ]; then
     | sudo tee /etc/apt/sources.list.d/influxdata.list >/dev/null
 else
   # Fallback: use existing keyring if already present
-  if [ -f /usr/share/keyrings/influxdata-archive.gpg ]; then
+  if [ -s /usr/share/keyrings/influxdata-archive.gpg ]; then
     echo "deb [signed-by=/usr/share/keyrings/influxdata-archive.gpg] https://repos.influxdata.com/debian stable main" \
       | sudo tee /etc/apt/sources.list.d/influxdata.list >/dev/null
   else
