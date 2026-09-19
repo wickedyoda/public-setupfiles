@@ -31,9 +31,15 @@ if [ -s /tmp/influxdata-archive.key ]; then
   echo "deb [signed-by=/usr/share/keyrings/influxdata-archive.gpg] https://repos.influxdata.com/debian stable main" \
     | sudo tee /etc/apt/sources.list.d/influxdata.list >/dev/null
 else
-  # Fallback: use trusted=yes (signature verification disabled)
-  echo "deb [trusted=yes] https://repos.influxdata.com/debian stable main" \
-    | sudo tee /etc/apt/sources.list.d/influxdata.list >/dev/null
+  # Fallback: use existing keyring if already present
+  if [ -s /usr/share/keyrings/influxdata-archive.gpg ]; then
+    echo "deb [signed-by=/usr/share/keyrings/influxdata-archive.gpg] https://repos.influxdata.com/debian stable main" \
+      | sudo tee /etc/apt/sources.list.d/influxdata.list >/dev/null
+  else
+    # Last resort: trusted=yes (signature verification disabled)
+    echo "deb [trusted=yes] https://repos.influxdata.com/debian stable main" \
+      | sudo tee /etc/apt/sources.list.d/influxdata.list >/dev/null
+  fi
 fi
 
 echo "==> Fixing Sury PHP repo key"
