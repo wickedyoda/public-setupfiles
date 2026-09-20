@@ -74,20 +74,16 @@ def main():
     # Check if directory already exists
     if os.path.isdir(local_dir) and os.listdir(local_dir):
         print(f"Directory '{local_dir}' exists. Pulling latest changes...")
-        os.chdir(local_dir)
-        result = run(["git", "pull", "origin", "main"])
+        result = run(["git", "pull", "origin", "main"], cwd=local_dir)
         if result.returncode != 0:
             print("Git pull failed, re-cloning...")
-            os.chdir("..")
             shutil.rmtree(local_dir)
             run(["git", "clone", remote_repo, local_dir])
-        else:
-            os.chdir(local_dir)
     else:
         print("Cloning repository...")
         run(["git", "clone", remote_repo, local_dir])
-        os.chdir(local_dir)
 
+    os.chdir(local_dir)
     subprocess.run(["chmod", "-R", "755", "."], check=True)
     print("Done!")
     return 0

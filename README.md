@@ -10,7 +10,7 @@
 
 ```bash
 # Automatic setup (installs git if needed, handles existing clones)
-curl -s https://raw.githubusercontent.com/wickedyoda/public-setupfiles/refs/heads/main/update-from_repo.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/wickedyoda/public-setupfiles/refs/heads/main/update-from_repo.sh | sudo bash
 
 # Or manual clone / update
 # If you haven't cloned yet:
