@@ -46,10 +46,8 @@ fi
 # Check if directory already exists
 if [ -d "$LOCAL_DIR" ] && [ "$(ls -A "$LOCAL_DIR" 2>/dev/null)" ]; then
     echo "Existing directory found. Pulling latest changes..."
-    cd "$LOCAL_DIR" || exit 1
-    if ! git pull origin main; then
+    if ! (cd "$LOCAL_DIR" && git pull origin main); then
         echo "Git pull failed, re-cloning..."
-        cd ..
         rm -rf "$LOCAL_DIR"
         git clone "$REMOTE_REPO" "$LOCAL_DIR"
     fi
