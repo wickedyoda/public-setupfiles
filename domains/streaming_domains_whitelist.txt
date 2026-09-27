@@ -1,70 +1,17 @@
-# Streaming Domains Whitelist
-# Comprehensive domain and IP whitelist for streaming services.
-# Sources: Netflix partner help center, Netify.app, pladypus/streaming-domains,
-# filterlists, and live scraping via update_domains.py
-# Updated: 2026-09-10
-
 # =============================================================================
-# IP RANGES / CIDRs
+# STREAMING DOMAINS & IP RANGES CONSOLIDATED LIST
 # =============================================================================
 
-# Netflix IP ranges (AS2906)
-# Source: partnerhelp.netflixstudios.com, netify.ai
-23.246.0.0/18
-31.13.64.0/18
-34.192.0.0/10
-34.210.0.0/16
-34.216.0.0/14
-34.248.0.0/13
-35.160.0.0/14
-37.77.184.0/21
-45.57.0.0/17
-52.0.0.0/11
-52.40.0.0/14
-52.80.0.0/16
-52.220.0.0/16
-54.230.0.0/16
-64.120.128.0/17
-66.197.128.0/17
-69.53.224.0/19
-95.172.0.0/18
-108.175.32.0/20
-17.0.0.0/8
-192.173.64.0/18
-198.38.96.0/19
-198.45.48.0/20
-207.45.72.0/22
-208.75.76.0/22
-224.0.0.0/4
-2a02:26f0::/32
-2a02:26f1::/32
-
-# Hulu IP ranges (AS23286)
-8.28.124.0/23
-199.60.116.0/24
-199.200.48.0/22
-208.91.156.0/22
-
-# =============================================================================
-# DOMAINS — Netflix
-# =============================================================================
-fast.com
-netflix.ca
+# -----------------------------------------------------------------------------
+# NETFLIX
+# -----------------------------------------------------------------------------
 netflix.com
-netflix.com.au
-netflix.net
+www.netflix.com
+api.netflix.com
+appboot.netflix.com
+ichnaea.netflix.com
+customerevents.netflix.com
 netflixinvestor.com
-netflixdnstest0.com
-netflixdnstest1.com
-netflixdnstest10.com
-netflixdnstest2.com
-netflixdnstest3.com
-netflixdnstest4.com
-netflixdnstest5.com
-netflixdnstest6.com
-netflixdnstest7.com
-netflixdnstest8.com
-netflixdnstest9.com
 netflixtechblog.com
 nflxext.com
 nflximg.com
@@ -72,266 +19,403 @@ nflximg.net
 nflxsearch.net
 nflxso.net
 nflxvideo.net
-netflix.com.edgesuite.net
+assets.nflxext.com
+ca.nflxvideo.net
+# Dedicated Subnets (AS2906, AS40027, AS40030)
+23.246.0.0/18
+37.77.184.0/21
+45.57.0.0/17
+64.120.128.0/17
+66.197.128.0/17
+69.53.224.0/19
+108.175.32.0/20
+185.2.220.0/22
+185.9.188.0/22
+192.173.64.0/18
+198.38.96.0/19
+198.45.48.0/20
 
-# =============================================================================
-# DOMAINS — Amazon Prime Video
-# =============================================================================
-aiv-cdn.net
-aiv-delivery.net
-amazon.com
-amazonaws.com
-atv-ext.amazon.com
-cloudfront.net
-d1v0o82c0gfg2u.cloudfront.net
-d2cvj4cr2d2r7g.cloudfront.net
-d3n92br3b4jq4j.cloudfront.net
-freevee.com
-imdb.com
-imdbtv.com
-prime-video.amazon.dev
-primevideo.com
-s3.amazonaws.com
-video.a2z.com
-
-# =============================================================================
-# DOMAINS — Disney+
-# =============================================================================
-adobedtm.com
-akamaized.net
-bamgrid.com
-bam.nr-data.net
-cdn.registerdisney.go.com
-cws.conviva.com
-demdex.net
-disney.com
-disney-plus.net
+# -----------------------------------------------------------------------------
+# DISNEY+ / HULU / ESPN+ / BAMTECH
+# -----------------------------------------------------------------------------
 disneyplus.com
-disneyplus.disney.co.jp
+www.disneyplus.com
 disneystreaming.com
-fastly.net
-hb-api.omtrdc.net
-hwcdn.net
-js-agent.newrelic.com
-omtrdc.net
-qwilt.disney.cqloud.com
-search-api-disney.bamgrid.com
-siteforce.com
-starott.com
-
-# =============================================================================
-# DOMAINS — HBO Max / Max
-# =============================================================================
-discomax.com
-hbogo.com
-hbogoasia.com
-hbomax.com
-hbo.com
-hbonow.com
-max.com
-warnermediacdn.com
-wbdstreaming.com
-wmcdp.com
-wmcdp.io
-
-# =============================================================================
-# DOMAINS — Hulu
-# =============================================================================
-akadns.net
-doppler.hulu.com
-edgecastcdn.net
-fastly.net
-hulu.com
-hulu.hb.omtrdc.net
-huluad.com
-huluim.com
-hulustream.com
-vortex.hulu.com
-
-# =============================================================================
-# DOMAINS — Paramount+
-# =============================================================================
-bakery.pplus.paramount.tech
-cbs.com
-cbsaavideo.com
-cbsi.demdex.net
-cbsi.live.ott.irdeto.com
-cbsinteractive.hb.omtrdc.net
-cbsivideo.com
-cdn.privacy.paramount.com
-dplay.com
-imasdk.googleapis.com
-mytv.clients.peacocktv.com
-paramount.tech
-paramountplus.com
-saa.cbsi.com
-saa.paramountplus.com
-vod-gcs-cedexis.cbsaavideo.com
-vod-gcs-google.cbsaavideo.com
-vod-gcs-qwilt.cbsaavideo.com
-
-# =============================================================================
-# DOMAINS — Peacock
-# =============================================================================
-atom.peacocktv.com
-bff-ext.clients.peacocktv.com
-cdn.peacocktv.com
-cybertron.id.peacocktv.com
-imageservice.disco.peacocktv.com
-ingest.webcol.sdp.peacocktv.com
-innovidvideo.com
-meg.disco.peacocktv.com
-nbc.com
-nbcucdn.com
-nbcuni.com
-ovp.peacocktv.com
-pconfig-prd.cdn.peacocktv.com
-peacocktv.com
-play.ovp.peacocktv.com
-ssai.peacocktv.com
-telemetry.nbcuott.com
-thumbnails.cbsig.net
-
-# =============================================================================
-# DOMAINS — Apple TV+
-# =============================================================================
-apple-dns.net
-apple-tv-plus.com
-apple.com
-apple.com.edgekey.net
-mzstatic.com
-tv.apple.com
-
-# =============================================================================
-# DOMAINS — Roku
-# =============================================================================
-api.roku.com
-api.rokutime.com
-api.rpay.roku.com
-api2.sr.roku.com
-apis.rpay.roku.com
-bookmarks.sr.roku.com
-content-detail.sr.roku.com
-content.sr.roku.com
-image.roku.com
-images-svc.sr.roku.com
-navigation.sr.roku.com
-playback-detail.sr.roku.com
-retail.rpay.roku.com
-rights-manager.sr.roku.com
-roku.admeasurement.com
-roku.com
-rokutime.com
-static-delivery.sr.roku.com
-therokuchannel.roku.com
-vod-playlist.sr.roku.com
-vod.delivery.roku.com
-wv-license.sr.roku.com
-
-# =============================================================================
-# DOMAINS — YouTube
-# =============================================================================
-amp.twimg.com
-googlevideo.com
-pagead2.googlesyndication.com
-youtu.be
-youtube.com
-ytimg.com
-
-# =============================================================================
-# DOMAINS — Spotify
-# =============================================================================
-api.spotify.com
-cdn.spotify.com
-open.spotify.com
-scdn.co
-spotify.com
-
-# =============================================================================
-# DOMAINS — Crunchyroll
-# =============================================================================
-api-manga.crunchyroll.com
-api.crunchyroll.com
-beta-api.crunchyroll.com
-beta-stage-api.crunchyroll.com
-crunchyroll.com
-dev.crunchyroll.com
-stage-api-manga.crunchyroll.com
-stage-api.crunchyroll.com
-www.crunchyroll.com
-
-# =============================================================================
-# DOMAINS — General Streaming / Protocols
-# =============================================================================
-conviva.com
+bamgrid.com
 dssott.com
-duck.com
-duckduckgo.com
-edgesuite.net
-enduser.adsrv.org
-fwmrm.net
-llnwd.net
-mparticle.com
-scorecardresearch.com
-www.googletagmanager.com
-wwwimage-secure.cbsstatic.com
-wwwimage-us.pplusstatic.com
-
-# =============================================================================
-# DOMAINS — Other Streaming Services
-# =============================================================================
-acorn.tv
-aiv-cdn.net
-atv-ext.amazon.com
-britbox.com
-cloudfront.net
-discoveryplus.com
-disney.com
+media.dssott.com
+disney.api.edge.bamgrid.com
+disney.connections.edge.bamgrid.com
+disney.content.edge.bamgrid.com
+disney.playback.edge.bamgrid.com
+carrick.bamgrid.com
+hulu.com
+www.hulu.com
+assetshuluimcom-a.akamaihd.net
+hulustream.com
+huluqa.com
+cws-hulu.conviva.com
 espn.com
 espn.net
 espncdn.com
-fox.com
-foxsports.com
-freevee.com
-funimation.com
-hbo.com
-hbomax.com
-imdb.com
-imdbtv.com
-max.com
-mlb.com
-mlbstatic.com
-moviefone.com
-mubi.com
-mzstatic.com
-nba.com
-netflix.com
-netflix.net
-netflixdnstest0.com
-nfl.com
-nflxext.com
-nflximg.com
-nflximg.net
-nflxsearch.net
-nflxso.net
-nflxvideo.net
-nhl.com
-nhlstatic.com
-pandora.com
-pluto.tv
+watchespn.com
+plus.espn.com
+espn.api.edge.bamgrid.com
+starplus.com
+hotstar.com
+www.hotstar.com
+hotstar-cdn.net
+# Dedicated Subnets (AS22604)
+139.104.112.0/24
+139.104.209.0/24
+139.104.210.0/24
+139.104.211.0/24
+139.104.212.0/24
+139.104.213.0/24
+139.104.214.0/24
+139.104.215.0/24
+139.104.216.0/24
+139.104.217.0/24
+139.104.218.0/24
+139.104.219.0/24
+139.104.220.0/24
+139.104.221.0/24
+157.23.232.0/21
+
+# -----------------------------------------------------------------------------
+# AMAZON PRIME VIDEO, FREEVEE & TWITCH
+# -----------------------------------------------------------------------------
 primevideo.com
-s3.amazonaws.com
-scdn.co
-shudder.com
-sling.com
-soundcloud.com
-spotify.com
-tidal.com
-tubitv.com
-viacomcbs.com
-vudu.com
-warnermediacdn.com
+www.primevideo.com
+atv-ext.amazon.com
+atv-ps.amazon.com
+aiv-cdn.net
+aiv-delivery.net
+pv-cdn.net
+fls-na.amazon.com
+video.market.amazon.com
+freevee.com
+imdbtv.com
+twitch.tv
+www.twitch.tv
+api.twitch.tv
+usher.ttvnw.net
+video-edge.ext.twitch.tv
+jtvnw.net
+ttvnw.net
+twitchcdn.net
+live-video.net
+# Twitch Interactive Subnets (AS46489)
+23.160.0.0/24
+45.113.128.0/22
+52.129.128.0/17
+52.223.192.0/18
+99.181.64.0/18
+103.53.48.0/23
+185.42.204.0/22
+192.16.64.0/21
+192.108.239.0/24
+199.9.248.0/21
+
+# -----------------------------------------------------------------------------
+# MAX / WARNER BROS. DISCOVERY / HBO
+# -----------------------------------------------------------------------------
+max.com
+www.max.com
+hbomax.com
+www.hbomax.com
+hbogo.com
+hbonow.com
+hbo.com
+cinemax.com
+discoveryplus.com
+discovery.com
+investigationdiscovery.com
+tlc.com
+foodnetwork.com
+hgtv.com
 wbdstreaming.com
 wmcdp.com
 wmcdp.io
+beam-images.warnermediacdn.com
+manifest.prod.boltdns.net
+# Dedicated Subnets (AS21928, AS55095)
+157.166.0.0/16
+165.237.0.0/16
+199.27.72.0/21
+
+# -----------------------------------------------------------------------------
+# PARAMOUNT+ / CBS / PLUTO TV / SHOWTIME
+# -----------------------------------------------------------------------------
+paramountplus.com
+www.paramountplus.com
+paramount.tech
+bakery.pplus.paramount.tech
+pplusstatic.com
+wwwimage-us.pplusstatic.com
+viacomcbs.com
+cbs.com
+cbsaavideo.com
+availability-fastly.syncbak-mediastore-cedexis.cbsaavideo.com
+cbsnews.com
+cbsinteractive.com
+cbsig.net
+thumbnails.cbsig.net
+cbsstatic.com
+wwwimage-secure.cbsstatic.com
+sho.com
+showtime.com
+showtimeanytime.com
+pluto.tv
+service-stitcher.clusters.pluto.tv
+siloh.pluto.tv
+
+# -----------------------------------------------------------------------------
+# PEACOCK & NBCUNIVERSAL
+# -----------------------------------------------------------------------------
+peacocktv.com
+www.peacocktv.com
+peacock.auth.adobe.com
+video.peacocktv.com
+images.peacocktv.com
+nbc.com
+nbcuni.com
+nbcsports.com
+bravotv.com
+syfy.com
+usanetwork.com
+telemundo.com
+
+# -----------------------------------------------------------------------------
+# APPLE TV+ & APPLE MUSIC
+# -----------------------------------------------------------------------------
+tv.apple.com
+music.apple.com
+play-edge.itunes.apple.com
+hls.itunes.apple.com
+hls-amt.itunes.apple.com
+video-edge.itunes.apple.com
+linear.tv.apple.com
+tv.apple.com.edgekey.net
+aod-ssl.itunes.apple.com
+streamingaudio.itunes.apple.com
+mvod.itunes.apple.com
+# Apple ASN (AS714)
+17.0.0.0/8
+
+# -----------------------------------------------------------------------------
+# YOUTUBE & GOOGLE VIDEO
+# -----------------------------------------------------------------------------
+youtube.com
+www.youtube.com
+m.youtube.com
+youtu.be
+ytimg.com
+i.ytimg.com
+googlevideo.com
+yt.be
+youtubei.googleapis.com
+youtubekids.com
+music.youtube.com
+tv.youtube.com
+# Google/YouTube Edge Subnets (AS15169)
+8.8.4.0/24
+8.8.8.0/24
+64.233.160.0/19
+66.102.0.0/20
+66.249.64.0/19
+72.14.192.0/18
+74.125.0.0/16
+108.177.0.0/17
+172.217.0.0/16
+173.194.0.0/16
+209.85.128.0/17
+216.58.192.0/19
+216.239.32.0/19
+
+# -----------------------------------------------------------------------------
+# SPOTIFY
+# -----------------------------------------------------------------------------
+spotify.com
+www.spotify.com
+open.spotify.com
+api.spotify.com
+audio-ak-spotify-com.akamaized.net
+audio-fa.scdn.co
+audio-sp-*.spotifycdn.net
+audio4-fa.net.spotify.com
+cdn.spotify.com
+heads-fa.net.spotify.com
+lineup-images.scdn.co
+mobile-api.spotify.com
+scdn.co
+spclient.wg.spotify.com
+upgrade.scdn.co
+dealer.spotify.com
+# Dedicated Subnets (AS19679)
+35.186.224.0/19
+193.182.8.0/21
+194.132.162.0/23
+194.132.176.0/20
+194.132.196.0/22
+194.68.28.0/22
+
+# -----------------------------------------------------------------------------
+# MUSIC & PODCAST PLATFORMS
+# -----------------------------------------------------------------------------
+deezer.com
+www.deezer.com
+cdns-images.dzcdn.net
+e-cdns-images.dzcdn.net
+pandora.com
+www.pandora.com
+tuner.pandora.com
+mediaserver-cont-*.pandora.com
+tidal.com
+www.tidal.com
+api.tidal.com
+audio.tidal.com
+sp-content.tidal.com
+soundcloud.com
+api-v2.soundcloud.com
+cf-hls-media.sndcdn.com
+sndcdn.com
+i1.sndcdn.com
+qobuz.com
+tunein.com
+iheart.com
+iheartmedia.com
+siriusxm.com
+amazonmusic.com
+
+# -----------------------------------------------------------------------------
+# LIVE MULTICHANNEL (vMVPD) & FAST CHANNELS
+# -----------------------------------------------------------------------------
+sling.com
+mrpw.sling.com
+fubo.tv
+stream.fubo.tv
+directvstream.com
+stream.directv.com
+philo.com
+tubitv.com
+tubi.video
 xumo.com
+xumo.tv
+roku.com
+therokuchannel.roku.com
+static-delivery.sr.roku.com
+plex.tv
+vod.plex.tv
+samsungtvplus.com
+
+# -----------------------------------------------------------------------------
+# ANIME & NICHE STREAMING
+# -----------------------------------------------------------------------------
+crunchyroll.com
+api.crunchyroll.com
+api-manga.crunchyroll.com
+static.crunchyroll.com
+vrv.co
+static.vrv.co
+hidive.com
+acorn.tv
+britbox.com
+shudder.com
+mubi.com
+curiositystream.com
+nebula.tv
+dropout.tv
+viki.com
+iqiyi.com
+iq.com
+
+# -----------------------------------------------------------------------------
+# SPORTS LEAGUES & CHANNELS
+# -----------------------------------------------------------------------------
+nfl.com
+nflplus.nfl.com
+mlb.com
+mlb.tv
+mlbstatic.com
+nhl.com
+nhlstatic.com
+nba.com
+watch.nba.com
+nbastreaming.akamaized.net
+dazn.com
+daznservices.com
+dazndn.com
+f1tv.formula1.com
+ufcfightpass.com
+wwe.com
+ballysports.com
+yesnetwork.com
+snnow.ca
+tsn.ca
+sportsnet.ca
+# DAZN Subnets (AS206264)
+151.101.0.0/16
+195.206.168.0/22
+
+# -----------------------------------------------------------------------------
+# INTERNATIONAL & REGIONAL BROADCASTERS
+# -----------------------------------------------------------------------------
+bbc.com
+bbcfmt.vo.llnwd.net
+itv.com
+itvx.com
+channel4.com
+my5.tv
+sky.com
+nowtv.com
+gem.cbc.ca
+ctv.ca
+crave.ca
+stan.com.au
+kayosports.com.au
+binge.com.au
+9now.com.au
+7plus.com.au
+10play.com.au
+tvnz.co.nz
+arte.tv
+zdf.de
+ardmediathek.de
+france.tv
+rtve.es
+raiplay.it
+viaplay.com
+globoplay.globo.com
+clarovideo.com
+
+# -----------------------------------------------------------------------------
+# INDEPENDENT & USER VIDEO PLATFORMS
+# -----------------------------------------------------------------------------
+kick.com
+vimeo.com
+vimeocdn.com
+player.vimeo.com
+rumble.com
+dailymotion.com
+dmcdn.net
+bitchute.com
+odysee.com
+
+# -----------------------------------------------------------------------------
+# STREAMING TELEMETRY, SSAI, DRM & QOE BROKERS
+# -----------------------------------------------------------------------------
+conviva.com
+cws.conviva.com
+livepass.conviva.com
+mparticle.com
+innovidvideo.com
+fwmrm.net
+springserve.com
+spotxchange.com
+anvato.net
+uplynk.com
+theplatform.com
+widevine.com
+fairplay.apple.com
+fps.itunes.apple.com
