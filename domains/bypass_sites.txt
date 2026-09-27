@@ -1,29 +1,19 @@
-
 about.meta.com
 accounts.facebook.com
-acorn.tv
 ads.facebook.com
-aiv-cdn.net
 akamaized.net
 amazon.com
 amazonaws.com
 amp.twimg.com
-api-manga.crunchyroll.com
-api.crunchyroll.com
 api.facebook.com
 api.instagram.com
 apple-dns.net
 apple.com
 apple.com.edgekey.net
 apps.facebook.com
-atv-ext.amazon.com
-availability-fastly.syncbak-mediastore-cedexis.cbsaavideo.com
 badoo.com
-bakery.pplus.paramount.tech
 bam.nr-data.net
-bamgrid.com
 bluesky.app
-britbox.com
 bsky.social
 business.facebook.com
 bytedance.com
@@ -31,29 +21,21 @@ bytedance.net
 bytedanceapi.com
 byteoversea.com
 
-cdn.spotify.com
 cdninstagram.com
 
 connect.facebook.com
 connect.facebook.net
 
-conviva.com
-
 d1v0o82c0gfg2u.cloudfront.net
 d2cvj4cr2d2r7g.cloudfront.net
 d3n92br3b4jq4j.cloudfront.net
-deezer.com
 
 developers.facebook.com
 
-dssott.com
 duck.com
 duckduckgo.com
 edgesuite.net
 enduser.adsrv.org
-espn.com
-espn.net
-espncdn.com
 facebook.com
 facebook.net
 fb.com
@@ -72,20 +54,13 @@ graph.facebook.com
 ibyteimg.com
 
 imasdk.googleapis.com
-imdb.com
-imdbtv.com
 imgur.com
 imgur.io
 imgurmedia.com
 
 innovidvideo.com
 instagram.com
-jtvnw.net
-kick.com
 l.facebook.com
-licdn.com
-linkedin.com
-linkedin.cn
 llnwd.net
 lm.facebook.com
 login.facebook.com
@@ -96,37 +71,19 @@ meetup.com
 messenger.com
 meta.com
 metacdn.com
-mlb.com
-mlbstatic.com
-moviefone.com
 mparticle.com
-mubi.com
 musical.ly
 
 mzstatic.com
 
-
-
 nextdoor.com
-nfl.com
-nflxext.com
-nflximg.com
-nflximg.net
-nflxsearch.net
-nflxso.net
-nflxvideo.net
-nhl.com
-nhlstatic.com
 oculus.com
 omtrdc.net
-open.spotify.com
 
 pagead2.googlesyndication.com
-pandora.com
 
 parler.com
 
-philo.com
 pinimg.com
 pinterest.com
 pinterestcdn.com
@@ -136,14 +93,11 @@ polymatech.net
 quora.com
 quoracdn.net
 
-rumble.com
 s3.amazonaws.com
 
 sc-cdn.net
-scdn.co
 scorecardresearch.com
 secure.facebook.com
-shudder.com
 signal.org
 sinaimg.cn
 
@@ -151,10 +105,7 @@ snap.com
 snapads.com
 snapchat.com
 snapkit.com
-soundcloud.com
-spotify.com
 
-static-delivery.sr.roku.com
 static.ak.connect.facebook.com
 static.ak.facebook.com
 static.xx.fbcdn.net
@@ -165,8 +116,6 @@ telegram.org
 
 tfbnw.net
 
-thumbnails.cbsig.net
-tidal.com
 tiktok.com
 tiktokcdn-eu.com
 tiktokcdn-us.com
@@ -177,38 +126,20 @@ tiktokv.eu
 tiktokv.us
 tiktokw.us
 truthsocial.com
-ttvnw.net
-tubitv.com
 tumblr.com
-tv.apple.com
-twitch.tv
 upload.facebook.com
-viacomcbs.com
 video.xx.fbcdn.net
-vimeo.com
-vimeocdn.com
 vk.com
 vk.ru
 vkcdn.net
 vkuser.net
 
-vrv.co
-
-wbdstreaming.com
 weibo.cn
 weibo.com
 whatsapp.com
 whatsapp.net
-wmcdp.com
-wmcdp.io
 
 www.googletagmanager.com
-wwwimage-secure.cbsstatic.com
-wwwimage-us.pplusstatic.com
-xumo.com
-youtu.be
-youtube.com
-ytimg.com
 
 # =============================================================================
 # ONLYFANS DOMAINS (Cloudflare AS13335 CDN)
@@ -228,12 +159,84 @@ fansly.com
 www.fansly.com
 
 # =============================================================================
+# XHAMSTER DOMAINS & CDNS
+# =============================================================================
+xhamster.com
+www.xhamster.com
+m.xhamster.com
+api.xhamster.com
+xhamsterlive.com
+xhamstercreators.com
+xhamstershop.com
+xhamster18.desi
+xhamster19.desi
+xhamster20.desi
+xhcdn.com
+video-cf.xhcdn.com
+static-ah.xhcdn.com
+ahacdn.me
+xlivrdr.com
+
+# =============================================================================
+# TOR PROJECT & NETWORK INFRASTRUCTURE DOMAINS
+# =============================================================================
+torproject.org
+www.torproject.org
+dist.torproject.org
+bridges.torproject.org
+metrics.torproject.org
+collector.torproject.org
+onionoo.torproject.org
+consensus-health.torproject.org
+gitlab.torproject.org
+community.torproject.org
+support.torproject.org
+blog.torproject.org
+forum.torproject.net
+ooni.org
+ooni.torproject.org
+tor.eff.org
+onion.ws
+onion.to
+onion.ly
+onion.pet
+onion.foundation
+tor2web.org
+tor2web.io
+
+# =============================================================================
 # IP RANGES / CIDRs
 # =============================================================================
 # OnlyFans (Cloudflare AS13335)
 104.16.0.0/12
 162.159.128.0/19
 172.66.0.0/22
+
+# Aylo / MindGeek Adult Delivery Infrastructure (AS55222)
+162.211.96.0/22
+162.211.100.0/24
+162.211.101.0/24
+162.211.102.0/24
+185.80.124.0/22
+206.28.177.0/24
+
+# Tor Directory Authorities (Consensus & Bootstrap Servers)
+128.31.0.39/32
+217.196.147.77/32
+45.66.35.11/32
+193.23.244.244/32
+131.188.40.189/32
+199.58.81.140/32
+204.13.164.118/32
+86.59.21.38/32
+
+# Dedicated Tor Exit / Relay Provider ASNs (Emerald Onion, Quintex, Cyberology)
+23.129.64.0/24
+204.8.96.0/24
+192.42.116.0/24
+109.70.100.0/24
+171.25.193.0/24
+185.220.101.0/24
 
 # Facebook/Instagram/Meta (AS32934, AS2603, AS131772)
 103.136.220.0/22
