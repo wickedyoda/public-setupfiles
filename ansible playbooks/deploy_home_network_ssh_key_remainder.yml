@@ -1,0 +1,50 @@
+---
+# Deploy Home network SSH key to Flint4 router (no Python)
+- name: Deploy Home network key to Flint4 router
+  hosts: flint4
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: /nonexistent
+    home_network_key_pub: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2wGZTOpvh0s5KmwOxPVaGHCs5NXmVh2X2djrFY9SXJ Home network"
+  tasks:
+    - name: Add Home network key to authorized_keys
+      raw: |
+        mkdir -p ~/.ssh
+        echo '{{ home_network_key_pub }}' >> ~/.ssh/authorized_keys
+        # Add to root authorized_keys
+        echo '{{ home_network_key_pub }}' >> /root/.ssh/authorized_keys
+        # Add to dropbear authorized_keys file (OpenWrt style)
+        mkdir -p /etc/dropbear
+        echo '{{ home_network_key_pub }}' >> /etc/dropbear/authorized_keys
+      args:
+        executable: /bin/sh
+      changed_when: true
+
+# Deploy Home network key to macOS travers-mac-mini
+- name: Deploy Home network key to macOS travers-mac-mini
+  hosts: travers-mac-mini
+  gather_facts: false
+  vars:
+    home_network_key_pub: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2wGZTOpvh0s5KmwOxPVaGHCs5NXmVh2X2djrFY9SXJ Home network"
+  tasks:
+    - name: Ensure .ssh directory exists
+      file:
+        path: "~/.ssh"
+        state: directory
+        mode: '0700'
+    
+    - name: Add Home network key to authorized_keys (traver user)
+      authorized_key:
+        user: traver
+        key: "{{ home_network_key_pub }}"
+        state: present
+        exclusive: false
+    
+    - name: Add Home network key to authorized_keys (root)
+      become: true
+      authorized_key:
+        user: root
+        key: "{{ home_network_key_pub }}"
+        state: present
+        exclusive: false
+

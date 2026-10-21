@@ -1,0 +1,35 @@
+---
+- name: Configure Debian syslog clients
+  hosts: debian_host:!docker1
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Install rsyslog
+      ansible.builtin.apt:
+        name: rsyslog
+        state: present
+        update_cache: true
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Configure UDP syslog forwarding
+      ansible.builtin.copy:
+        dest: /etc/rsyslog.d/50-remote.conf
+        content: "*.* @docker1:514\n"
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Restart rsyslog
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Ensure rsyslog is enabled and running
+      ansible.builtin.service:
+        name: rsyslog
+        state: started
+        enabled: true
+      when: ansible_facts['os_family'] == "Debian"
+
+  handlers:
+    - name: Restart rsyslog
+      ansible.builtin.service:
+        name: rsyslog
+        state: restarted

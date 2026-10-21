@@ -1,0 +1,71 @@
+---
+# debian_updates.yml
+# Runs the canonical apt update suite on every host in the `debian_host`
+# inventory group and writes a per-host report to:
+#   /workspace/debian-update-logs/<host>-update.log
+#
+# A Hermes cron job (scripts/debian_updates_run.py, every 6h) SSHes into
+# docker2, runs this playbook in the ansible-controller container, then reads
+# the per-host logs and emails each to alert@tyates.one with subject "<host>- Update Log".
+#
+# Hosts added to the `debian_host` inventory group are picked up AUTOMATICALLY
+# on the next run — no playbook edit required.
+#
+# Design notes:
+#  1. `sudo` is intentionally omitted: the playbook connects as root and runs
+#     with `become: true`, so each apt subcommand already runs as root.
+#     docker/docker1/docker2 containers do not have sudo installed.
+#  2. `apt purge` is called with no package argument (literal to the request).
+#     Verified on dank: apt exits 0 and prints a system summary, so the chain
+#     does NOT self-fail at purge.
+#  3. The command may be overridden via the DEBIAN_UPDATE_COMMAND env var
+#     (read with lookup('env') + default) — used only for safe verification runs.
+#  4. No ansible.cfg in the container; ANSIBLE_VAULT_PASSWORD_FILE is exported
+#     by compose, so `-i /workspace/inventory/ --vault-password-file
+#     /workspace/vault_pass.txt` resolves vaulted vars automatically.
+
+- name: Debian apt update suite
+  hosts: debian_host
+  become: true
+  gather_facts: false
+  vars:
+    debian_update_command: "{{ lookup('env','DEBIAN_UPDATE_COMMAND') | default('apt update && apt upgrade -y && apt full-upgrade && apt autoremove && apt clean && apt purge', true) }}"
+    report_dir: /workspace/debian-update-logs
+
+  tasks:
+    - name: Ensure per-host report directory exists
+      delegate_to: localhost
+      run_once: true
+      ansible.builtin.file:
+        path: "{{ report_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Run the Debian update command sequence (verbatim, no sudo)
+      ansible.builtin.shell: "{{ debian_update_command }}"
+      args:
+        executable: /bin/bash
+        chdir: /
+      register: update_result
+      failed_when: false
+      changed_when: true
+
+    - name: Write per-host update report
+      delegate_to: localhost
+      ansible.builtin.copy:
+        dest: "{{ report_dir }}/{{ inventory_hostname }}-update.log"
+        mode: '0644'
+        content: |
+          Host: {{ inventory_hostname }}
+          Address: {{ ansible_host }}
+          SSH port: {{ ansible_port | default(22) }}
+          Run timestamp (UTC): {{ lookup('pipe','date -u +%Y-%m-%dT%H:%M:%SZ') }}
+          Command: {{ debian_update_command }}
+          Exit code: {{ update_result.rc }}
+          Result: {{ "SUCCESS (rc=0)" if update_result.rc == 0 else ("command exited rc=" ~ update_result.rc) }}
+
+          --- stdout (tail) ---
+          {{ update_result.stdout | default("") }}
+
+          --- stderr (tail) ---
+          {{ update_result.stderr | default("") }}

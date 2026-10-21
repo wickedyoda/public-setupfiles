@@ -1,0 +1,18 @@
+---
+- name: Check hosts
+  hosts: docker2
+  gather_facts: false
+  tasks:
+    - name: Check config
+      raw: grep 100.119.225.53 /etc/rsyslog.d/50-remote.conf 2>/dev/null || echo MISSING
+      register: r1
+    - name: Check proc
+      raw: 'pgrep rsyslogd >/dev/null 2>&1 && echo RUNNING || echo NOT_RUNNING'
+      register: r2
+    - name: Check cron
+      raw: crontab -l 2>/dev/null | grep -c refresh-syslog || echo 0
+      register: r3
+    - name: Display
+      debug:
+        msg: "docker2: config={{r1.stdout|trim}} proc={{r2.stdout|trim}} cron={{r3.stdout|trim}}"
+

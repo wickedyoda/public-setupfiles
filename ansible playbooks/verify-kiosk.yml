@@ -1,0 +1,11 @@
+- name: Verify Kiosk Settings
+  hosts: sams-surface
+  gather_facts: false
+  tasks:
+    - name: Check monitor timeout AC
+      win_shell: |
+        powercfg /query SCHEME_CURRENT SUB_VIDEO VIDEOIDLE
+      register: monitor_ac
+    - name: Show monitor timeout output
+      debug:
+        var: monitor_ac.stdout_lines

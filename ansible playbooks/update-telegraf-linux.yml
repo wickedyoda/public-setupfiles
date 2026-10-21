@@ -1,0 +1,63 @@
+- name: Update Telegraf configs for consistent InfluxDB settings
+  hosts: linux_servers
+  gather_facts: false
+  vars:
+    influxdb_url: "http://docker2.tail99133.ts.net:8086"
+    influxdb_org: "homelab"
+    influxdb_bucket: "telegraf"
+    telegraf_conf_path: /etc/telegraf/telegraf.conf
+    secret_path: /etc/telegraf/secrets/token
+    nas_token_path: /mnt/nas/public/Hermes_Data/secrets/influxdb/token
+
+  tasks:
+    - name: Ensure secrets directory exists
+      file:
+        path: /etc/telegraf/secrets
+        state: directory
+        mode: "0700"
+        owner: root
+        group: root
+      ignore_errors: yes
+
+    - name: Read NAS token once
+      local_action:
+        module: slurp
+        src: "{{ nas_token_path }}"
+      register: nas_token
+      run_once: true
+
+    - name: Deploy InfluxDB token to secret path
+      copy:
+        content: "{{ nas_token.content | b64decode }}"
+        dest: "{{ secret_path }}"
+        mode: "0600"
+        owner: root
+        group: root
+
+    - name: Update telegraf.conf URL
+      replace:
+        path: "{{ telegraf_conf_path }}"
+        regexp: urls = [.*]
+        replace: "urls = [\"{{ influxdb_url }}\"]"
+
+    - name: Update telegraf.conf token to file reference
+      replace:
+        path: "{{ telegraf_conf_path }}"
+        regexp: token = .*
+        replace: "token = \"@{{ secret_path }}\""
+
+    - name: Update telegraf.conf org and bucket
+      replace:
+        path: "{{ telegraf_conf_path }}"
+        regexp: "{{ item.regexp }}"
+        replace: "{{ item.replace }}"
+      loop:
+        - regexp: "organization = \".*\""
+          replace: "organization = \"{{ influxdb_org }}\""
+        - regexp: "bucket = \".*\""
+          replace: "bucket = \"{{ influxdb_bucket }}\""
+
+    - name: Restart Telegraf to apply changes
+      service:
+        name: telegraf
+        state: restarted

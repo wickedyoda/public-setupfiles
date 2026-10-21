@@ -1,0 +1,69 @@
+---
+# docker_prune.yml
+# Removes unused (dangling + unreferenced-but-named) Docker images on every
+# Docker host in the `debian_host` group, and writes a per-host report to
+# /workspace/docker-prune-logs/<host>-docker-prune.log (bind-mounted to the
+# docker2 host so the Hermes cron orchestrator can read + email it).
+#
+# Scheduled: Hermes cron job `docker-prune-48h` -> 0 0 */2 * * (every 2 days).
+# Reaches hosts via docker2 -> ansible-controller container (flint4 key).
+#
+# `sudo` omitted: runs as root with become:true (containers have no sudo).
+# Non-docker hosts (nas, dank) are handled by a shell guard and report
+# "DOCKER=NO — nothing to prune" with rc 0 (not a failure). New Docker hosts
+# added to debian_host are pruned automatically on the next run.
+#
+# Safe testing: override the command via env DOCKER_PRUNE_COMMAND (read below).
+# Production command (default) = `docker image prune -a -f` (deletes unused).
+
+- name: Docker image prune on Debian/docker hosts
+  hosts: debian_host
+  become: true
+  gather_facts: false
+  vars:
+    # Production (destructive). Env-overridable for safe dry-runs.
+    # shlex-safe: passed via `docker exec -e DOCKER_PRUNE_COMMAND=...` (NOT -e).
+    docker_prune_command: "{{ lookup('env','DOCKER_PRUNE_COMMAND') | default('docker image prune -a -f', true) }}"
+    report_dir: /workspace/debian-update-logs
+
+  tasks:
+    - name: Ensure per-host report directory (container-local, bind-mounted to host)
+      delegate_to: localhost
+      run_once: true
+      ansible.builtin.file:
+        path: "{{ report_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Prune unused docker images (skip cleanly if no docker daemon)
+      ansible.builtin.shell: |
+        if command -v docker >/dev/null 2>&1; then
+          {{ docker_prune_command }}
+        else
+          echo "DOCKER=NO — no docker daemon on this host; nothing to prune"
+        fi
+      args:
+        executable: /bin/bash
+      register: prune_result
+      failed_when: false
+      changed_when: true
+
+    - name: Write per-host prune report
+      delegate_to: localhost
+      ansible.builtin.copy:
+        dest: "{{ report_dir }}/{{ inventory_hostname }}-docker-prune.log"
+        mode: '0644'
+        content: |
+          Host: {{ inventory_hostname }}
+          Address: {{ ansible_host }}
+          SSH port: {{ ansible_port | default(22) }}
+          Run timestamp (UTC): {{ lookup('pipe','date -u +%Y-%m-%dT%H:%M:%SZ') }}
+          Command: {{ docker_prune_command }}
+          Exit code: {{ prune_result.rc }}
+          Result: {{ "SUCCESS (rc=0)" if prune_result.rc == 0 else ("command exited rc=" ~ prune_result.rc) }}
+
+          --- stdout (tail) ---
+          {{ prune_result.stdout | default("") }}
+
+          --- stderr (tail) ---
+          {{ prune_result.stderr | default("") }}

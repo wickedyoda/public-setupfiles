@@ -1,0 +1,58 @@
+---
+- name: Install and configure rsyslog on serv2
+  hosts: serv2
+  gather_facts: false
+  vars:
+    syslog_server: "100.119.225.53"
+    syslog_port: "514"
+  tasks:
+    - name: Check rsyslog installation
+      shell: which rsyslogd 2>/dev/null || echo "NOT_INSTALLED"
+      register: rsyslog_check
+    
+    - name: Install rsyslog
+      package:
+        name: rsyslog
+        state: present
+      when: rsyslog_check.stdout == "NOT_INSTALLED"
+      ignore_errors: true
+    
+    - name: Create rsyslog conf directory
+      file:
+        path: /etc/rsyslog.d
+        state: directory
+        mode: '0755'
+      ignore_errors: true
+    
+    - name: Create rsyslog remote conf
+      copy:
+        dest: /etc/rsyslog.d/50-remote.conf
+        content: |
+          # Forward logs to remote syslog server
+          *.* @@{{ syslog_server }}:{{ syslog_port }}
+        mode: '0644'
+    
+    - name: Restart rsyslog
+      shell: |
+        systemctl enable rsyslog 2>/dev/null || true
+        systemctl restart rsyslog 2>/dev/null ||         service rsyslog restart 2>/dev/null ||         rsyslogd -c5 2>/dev/null || true
+      ignore_errors: true
+    
+    - name: Create refresh script
+      copy:
+        dest: /usr/local/bin/refresh-syslog-config.sh
+        mode: '0755'
+        content: |
+          #!/bin/bash
+          systemctl reload rsyslog 2>/dev/null || true
+          service rsyslog restart 2>/dev/null || true
+      ignore_errors: true
+    
+    - name: Add cron job for 15-min refresh
+      cron:
+        name: "refresh-syslog-config"
+        minute: "*/15"
+        job: "/usr/local/bin/refresh-syslog-config.sh 2>/dev/null"
+        user: root
+      ignore_errors: true
+

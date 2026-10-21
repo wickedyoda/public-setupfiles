@@ -1,0 +1,17 @@
+---
+- name: Verify syslog config on all Linux hosts
+  hosts: docker, docker1, docker2, serv1, serv2, flint4, travers-mac-mini
+  gather_facts: false
+  tasks:
+    - name: Check syslog config
+      raw: |
+        echo "SYSLOG_CONFIG=$(grep -c 100.119.225.53 /etc/rsyslog.d/50-remote.conf 2>/dev/null || echo 0)"
+        echo "RSYSLOG_PROC=$(pgrep rsyslogd >/dev/null 2>&1 && echo RUNNING || echo NOT_RUNNING)"
+        echo "CRON=$(crontab -l 2>/dev/null | grep -c refresh-syslog || echo 0)"
+      register: check
+      changed_when: false
+    
+    - name: Display result
+      debug:
+        msg: "{{ inventory_hostname }}: {{ check.stdout | trim }}"
+

@@ -1,0 +1,25 @@
+---
+- name: Verify syslog configuration on all Linux hosts
+  hosts: docker, docker1, docker2, serv1, serv2, flint4
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: auto
+  tasks:
+    - name: Check rsyslog config
+      shell: |
+        cat /etc/rsyslog.d/50-remote.conf 2>/dev/null ||         echo "CONFIG_MISSING"
+      register: syslog_config
+    
+    - name: Check rsyslog process
+      shell: pgrep rsyslogd >/dev/null 2>&1 && echo "RUNNING" || echo "NOT_RUNNING"
+      register: rsyslog_proc
+    
+    - name: Check cron job
+      shell: crontab -l 2>/dev/null | grep refresh-syslog || echo "NO_CRON"
+      register: cron_job
+    
+    - name: Display results
+      debug:
+        msg: "{{ inventory_hostname }} | syslog={{ syslog_config.stdout | trim }} | proc={{ rsyslog_proc.stdout }} | cron={{ cron_job.stdout | trim }}"
+      ignore_errors: true
+

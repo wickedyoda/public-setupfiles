@@ -1,0 +1,39 @@
+- name: Linux system updates
+  hosts: linux_servers
+  gather_facts: false
+  become: true
+  vars:
+    apt_purge_patterns: ""
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Upgrade installed packages
+      apt:
+        upgrade: dist
+        autoremove: no
+        clean: no
+
+    - name: Remove unused dependencies
+      apt:
+        autoremove: yes
+        purge: yes
+
+    - name: Clean apt cache
+      command: apt clean
+      changed_when: false
+
+    - name: Purge removed packages
+      shell: |
+        set -e
+        {% if apt_purge_patterns %}
+        dpkg -l | awk '/^rc/ {print $2}' | xargs -r apt purge -y || true
+        {% else %}
+        echo "No purge patterns defined; skipping."
+        {% endif %}
+      args:
+        executable: /bin/bash
+      changed_when: false

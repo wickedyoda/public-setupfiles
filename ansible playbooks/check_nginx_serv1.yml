@@ -1,0 +1,17 @@
+---
+- name: Check nginx on serv1
+  hosts: serv1
+  gather_facts: false
+  tasks:
+    - name: Check nginx
+      shell: |
+        which nginx 2>/dev/null || dpkg -l | grep nginx 2>/dev/null || echo no_nginx
+        ls /etc/nginx/ 2>/dev/null && cat /etc/nginx/sites-enabled/default 2>/dev/null | head -30 || echo no_nginx_dir
+        ss -tlnp 2>/dev/null | grep -E ':(80|443|81) ' || netstat -tlnp 2>/dev/null | grep -E ':(80|443|81) ' || echo "no ports listening"
+      register: result
+      args:
+        executable: /bin/bash
+    - name: Display
+      debug:
+        var: result.stdout
+

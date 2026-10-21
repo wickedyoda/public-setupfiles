@@ -1,0 +1,14 @@
+- name: Diag dee-pc config
+  hosts: dee-pc
+  gather_facts: no
+  tasks:
+    - name: Read first lines of telegraf.conf
+      win_shell: |
+        Get-Content -Path "C:\Program Files\Telegraf\telegraf.conf" -TotalCount 10
+      args:
+        executable: powershell
+      register: head
+
+    - name: Show head
+      debug:
+        var: head.stdout_lines

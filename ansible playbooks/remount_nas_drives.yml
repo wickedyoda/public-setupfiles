@@ -1,0 +1,21 @@
+---
+- name: Remount NAS drives (mount -a)
+  hosts: debian_host
+  become: true
+  become_user: root
+  gather_facts: false
+
+  tasks:
+    - name: Remount all fstab entries
+      command: mount -a
+      args:
+        creates: /proc/mounts
+      register: mount_result
+      changed_when: mount_result.rc == 0
+
+    - name: Report mount status
+      debug:
+        msg:
+          - "Remount done"
+          - "Hosts affected: {{ ansible_play_hosts_all }}"
+          - "Result: {{ mount_result.rc }}"

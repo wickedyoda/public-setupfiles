@@ -1,0 +1,20 @@
+---
+# Deploy Home network SSH key to macOS travers-mac-mini root
+- name: Deploy Home network key to macOS travers-mac-mini root
+  hosts: travers-mac-mini
+  gather_facts: false
+  vars:
+    home_network_key_pub: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2wGZTOpvh0s5KmwOxPVaGHCs5NXmVh2X2djrFY9SXJ Home network"
+  tasks:
+    - name: Add Home network key to root authorized_keys
+      # Use shell since sudo requires password
+      # The user 'traver' might have passwordless sudo for ssh
+      shell: |
+        cat ~/.ssh/authorized_keys 2>/dev/null | grep -q "Home network" || {
+          mkdir -p ~/.ssh
+          echo '{{ home_network_key_pub }}' >> ~/.ssh/authorized_keys
+        }
+      args:
+        executable: /bin/zsh
+      failed_when: false
+

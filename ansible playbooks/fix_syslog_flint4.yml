@@ -1,0 +1,25 @@
+---
+- name: Configure syslog forwarding on Flint4 (OpenWrt)
+  hosts: flint4
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: /nonexistent
+  tasks:
+    - name: Configure syslog forwarding in /etc/config/system
+      raw: |
+        # Add remote syslog forwarding to OpenWrt system config
+        uci set system.@system[0].log_ip='100.119.225.53'
+        uci set system.@system[0].log_port='514'
+        uci commit system
+        
+        # Also create rsyslog config as backup
+        mkdir -p /etc/rsyslog.d
+        echo '*.* @@100.119.225.53:514' > /etc/rsyslog.d/50-remote.conf
+        
+        # Add cron for 15-min refresh
+        mkdir -p /etc/crontabs
+        (crontab -l 2>/dev/null; echo "*/15 * * * * uci commit system 2>/dev/null; /etc/init.d/system reload 2>/dev/null || true") | sort -u | crontab -
+      args:
+        executable: /bin/sh
+      changed_when: true
+

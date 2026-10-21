@@ -1,0 +1,85 @@
+- name: Flint 4 OpenWrt standards
+  hosts: flint4
+  gather_facts: false
+  connection: ssh
+  vars:
+    lan_ip: "192.168.62.1"
+    lan_netmask: "255.255.255.0"
+    wan_proto: "dhcp"
+    dns_search: "gigi.tyates.one"
+    dhcp_lan_start: "100"
+    dhcp_lan_limit: "150"
+    dhcp_lan_leasetime: "12h"
+    wifi_country: "US"
+    wifi_channel_2g: "auto"
+    wifi_channel_5g: "auto"
+    wifi_ssid: "Gigi's-Wifi"
+    wifi_encryption: "psk2+ccmp"
+    wifi_key: "gigilovesyou"
+
+  tasks:
+    - name: Apply Flint 4 standards idempotently
+      ansible.builtin.shell: |
+        set -o pipefail
+        changed=0
+
+        apply() {
+          section="$1"
+          option="$2"
+          desired="$3"
+          current=$(uci show "$section" 2>/dev/null | grep "^${section}.${option}=" | head -n1 | cut -d= -f2-)
+          if [ "$current" != "$desired" ]; then
+            uci set "$section.$option=$desired"
+            changed=1
+          fi
+        }
+
+        apply network lan ipaddr "{{ lan_ip }}"
+        apply network lan netmask "{{ lan_netmask }}"
+        apply network lan dns_search "{{ dns_search }}"
+        apply network wan proto "{{ wan_proto }}"
+        apply network guest disabled "1"
+        apply dhcp lan start "{{ dhcp_lan_start }}"
+        apply dhcp lan limit "{{ dhcp_lan_limit }}"
+        apply dhcp lan leasetime "{{ dhcp_lan_leasetime }}"
+        apply dhcp lan dhcpv4 "server"
+        apply firewall @zone[1] network "wan wan6 wwan secondwan"
+        apply firewall @zone[1] masq "1"
+        apply firewall @zone[1] mtu_fix "1"
+        apply firewall @zone[2] input "REJECT"
+        apply firewall @zone[2] output "ACCEPT"
+        apply firewall @zone[2] forward "REJECT"
+        apply firewall @forwarding[0] enabled "1"
+        apply wireless wifi0 country "{{ wifi_country }}"
+        apply wireless wifi0 channel "{{ wifi_channel_2g }}"
+        apply wireless wifi0 hwmode "11beg"
+        apply wireless wifi0 txpower "30"
+        apply wireless wifi0 disabled "0"
+        apply wireless wifi2g ssid "{{ wifi_ssid }}"
+        apply wireless wifi2g encryption "{{ wifi_encryption }}"
+        apply wireless wifi2g key "{{ wifi_key }}"
+        apply wireless wifi2g disabled "0"
+        apply wireless guest2g disabled "1"
+        apply wireless wifi1 country "{{ wifi_country }}"
+        apply wireless wifi1 channel "{{ wifi_channel_5g }}"
+        apply wireless wifi1 hwmode "11bea"
+        apply wireless wifi1 txpower "32"
+        apply wireless wifi1 disabled "0"
+        apply wireless wifi5g ssid "{{ wifi_ssid }}"
+        apply wireless wifi5g encryption "{{ wifi_encryption }}"
+        apply wireless wifi5g key "{{ wifi_key }}"
+        apply wireless wifi5g disabled "0"
+        apply wireless guest5g disabled "1"
+
+        if [ "$changed" = "1" ]; then
+          uci commit
+          /etc/init.d/network reload
+          /etc/init.d/dnsmasq reload
+          /etc/init.d/firewall reload
+          wifi reload
+          echo "changed"
+        else
+          echo "ok"
+        fi
+      register: flint4_result
+      changed_when: flint4_result.stdout == "changed"

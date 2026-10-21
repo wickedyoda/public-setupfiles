@@ -1,0 +1,41 @@
+---
+- name: Verify Home network SSH key on all hosts
+  hosts: docker, docker1, docker2, serv1, serv2
+  gather_facts: false
+  vars:
+    home_network_key_pub: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2wGZTOpvh0s5KmwOxPVaGHCs5NXmVh2X2djrFY9SXJ Home network"
+  tasks:
+    - name: Check if key exists in authorized_keys
+      shell: grep -q "Home network" /root/.ssh/authorized_keys 2>/dev/null && echo "KEY_PRESENT" || echo "KEY_MISSING"
+      register: key_check
+    
+    - name: Display result
+      debug:
+        msg: "{{ inventory_hostname }}: {{ key_check.stdout }}"
+
+- name: Verify key on Flint4
+  hosts: flint4
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: /nonexistent
+  tasks:
+    - name: Check key on flint4
+      raw: sh -c "grep -q 'Home network' ~/.ssh/authorized_keys 2>/dev/null && echo KEY_PRESENT || echo KEY_MISSING"
+      register: key_check
+    
+    - name: Display result
+      debug:
+        msg: "flint4: {{ key_check.stdout }}"
+
+- name: Verify key on travers-mac-mini
+  hosts: travers-mac-mini
+  gather_facts: false
+  tasks:
+    - name: Check key on travers-mac-mini
+      shell: grep -q "Home network" ~/.ssh/authorized_keys 2>/dev/null && echo "KEY_PRESENT" || echo "KEY_MISSING"
+      register: key_check
+    
+    - name: Display result
+      debug:
+        msg: "travers-mac-mini: {{ key_check.stdout }}"
+
