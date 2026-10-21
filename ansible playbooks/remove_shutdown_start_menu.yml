@@ -1,0 +1,22 @@
+---
+- name: Remove shutdown commands and disable sleep and hibernation
+  hosts: windows
+  gather_facts: false
+
+  tasks:
+    - name: Hide shutdown-related commands for the Ansible user
+      ansible.windows.win_regedit:
+        path: HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
+        name: NoClose
+        data: 1
+        type: dword
+        state: present
+
+    - name: Disable automatic sleep and hibernation timeouts
+      ansible.windows.win_command: "powercfg.exe /change {{ item }} 0"
+      loop:
+        - standby-timeout-ac
+        - standby-timeout-dc
+        - hibernate-timeout-ac
+        - hibernate-timeout-dc
+      changed_when: true

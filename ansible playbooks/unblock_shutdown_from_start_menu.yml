@@ -1,0 +1,49 @@
+---
+- name: Restore shutdown, sleep, and hibernation options
+  hosts: windows
+  gather_facts: false
+
+  tasks:
+    - name: Allow shutdown without logging on
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\System
+        name: ShutdownWithoutLogon
+        data: 1
+        type: dword
+        state: present
+
+    - name: Remove shutdown and related restrictions set by policy
+      ansible.windows.win_regedit:
+        path: "{{ item.path }}"
+        name: "{{ item.name }}"
+        state: absent
+      loop:
+        - path: HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
+          name: NoClose
+        - path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\System
+          name: DisableShutdownOption
+        - path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
+          name: NoShutdown
+        - path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer
+          name: CloseSystemNoShutdown
+        - path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+          name: DisableCACheck
+        - path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+          name: DisableTaskMgr
+
+    - name: Restore automatic sleep and hibernation timeouts
+      ansible.windows.win_command: "powercfg.exe /change {{ item.setting }} {{ item.minutes }}"
+      loop:
+        - setting: standby-timeout-ac
+          minutes: 120
+        - setting: standby-timeout-dc
+          minutes: 120
+        - setting: hibernate-timeout-ac
+          minutes: 180
+        - setting: hibernate-timeout-dc
+          minutes: 30
+      changed_when: true
+
+    - name: Enable hibernation
+      ansible.windows.win_command: powercfg.exe /hibernate on
+      changed_when: true

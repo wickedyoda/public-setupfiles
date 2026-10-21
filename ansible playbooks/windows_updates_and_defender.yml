@@ -1,0 +1,37 @@
+---
+- name: Configure Microsoft Defender and install Windows updates
+  hosts: windows
+  gather_facts: false
+
+  tasks:
+    - name: Configure Defender protections and update signatures
+      ansible.windows.win_powershell:
+        script: |
+          $ErrorActionPreference = 'Stop'
+
+          $before = Get-MpPreference
+          $signatureBefore = (Get-MpComputerStatus).AntivirusSignatureVersion
+          $settingsChanged = (
+              $before.DisableRealtimeMonitoring -ne $false -or
+              $before.DisableBehaviorMonitoring -ne $false -or
+              $before.PUAProtection.ToString() -ne 'Enabled' -or
+              $before.EnableControlledFolderAccess.ToString() -ne 'Enabled' -or
+              $before.EnableNetworkProtection.ToString() -ne 'Enabled'
+          )
+
+          Set-MpPreference -DisableRealtimeMonitoring $false
+          Set-MpPreference -DisableBehaviorMonitoring $false
+          Set-MpPreference -PUAProtection Enabled
+          Set-MpPreference -EnableControlledFolderAccess Enabled
+          Set-MpPreference -EnableNetworkProtection Enabled
+          Update-MpSignature
+
+          $signatureAfter = (Get-MpComputerStatus).AntivirusSignatureVersion
+          $Ansible.Changed = $settingsChanged -or ($signatureBefore -ne $signatureAfter)
+
+    - name: Install all available Windows updates and reboot if required
+      ansible.windows.win_updates:
+        category_names:
+          - '*'
+        reboot: true
+        reboot_timeout: 3600
