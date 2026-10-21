@@ -1,0 +1,125 @@
+---
+- name: Install and configure SSH and SFTP for the Ansible account
+  hosts: windows
+  gather_facts: false
+
+  vars:
+    flint4_ssh_public_key_file: /keys/id_ed25519_ansible.pub
+
+  tasks:
+    - name: Read the Flint4 public key on the Ansible controller
+      ansible.builtin.set_fact:
+        flint4_ssh_public_key: "{{ lookup('ansible.builtin.file', flint4_ssh_public_key_file) | trim }}"
+
+    - name: Validate the supplied OpenSSH public key
+      ansible.builtin.assert:
+        that:
+          - flint4_ssh_public_key is match('^(ssh-ed25519|ssh-rsa|ecdsa-sha2-[^ ]+) [A-Za-z0-9+/]+={0,3}( .*)?$')
+        fail_msg: The public key file is missing or does not contain a supported OpenSSH public key.
+
+    - name: Verify the local ansible account exists and is an administrator
+      ansible.windows.win_powershell:
+        script: |
+          $ErrorActionPreference = 'Stop'
+          $user = Get-LocalUser -Name 'ansible' -ErrorAction Stop
+          $administratorSid = [System.Security.Principal.SecurityIdentifier]::new('S-1-5-32-544')
+          $isAdministrator = Get-LocalGroupMember -SID $administratorSid |
+              Where-Object { $_.SID.Value -eq $user.SID.Value }
+
+          if (-not $isAdministrator) {
+              throw "The local account 'ansible' must be a member of the Administrators group."
+          }
+
+          $Ansible.Changed = $false
+
+    - name: Install the OpenSSH Server Windows capability
+      ansible.windows.win_powershell:
+        script: |
+          $ErrorActionPreference = 'Stop'
+          $capabilityName = 'OpenSSH.Server~~~~0.0.1.0'
+          $capability = Get-WindowsCapability -Online -Name $capabilityName
+
+          if ($capability.State -ne 'Installed') {
+              Add-WindowsCapability -Online -Name $capabilityName | Out-Null
+              $Ansible.Changed = $true
+          }
+          else {
+              $Ansible.Changed = $false
+          }
+      notify: Restart OpenSSH server
+
+    - name: Ensure SSH public-key authentication is enabled
+      ansible.windows.win_lineinfile:
+        path: C:\ProgramData\ssh\sshd_config
+        regexp: '^\s*#?\s*PubkeyAuthentication\s+'
+        line: PubkeyAuthentication yes
+      notify: Restart OpenSSH server
+
+    - name: Enable the administrators authorized-keys configuration
+      ansible.windows.win_lineinfile:
+        path: C:\ProgramData\ssh\sshd_config
+        regexp: '^\s*#?\s*Match\s+Group\s+administrators\s*$'
+        line: Match Group administrators
+      notify: Restart OpenSSH server
+
+    - name: Configure the authorized key file for administrator accounts
+      ansible.windows.win_lineinfile:
+        path: C:\ProgramData\ssh\sshd_config
+        regexp: '^\s*#?\s*AuthorizedKeysFile\s+__PROGRAMDATA__/ssh/administrators_authorized_keys\s*$'
+        line: '    AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys'
+        insertafter: '^Match Group administrators$'
+      notify: Restart OpenSSH server
+
+    - name: Configure the SFTP subsystem
+      ansible.windows.win_lineinfile:
+        path: C:\ProgramData\ssh\sshd_config
+        regexp: '^\s*#?\s*Subsystem\s+sftp\s+.*$'
+        line: Subsystem sftp sftp-server.exe
+      notify: Restart OpenSSH server
+
+    - name: Add the Flint4 public key for Windows administrators
+      ansible.windows.win_lineinfile:
+        path: C:\ProgramData\ssh\administrators_authorized_keys
+        line: "{{ flint4_ssh_public_key }}"
+        create: true
+
+    - name: Restrict administrator authorized-key file permissions
+      ansible.windows.win_powershell:
+        script: |
+          $ErrorActionPreference = 'Stop'
+          $authorizedKeys = Join-Path $env:ProgramData 'ssh\administrators_authorized_keys'
+          & icacls.exe $authorizedKeys /inheritance:r /grant:r '*S-1-5-32-544:F' '*S-1-5-18:F' | Out-Null
+          if ($LASTEXITCODE -ne 0) {
+              throw 'Could not set the required ACL on administrators_authorized_keys.'
+          }
+          $Ansible.Changed = $false
+
+    - name: Validate the OpenSSH server configuration
+      ansible.windows.win_command: C:\Windows\System32\OpenSSH\sshd.exe -t
+      changed_when: false
+
+    - name: Allow SSH from domain and private networks
+      ansible.windows.win_firewall_rule:
+        name: Ansible OpenSSH Server TCP 22
+        description: Allow SSH and SFTP management from domain and private networks.
+        localport: 22
+        protocol: tcp
+        direction: in
+        action: allow
+        profiles:
+          - Domain
+          - Private
+        enabled: true
+        state: present
+
+    - name: Ensure the OpenSSH server service is enabled and running
+      ansible.windows.win_service:
+        name: sshd
+        start_mode: auto
+        state: started
+
+  handlers:
+    - name: Restart OpenSSH server
+      ansible.windows.win_service:
+        name: sshd
+        state: restarted
