@@ -1,0 +1,28 @@
+---
+- name: Verify syslog config on all hosts
+  hosts: docker, docker1, docker2, serv1, serv2, flint4, travers-mac-mini
+  gather_facts: false
+  tasks:
+    - name: Check syslog config
+      raw: |
+        if [ -f /etc/rsyslog.d/50-remote.conf ]; then
+          CONFIG=$(grep -c 100.119.225.53 /etc/rsyslog.d/50-remote.conf 2>/dev/null || echo 0)
+        elif [ -f /etc/syslog.conf ] 2>/dev/null; then
+          CONFIG=$(grep -c 100.119.225.53 /etc/syslog.conf 2>/dev/null || echo 0)
+        elif [ -f /etc/asl.conf ] 2>/dev/null; then
+          CONFIG=$(grep -c '100.119.225.53' /etc/asl.conf 2>/dev/null || echo 0)
+        else
+          CONFIG=0
+        fi
+        
+        PROC=$(pgrep rsyslogd >/dev/null 2>&1 && echo RUNNING || echo STOPPED)
+        CRON=$(crontab -l 2>/dev/null | grep -c refresh-syslog || echo 0)
+        
+        echo "Syslog:CONFIG=${CONFIG} PROC=${PROC} CRON=${CRON}"
+      register: check
+      changed_when: false
+    
+    - name: Display result
+      debug:
+        msg: "{{ '{{' }} inventory_hostname }}: {{ '{{' }} check.stdout | trim }}"
+

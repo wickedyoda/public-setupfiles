@@ -1,0 +1,12 @@
+---
+- name: Keep Windows from sleeping
+  hosts: windows
+  gather_facts: false
+
+  tasks:
+    - name: Disable automatic sleep on AC and battery
+      ansible.windows.win_command: "powercfg.exe /change {{ item }} 0"
+      loop:
+        - standby-timeout-ac
+        - standby-timeout-dc
+      changed_when: true

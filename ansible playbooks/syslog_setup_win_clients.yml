@@ -1,0 +1,64 @@
+---
+- name: Configure Windows clients to forward Event Logs over syslog
+  hosts: windows
+  gather_facts: false
+  vars:
+    syslog_server: docker1
+    syslog_port: 514
+    nxlog_msi_source: "{{ playbook_dir }}/nxlog-ce-3.2.2329.msi"
+    nxlog_msi_dest: C:\Temp\nxlog-ce-3.2.2329.msi
+    nxlog_config_path: C:\Program Files\nxlog\conf\nxlog.conf
+
+  tasks:
+    - name: Create temporary installer directory
+      ansible.windows.win_file:
+        path: C:\Temp
+        state: directory
+
+    - name: Copy NXLog Community Edition installer to client
+      ansible.windows.win_copy:
+        src: "{{ nxlog_msi_source }}"
+        dest: "{{ nxlog_msi_dest }}"
+
+    - name: Install NXLog Community Edition
+      ansible.windows.win_package:
+        path: "{{ nxlog_msi_dest }}"
+        state: present
+        arguments: /qn /norestart
+
+    - name: Configure NXLog to send Windows Event Logs over UDP
+      ansible.windows.win_copy:
+        dest: "{{ nxlog_config_path }}"
+        content: |
+          <Extension syslog>
+              Module xm_syslog
+          </Extension>
+
+          <Input eventlog>
+              Module im_msvistalog
+              ReadFromLast TRUE
+          </Input>
+
+          <Output syslog_out>
+              Module om_udp
+              Host {{ syslog_server }}
+              Port {{ syslog_port }}
+              Exec to_syslog_ietf();
+          </Output>
+
+          <Route eventlog_to_syslog>
+              Path eventlog => syslog_out
+          </Route>
+      notify: Restart NXLog
+
+    - name: Ensure NXLog service is enabled and running
+      ansible.windows.win_service:
+        name: nxlog
+        start_mode: auto
+        state: started
+
+  handlers:
+    - name: Restart NXLog
+      ansible.windows.win_service:
+        name: nxlog
+        state: restarted

@@ -1,0 +1,150 @@
+- name: Standard Telegraf deployment for all hosts
+  hosts: telegraf
+  gather_facts: true
+  vars:
+    telegraf_version: "1.39.2"
+    influxdb_url: "http://docker2.tail99133.ts.net:8086"
+    influxdb_org: "homelab"
+    influxdb_bucket: "telegraf"
+    linux_secret_path: /etc/telegraf/secrets/token
+    nas_token_path: /mnt/nas/public/Hermes_Data/secrets/influxdb/token
+    windows_install_dir: "C:\\Program Files\\Telegraf"
+    windows_conf: "{{ windows_install_dir }}\\telegraf.conf"
+
+  tasks:
+    - name: LINUX - Install Telegraf via apt
+      when: ansible_os_family == "Debian" or ansible_system == "Linux"
+      block:
+        - name: Ensure InfluxDB repo key is installed
+          apt_key:
+            url: https://repos.influxdata.com/influxdata-archive.key
+            state: present
+
+        - name: Ensure InfluxDB repo is configured
+          apt_repository:
+            repo: "deb [signed-by=/etc/apt/keyrings/influxdata-archive.gpg] https://repos.influxdata.com/debian stable main"
+            state: present
+            filename: influxdata
+
+        - name: Install Telegraf
+          apt:
+            name: telegraf
+            state: present
+            update_cache: yes
+
+        - name: Ensure secrets directory exists
+          file:
+            path: "{{ linux_secret_path | dirname }}"
+            state: directory
+            mode: "0700"
+            owner: root
+            group: root
+
+        - name: Read InfluxDB token from NAS
+          local_action:
+            module: slurp
+            src: "{{ nas_token_path }}"
+          register: nas_token
+          run_once: true
+
+        - name: Set InfluxDB token fact
+          set_fact:
+            influxdb_token: "{{ nas_token.content | b64decode }}"
+
+        - name: Deploy InfluxDB token to secrets directory
+          copy:
+            content: "{{ influxdb_token }}"
+            dest: "{{ linux_secret_path }}"
+            mode: "0600"
+            owner: root
+            group: root
+
+        - name: Deploy Linux Telegraf config
+          template:
+            src: ../templates/telegraf-debian.conf.j2
+            dest: /etc/telegraf/telegraf.conf
+            owner: telegraf
+            group: telegraf
+            mode: "0640"
+          notify: Restart Linux Telegraf
+
+        - name: Ensure Telegraf service is enabled and running
+          service:
+            name: telegraf
+            state: started
+            enabled: yes
+
+    - name: WINDOWS - Configure power settings
+      when: ansible_os_family == "Windows"
+      block:
+        - name: Disable sleep
+          win_shell: powercfg /change standby-timeout-ac 0; powercfg /change monitor-timeout-ac 30; powercfg /change hibernate-timeout-ac 0; powercfg /change standby-timeout-dc 0; powercfg /change monitor-timeout-dc 30; powercfg /change hibernate-timeout-dc 0
+
+        - name: Set active power scheme to always on
+          win_shell: powercfg /setactive 8c5e7fda-e8bf-45a6-a7cc-4e54e757e0d4
+          ignore_errors: true
+
+    - name: WINDOWS - Deploy Telegraf
+      when: ansible_os_family == "Windows"
+      block:
+        - name: Ensure temp directory exists
+          win_file:
+            path: C:\Temp
+            state: directory
+
+        - name: Download Telegraf {{ telegraf_version }} zip
+          win_get_url:
+            url: "https://dl.influxdata.com/telegraf/releases/telegraf-{{ telegraf_version }}_windows_amd64.zip"
+            dest: C:\Temp\telegraf-{{ telegraf_version }}.zip
+
+        - name: Extract Telegraf
+          win_unzip:
+            src: C:\Temp\telegraf-{{ telegraf_version }}.zip
+            dest: C:\Temp\telegraf
+            creates: C:\Temp\telegraf\telegraf-{{ telegraf_version }}\telegraf.exe
+
+        - name: Copy Telegraf to Program Files
+          win_command: cmd /c xcopy /E /I /Y "C:\Temp\telegraf\telegraf-{{ telegraf_version }}" "{{ windows_install_dir }}"
+
+        - name: Deploy Windows Telegraf config
+          win_copy:
+            src: ../templates/telegraf-windows.conf.j2
+            dest: "{{ windows_conf }}"
+            force: yes
+          notify: Restart Windows Telegraf
+
+        - name: Install Telegraf service if missing
+          win_shell: |
+            if (Get-Service -Name telegraf -ErrorAction SilentlyContinue) {
+              Write-Output "telegraf service already exists"
+            } else {
+              & '{{ windows_install_dir }}\telegraf.exe' --service install --config '{{ windows_conf }}' --non-strict-env-handling
+            }
+          args:
+            executable: powershell
+
+        - name: Configure Telegraf service auto-restart
+          win_shell: |
+            sc.exe failure telegraf reset= 86400 actions= restart/5000
+            sc.exe start telegraf
+          args:
+            executable: cmd
+
+        - name: Ensure Telegraf service is running
+          win_service:
+            name: telegraf
+            state: started
+            start_mode: auto
+
+  handlers:
+    - name: Restart Linux Telegraf
+      when: ansible_os_family == "Debian" or ansible_system == "Linux"
+      service:
+        name: telegraf
+        state: restarted
+
+    - name: Restart Windows Telegraf
+      when: ansible_os_family == "Windows"
+      win_service:
+        name: telegraf
+        state: restarted

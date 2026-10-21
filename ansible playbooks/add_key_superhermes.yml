@@ -1,0 +1,14 @@
+---
+- name: Add Home network SSH key to super-hermes
+  hosts: super-hermes
+  gather_facts: false
+  vars:
+    home_network_key_pub: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2wGZTOpvh0s5KmwOxPVaGHCs5NXmVh2X2djrFY9SXJ Home network"
+  tasks:
+    - name: Add key to root authorized_keys
+      authorized_key:
+        user: root
+        key: "{{ home_network_key_pub }}"
+        state: present
+        exclusive: false
+

@@ -1,0 +1,25 @@
+---
+- name: Deploy Home network SSH key to all routers
+  hosts: routers
+  gather_facts: false
+  vars:
+    home_network_key_pub: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2wGZTOpvh0s5KmwOxPVaGHCs5NXmVh2X2djrFY9SXJ Home network"
+  tasks:
+    - name: Add key to authorized_keys (root)
+      raw: |
+        mkdir -p ~/.ssh /root/.ssh
+        echo '{{ home_network_key_pub }}' >> /root/.ssh/authorized_keys
+        echo '{{ home_network_key_pub }}' >> ~/.ssh/authorized_keys
+      args:
+        executable: /bin/sh
+      changed_when: true
+      ignore_errors: true
+    
+    - name: Add key for dropbear (OpenWrt routers)
+      raw: |
+        echo '{{ home_network_key_pub }}' >> /etc/dropbear/authorized_keys 2>/dev/null || true
+      args:
+        executable: /bin/sh
+      changed_when: true
+      ignore_errors: true
+

@@ -1,0 +1,211 @@
+---
+- name: Install and configure SSH and SFTP for the Ansible account
+  hosts: windows
+  gather_facts: false
+
+  vars:
+    flint4_ssh_public_key_file: /keys/id_ed25519_ansible.pub
+
+  tasks:
+    - name: Read the Flint4 public key on the Ansible controller
+      ansible.builtin.set_fact:
+        flint4_ssh_public_key: "{{ lookup('ansible.builtin.file', flint4_ssh_public_key_file) | trim }}"
+
+    - name: Validate the supplied OpenSSH public key
+      ansible.builtin.assert:
+        that:
+          - flint4_ssh_public_key is match('^(ssh-ed25519|ssh-rsa|ecdsa-sha2-[^ ]+) [A-Za-z0-9+/]+={0,3}( .*)?$')
+        fail_msg: The public key file is missing or does not contain a supported OpenSSH public key.
+
+    - name: Verify the local ansible account exists and is an administrator
+      ansible.windows.win_powershell:
+        script: |
+          $ErrorActionPreference = 'Stop'
+          $user = Get-LocalUser -Name 'ansible' -ErrorAction Stop
+          $administratorSid = [System.Security.Principal.SecurityIdentifier]::new('S-1-5-32-544')
+          $isAdministrator = Get-LocalGroupMember -SID $administratorSid |
+              Where-Object { $_.SID.Value -eq $user.SID.Value }
+
+          if (-not $isAdministrator) {
+              throw "The local account 'ansible' must be a member of the Administrators group."
+          }
+
+          $Ansible.Changed = $false
+
+    - name: Install the OpenSSH Server Windows capability
+      ansible.windows.win_powershell:
+        script: |
+          $ErrorActionPreference = 'Stop'
+          $capabilityName = 'OpenSSH.Server~~~~0.0.1.0'
+          $capability = Get-WindowsCapability -Online -Name $capabilityName
+
+          if ($capability.State -ne 'Installed') {
+              Add-WindowsCapability -Online -Name $capabilityName | Out-Null
+              $Ansible.Changed = $true
+          }
+          else {
+              $Ansible.Changed = $false
+          }
+      notify: Restart OpenSSH server
+
+    - name: Configure SSH public-key authentication and SFTP
+      ansible.windows.win_powershell:
+        script: |
+          $ErrorActionPreference = 'Stop'
+          $configPath = Join-Path $env:ProgramData 'ssh\sshd_config'
+          $original = [System.IO.File]::ReadAllText($configPath)
+          $lines = [System.Collections.Generic.List[string]]::new()
+          Get-Content -LiteralPath $configPath | ForEach-Object { $lines.Add([string]$_) }
+
+          function Set-GlobalDirective {
+              param([string]$Pattern, [string]$Value)
+              $matchIndex = -1
+              for ($index = 0; $index -lt $lines.Count; $index++) {
+                  if ($lines[$index] -match '^\s*Match\s+') {
+                      $matchIndex = $index
+                      break
+                  }
+              }
+
+              $limit = if ($matchIndex -ge 0) { $matchIndex } else { $lines.Count }
+              for ($index = 0; $index -lt $limit; $index++) {
+                  if ($lines[$index] -match $Pattern) {
+                      $lines[$index] = $Value
+                      return
+                  }
+              }
+
+              if ($matchIndex -ge 0) {
+                  $lines.Insert($matchIndex, $Value)
+              }
+              else {
+                  $lines.Add($Value)
+              }
+          }
+
+          Set-GlobalDirective '^\s*#?\s*PubkeyAuthentication\s+\S+' 'PubkeyAuthentication yes'
+          Set-GlobalDirective '^\s*#?\s*Subsystem\s+sftp\s+.*$' 'Subsystem sftp sftp-server.exe'
+
+          $administratorMatch = -1
+          for ($index = 0; $index -lt $lines.Count; $index++) {
+              if ($lines[$index] -match '^\s*#?\s*Match\s+Group\s+administrators\s*$') {
+                  $administratorMatch = $index
+                  break
+              }
+          }
+
+          if ($administratorMatch -lt 0) {
+              $lines.Add('')
+              $lines.Add('Match Group administrators')
+              $lines.Add('    AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys')
+          }
+          else {
+              $lines[$administratorMatch] = 'Match Group administrators'
+              $authorizedKeysIndex = -1
+              for ($index = $administratorMatch + 1; $index -lt $lines.Count; $index++) {
+                  if ($lines[$index] -match '^\s*Match\s+') { break }
+                  if ($lines[$index] -match '^\s*#?\s*AuthorizedKeysFile\s+') {
+                      $authorizedKeysIndex = $index
+                      break
+                  }
+              }
+
+              if ($authorizedKeysIndex -ge 0) {
+                  $lines[$authorizedKeysIndex] = '    AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys'
+              }
+              else {
+                  $lines.Insert($administratorMatch + 1, '    AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys')
+              }
+          }
+
+          $updated = [string]::Join("`r`n", $lines) + "`r`n"
+          if ($updated -ne $original) {
+              [System.IO.File]::WriteAllText($configPath, $updated, [System.Text.UTF8Encoding]::new($false))
+              $Ansible.Changed = $true
+          }
+          else {
+              $Ansible.Changed = $false
+          }
+      notify: Restart OpenSSH server
+
+    - name: Add the Flint4 public key for Windows administrators
+      ansible.windows.win_powershell:
+        parameters:
+          Flint4PublicKey: "{{ flint4_ssh_public_key }}"
+        script: |
+          param([string]$Flint4PublicKey)
+          $ErrorActionPreference = 'Stop'
+          $authorizedKeys = Join-Path $env:ProgramData 'ssh\administrators_authorized_keys'
+          if (-not (Test-Path -LiteralPath $authorizedKeys)) {
+              New-Item -Path $authorizedKeys -ItemType File -Force | Out-Null
+          }
+
+          $existingKeys = @(Get-Content -LiteralPath $authorizedKeys)
+          if ($existingKeys -notcontains $Flint4PublicKey) {
+              Add-Content -LiteralPath $authorizedKeys -Value $Flint4PublicKey -Encoding ascii
+              $Ansible.Changed = $true
+          }
+          else {
+              $Ansible.Changed = $false
+          }
+
+    - name: Restrict administrator authorized-key file permissions
+      ansible.windows.win_powershell:
+        script: |
+          $ErrorActionPreference = 'Stop'
+          $authorizedKeys = Join-Path $env:ProgramData 'ssh\administrators_authorized_keys'
+          & icacls.exe $authorizedKeys /inheritance:r /grant:r '*S-1-5-32-544:F' '*S-1-5-18:F' | Out-Null
+          if ($LASTEXITCODE -ne 0) {
+              throw 'Could not set the required ACL on administrators_authorized_keys.'
+          }
+          $Ansible.Changed = $false
+
+    - name: Validate the OpenSSH server configuration
+      ansible.windows.win_command: C:\Windows\System32\OpenSSH\sshd.exe -t
+      changed_when: false
+
+    - name: Allow SSH from domain and private networks
+      ansible.windows.win_powershell:
+        script: |
+          $ErrorActionPreference = 'Stop'
+          $displayName = 'Ansible OpenSSH Server TCP 22'
+          $rule = Get-NetFirewallRule -DisplayName $displayName -ErrorAction SilentlyContinue |
+              Select-Object -First 1
+
+          if (-not $rule) {
+              New-NetFirewallRule -DisplayName $displayName `
+                  -Description 'Allow SSH and SFTP management from domain and private networks.' `
+                  -Direction Inbound -Action Allow -Protocol TCP -LocalPort 22 `
+                  -Profile Domain,Private | Out-Null
+              $Ansible.Changed = $true
+          }
+          else {
+              $currentProfiles = @(([string]$rule.Profile -split ',\s*') | Sort-Object)
+              $expectedProfiles = @('Domain', 'Private')
+              $profilesDiffer = (@(Compare-Object $currentProfiles $expectedProfiles).Count -gt 0)
+              $needsUpdate = (-not $rule.Enabled) -or
+                  ($rule.Action.ToString() -ne 'Allow') -or
+                  ($rule.Direction.ToString() -ne 'Inbound') -or
+                  $profilesDiffer
+
+              if ($needsUpdate) {
+                  Set-NetFirewallRule -Name $rule.Name -Enabled True -Action Allow `
+                      -Direction Inbound -Profile Domain,Private
+                  $Ansible.Changed = $true
+              }
+              else {
+                  $Ansible.Changed = $false
+              }
+          }
+
+    - name: Ensure the OpenSSH server service is enabled and running
+      ansible.windows.win_service:
+        name: sshd
+        start_mode: auto
+        state: started
+
+  handlers:
+    - name: Restart OpenSSH server
+      ansible.windows.win_service:
+        name: sshd
+        state: restarted

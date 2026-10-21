@@ -1,0 +1,11 @@
+---
+- name: Configure remote syslog on macOS
+  hosts: travers-mac-mini
+  gather_facts: false
+  tasks:
+    - name: Write syslog.conf using sudo tee
+      shell: |
+        echo '*.* 100.119.225.53' | sudo tee /etc/syslog.conf 2>/dev/null
+      timeout: 10
+      ignore_errors: true
+

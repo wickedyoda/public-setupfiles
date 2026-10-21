@@ -1,0 +1,134 @@
+---
+- name: Configure kiosk power behavior and nightly reboot
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Disable system sleep and hibernation targets
+      ansible.builtin.systemd_service:
+        name: "{{ item }}"
+        state: stopped
+        masked: true
+      loop:
+        - sleep.target
+        - suspend.target
+        - hibernate.target
+        - hybrid-sleep.target
+      become: true
+      when: ansible_os_family == 'Debian'
+
+    - name: Configure GNOME to keep the display on and avoid idle sleep
+      ansible.builtin.copy:
+        dest: /etc/dconf/db/local.d/90-kiosk-power
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          [org/gnome/desktop/session]
+          idle-delay=uint32 0
+
+          [org/gnome/desktop/screensaver]
+          idle-activation-enabled=false
+
+          [org/gnome/settings-daemon/plugins/power]
+          sleep-inactive-ac-type='nothing'
+          sleep-inactive-ac-timeout=0
+          sleep-inactive-battery-type='nothing'
+          sleep-inactive-battery-timeout=0
+      become: true
+      when: ansible_os_family == 'Debian'
+
+    - name: Lock GNOME kiosk power settings
+      ansible.builtin.copy:
+        dest: /etc/dconf/db/local.d/locks/90-kiosk-power
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          /org/gnome/desktop/session/idle-delay
+          /org/gnome/desktop/screensaver/idle-activation-enabled
+          /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type
+          /org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-timeout
+          /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-type
+          /org/gnome/settings-daemon/plugins/power/sleep-inactive-battery-timeout
+      become: true
+      when: ansible_os_family == 'Debian'
+
+    - name: Check whether dconf is installed
+      ansible.builtin.stat:
+        path: /usr/bin/dconf
+      register: kiosk_dconf
+      when: ansible_os_family == 'Debian'
+
+    - name: Apply the GNOME system configuration database
+      ansible.builtin.command: dconf update
+      changed_when: true
+      become: true
+      when:
+        - ansible_os_family == 'Debian'
+        - kiosk_dconf.stat.exists
+
+    - name: Install the nightly reboot service
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/kiosk-nightly-reboot.service
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          [Unit]
+          Description=Reboot kiosk every night
+
+          [Service]
+          Type=oneshot
+          ExecStart=/usr/bin/systemctl reboot
+      become: true
+      when: ansible_os_family == 'Debian'
+
+    - name: Install the midnight reboot timer
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/kiosk-nightly-reboot.timer
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          [Unit]
+          Description=Schedule nightly kiosk reboot
+
+          [Timer]
+          OnCalendar=*-*-* 00:00:00
+          Persistent=true
+          Unit=kiosk-nightly-reboot.service
+
+          [Install]
+          WantedBy=timers.target
+      become: true
+      when: ansible_os_family == 'Debian'
+
+    - name: Enable the nightly reboot timer
+      ansible.builtin.systemd_service:
+        name: kiosk-nightly-reboot.timer
+        daemon_reload: true
+        enabled: true
+        state: started
+      become: true
+      when: ansible_os_family == 'Debian'
+
+    - name: Disable Windows automatic sleep and display timeouts
+      ansible.windows.win_command: "powercfg.exe /change {{ item }} 0"
+      loop:
+        - standby-timeout-ac
+        - standby-timeout-dc
+        - hibernate-timeout-ac
+        - hibernate-timeout-dc
+        - monitor-timeout-ac
+        - monitor-timeout-dc
+      changed_when: true
+      when: ansible_os_family == 'Windows'
+
+    - name: Schedule Windows to reboot every night at midnight
+      ansible.windows.win_command: >-
+        schtasks.exe /Create /TN "Kiosk nightly reboot"
+        /TR "shutdown.exe /r /f /t 0"
+        /SC DAILY /ST 00:00 /RU SYSTEM /RL HIGHEST /F
+      changed_when: true
+      when: ansible_os_family == 'Windows'

@@ -1,0 +1,14 @@
+- name: Diag dee-pc eventlog
+  hosts: dee-pc
+  gather_facts: no
+  tasks:
+    - name: Read latest telegraf event log entries
+      win_shell: |
+        Get-EventLog -LogName Application -Source telegraf -Newest 5 | Select-Object TimeGenerated, EntryType, Message | Format-List
+      args:
+        executable: powershell
+      register: ev
+
+    - name: Show event log
+      debug:
+        var: ev.stdout_lines

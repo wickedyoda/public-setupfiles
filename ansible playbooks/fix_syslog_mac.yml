@@ -1,0 +1,20 @@
+---
+- name: Configure remote syslog on macOS
+  hosts: travers-mac-mini
+  gather_facts: false
+  tasks:
+    - name: Write syslog.conf via copy (without become)
+      copy:
+        dest: /etc/syslog.conf
+        content: "*.* 100.119.225.53\n"
+        mode: '0644'
+      ignore_errors: true
+    
+    - name: Add cron for 15-min refresh
+      cron:
+        name: "refresh-syslog-config"
+        minute: "*/15"
+        job: "sudo launchctl stop com.apple.syslogd 2>/dev/null; sudo launchctl start com.apple.syslogd 2>/dev/null || true"
+        user: traver
+      ignore_errors: true
+

@@ -1,0 +1,61 @@
+- name: Windows Kiosk
+  hosts: win-pc
+  gather_facts: false
+  vars:
+    kiosk_power_cfg:
+      # AC power
+      ac_timeout_ac: 0          # never sleep on AC
+      ac_timeout_dc: 0          # never sleep on battery
+      hibernate_ac: 0           # never hibernate on AC
+      hibernate_dc: 0           # never hibernate on battery
+      monitor_ac: 0             # never turn off monitor on AC
+      monitor_dc: 0             # never turn off monitor on battery
+      # Always on / disable fast startup
+      fast_startup: 0
+  tasks:
+    - name: Disable sleep on AC
+      win_shell: powercfg /change standby-timeout-ac {{ kiosk_power_cfg.ac_timeout_ac }}
+
+    - name: Disable sleep on battery
+      win_shell: powercfg /change standby-timeout-dc {{ kiosk_power_cfg.ac_timeout_dc }}
+
+    - name: Disable hibernate on AC
+      win_shell: powercfg /change hibernate-timeout-ac {{ kiosk_power_cfg.hibernate_ac }}
+
+    - name: Disable hibernate on battery
+      win_shell: powercfg /change hibernate-timeout-dc {{ kiosk_power_cfg.hibernate_dc }}
+
+    - name: Disable monitor off on AC
+      win_shell: powercfg /change monitor-timeout-ac {{ kiosk_power_cfg.monitor_ac }}
+
+    - name: Disable monitor off on battery
+      win_shell: powercfg /change monitor-timeout-dc {{ kiosk_power_cfg.monitor_dc }}
+
+    - name: Disable fast startup
+      win_shell: |
+        $reg = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power"
+        Set-ItemProperty -Path $reg -Name HiberbootEnabled -Value {{ kiosk_power_cfg.fast_startup }} -Type DWord -ErrorAction SilentlyContinue
+
+    - name: Set AC battery charge limit to 30% max
+      win_shell: |
+        $ac = (powercfg /getactivescheme).Split()[3]
+        powercfg /setacvalueindex $ac e73a048d-bf27-4f12-9731-8b2076e8891f f5c2ca50-c5f0-4ff2-86dd-252c4e3726b7 30
+        powercfg /setactive $ac
+      register: batt_limit
+      ignore_errors: true
+
+    - name: Battery charge limit summary
+      debug:
+        msg: >-
+          {{ 'Battery charge limit set to 30% on AC'
+             if batt_limit is succeeded and batt_limit is changed
+             else 'Battery charge limit not applied or unsupported on this device' }}
+
+    - name: Summary
+      debug:
+        msg:
+          - "Kiosk mode applied to {{ inventory_hostname }}"
+          - "Sleep: disabled"
+          - "Hibernate: disabled"
+          - "Display: never off"
+          - "Fast startup: disabled"

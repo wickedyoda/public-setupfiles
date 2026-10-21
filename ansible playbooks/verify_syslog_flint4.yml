@@ -1,0 +1,15 @@
+---
+- name: Verify syslog on flint4
+  hosts: flint4
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: /nonexistent
+  tasks:
+    - name: Check flint4 syslog config
+      raw: cat /etc/rsyslog.d/50-remote.conf 2>/dev/null || echo "CONFIG_MISSING"
+      register: config_check
+    
+    - name: Display result
+      debug:
+        msg: "flint4: {{ config_check.stdout }}"
+
