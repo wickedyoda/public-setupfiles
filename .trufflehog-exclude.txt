@@ -1,0 +1,14 @@
+# TruffleHog exclude paths — patterns are matched as regex against file paths.
+# Each line is a separate regex pattern.
+
+# Exclude the .git directory — it is git metadata, not tracked source.
+# TruffleHog can find credentials (e.g. tokens in .git/config from CI checkout)
+# that are not part of the repository content.
+.git/.*
+.git$
+
+# Exclude Pi-hole blocklist files — they contain domain names from public
+# blocklists that routinely match secret detector patterns (e.g. hex strings
+# in subdomains matching Datadog API key/token detectors). These are data
+# files, not source code, and no real secrets should be stored here.
+pihole/combined_list\.txt
